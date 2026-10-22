@@ -879,7 +879,7 @@ pub enum c_style_enum {
 Generic functions
 ================================================================================
 
-pub fn splice<T: Into<Text>>(&mut self, old_range: Range<usize>, new_text: T) {
+pub fn splice<T: Into<Text>>(self, old_range: Range<usize>, new_text: T) {
 }
 pub fn uninit_array<const LEN: usize>() -> [Self; LEN] {}
 
@@ -899,7 +899,6 @@ pub fn uninit_array<const LEN: usize>() -> [Self; LEN] {}
               (type_identifier))))))
     parameters: (parameters
       (self_parameter
-        (mutable_specifier)
         (self))
       (parameter
         pattern: (identifier)
@@ -1470,8 +1469,6 @@ impl Person {
 
   fn walk(self) {}
   fn walk_mut(mut self) {}
-  fn talk(& self) {}
-  fn talk_mut(&'a mut self) {}
 }
 
 impl Machine<{State::Init}> {}
@@ -1498,21 +1495,6 @@ impl Machine<{State::Init}> {}
           (self_parameter
             (mutable_specifier)
             (self)))
-        body: (block))
-      (function_item
-        name: (identifier)
-        parameters: (parameters
-          (self_parameter
-            (self)))
-        body: (block))
-      (function_item
-        name: (identifier)
-        parameters: (parameters
-          (self_parameter
-            (lifetime
-              (identifier))
-            (mutable_specifier)
-            (self)))
         body: (block))))
   (impl_item
     type: (generic_type
@@ -1532,7 +1514,7 @@ impl<'a> iter::Iterator for Self::Iter<'a> {
 }
 
 impl ConvertTo<i64> for i32 {
-    fn convert(&self) -> i64 { self as i64 }
+    fn convert(self) -> i64 { self as i64 }
 }
 
 --------------------------------------------------------------------------------
@@ -1657,7 +1639,7 @@ Trait declarations
 ================================================================================
 
 pub trait Item: Clone + Eq + fmt::Debug {
-    fn summarize(&self) -> Self::Summary;
+    fn summarize(self) -> Self::Summary;
 }
 
 
@@ -1747,7 +1729,7 @@ Macro invocations inside trait declarations
 
 pub trait A: B + C + D {
     private_decl!{}
-    fn f(&self);
+    fn f(self);
 }
 
 --------------------------------------------------------------------------------
@@ -2051,7 +2033,7 @@ fn bar(bool: bool) {}
 Where clauses
 ================================================================================
 
-fn walk<F>(&self, it: F) -> bool
+fn walk<F>(self, it: F) -> bool
     where F: FnMut(Pat) -> bool
 {
   return false

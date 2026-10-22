@@ -3407,10 +3407,6 @@
       "required": true,
       "types": [
         {
-          "type": "lifetime",
-          "named": true
-        },
-        {
           "type": "mutable_specifier",
           "named": true
         },
