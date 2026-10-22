@@ -125,7 +125,6 @@
 "trait" @keyword
 "type" @keyword
 "union" @keyword
-"unsafe" @keyword
 "use" @keyword
 "where" @keyword
 "while" @keyword

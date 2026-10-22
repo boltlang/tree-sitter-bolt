@@ -373,7 +373,7 @@ extern "C" fn printf(
     ...,
 ) {}
 
-pub unsafe extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
+pub extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
     // CHECK: call void @llvm.va_start
     vprintf(fmt, ap.as_va_list())
     // CHECK: call void @llvm.va_end
@@ -1631,20 +1631,6 @@ impl ConvertTo<i64> for i32 {
             type: (primitive_type)))))))
 
 ================================================================================
-Unsafe impls
-================================================================================
-
-unsafe impl Foo {
-}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (impl_item
-    (type_identifier)
-    (declaration_list)))
-
-================================================================================
 Disable automatically derived trait impls
 ================================================================================
 
@@ -1732,7 +1718,6 @@ pub trait Item: Clone + Eq + fmt::Debug {
     fn summarize(&self) -> Self::Summary;
 }
 
-unsafe trait Foo { }
 
 --------------------------------------------------------------------------------
 
@@ -1754,10 +1739,7 @@ unsafe trait Foo { }
             (self)))
         (scoped_type_identifier
           (identifier)
-          (type_identifier)))))
-  (trait_item
-    (type_identifier)
-    (declaration_list)))
+          (type_identifier))))))
 
 ================================================================================
 Trait declarations with optional type parameters
@@ -2406,7 +2388,6 @@ extern {
 
 extern "C" {}
 
-unsafe extern "C" {}
 
 --------------------------------------------------------------------------------
 
@@ -2421,11 +2402,6 @@ unsafe extern "C" {}
           (parameter
             (identifier)
             (type_identifier))))))
-  (foreign_mod_item
-    (extern_modifier
-      (string_literal
-        (string_content)))
-    (declaration_list))
   (foreign_mod_item
     (extern_modifier
       (string_literal

@@ -111,7 +111,6 @@ module.exports = grammar({
     [$.array_expression],
     [$.visibility_modifier],
     [$.visibility_modifier, $.scoped_identifier, $.scoped_type_identifier],
-    [$.foreign_mod_item, $.function_modifiers],
   ],
 
   word: $ => $.identifier,
@@ -242,7 +241,7 @@ module.exports = grammar({
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'gen',
       'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait',
-      'type', 'union', 'unsafe', 'use', 'where', 'while',
+      'type', 'union', 'use', 'where', 'while',
     ),
 
     // Section - Declarations
@@ -281,7 +280,6 @@ module.exports = grammar({
     ),
 
     foreign_mod_item: $ => seq(
-      optional('unsafe'),
       $.extern_modifier,
       choice(
         ';',
@@ -458,7 +456,6 @@ module.exports = grammar({
       'async',
       'default',
       'const',
-      'unsafe',
       $.extern_modifier,
     )),
 
@@ -485,7 +482,6 @@ module.exports = grammar({
     ),
 
     impl_item: $ => seq(
-      optional('unsafe'),
       'impl',
       field('type_parameters', optional($.type_parameters)),
       optional(seq(
@@ -504,7 +500,6 @@ module.exports = grammar({
 
     trait_item: $ => seq(
       optional($.visibility_modifier),
-      optional('unsafe'),
       'trait',
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
@@ -929,7 +924,6 @@ module.exports = grammar({
     ),
 
     _expression_ending_with_block: $ => choice(
-      $.unsafe_block,
       $.async_block,
       $.gen_block,
       $.try_block,
@@ -1295,11 +1289,6 @@ module.exports = grammar({
         $.integer_literal,
       )),
     )),
-
-    unsafe_block: $ => seq(
-      'unsafe',
-      $.block,
-    ),
 
     async_block: $ => seq(
       'async',

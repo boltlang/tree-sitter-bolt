@@ -238,10 +238,6 @@
         "named": true
       },
       {
-        "type": "unsafe_block",
-        "named": true
-      },
-      {
         "type": "while_expression",
         "named": true
       },
@@ -1150,10 +1146,6 @@
           },
           {
             "type": "unit_expression",
-            "named": true
-          },
-          {
-            "type": "unsafe_block",
             "named": true
           },
           {
@@ -4433,21 +4425,6 @@
     "fields": {}
   },
   {
-    "type": "unsafe_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "use_as_clause",
     "named": true,
     "fields": {
@@ -5299,10 +5276,6 @@
   },
   {
     "type": "union",
-    "named": false
-  },
-  {
-    "type": "unsafe",
     "named": false
   },
   {

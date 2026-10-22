@@ -235,11 +235,11 @@ type F = for<'a, 'b> fn(x: Ref<'a, A>, y: RefMut<'a, B<'i, 't>>,) -> C;
       (type_identifier))))
 
 ================================================================================
-Unsafe and extern function types
+Extern function types
 ================================================================================
 
 type a = extern "C" fn(c_void);
-type b = unsafe extern "C" fn() -> c_void;
+type b = extern "C" fn() -> c_void;
 
 --------------------------------------------------------------------------------
 
