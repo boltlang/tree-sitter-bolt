@@ -109,7 +109,7 @@
 "pub" @keyword
 "return" @keyword
 "struct" @keyword
-"trait" @keyword
+"class" @keyword
 "type" @keyword
 "import" @keyword
 "where" @keyword

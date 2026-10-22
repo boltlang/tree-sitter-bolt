@@ -10,7 +10,7 @@ pub enum Shape {
     Triangle(f64, f64, f64),
 }
 
-trait Describe {
+class Describe[T] {
     fn name(self) -> String;
     fn area(self) -> f64;
 }

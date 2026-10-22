@@ -127,7 +127,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "trait_item"
+          "name": "class_item"
         },
         {
           "type": "SYMBOL",
@@ -1080,7 +1080,7 @@
         },
         {
           "type": "STRING",
-          "value": "trait"
+          "value": "class"
         },
         {
           "type": "STRING",
@@ -2635,7 +2635,7 @@
         }
       ]
     },
-    "trait_item": {
+    "class_item": {
       "type": "SEQ",
       "members": [
         {
@@ -2652,7 +2652,7 @@
         },
         {
           "type": "STRING",
-          "value": "trait"
+          "value": "class"
         },
         {
           "type": "FIELD",
@@ -2666,32 +2666,8 @@
           "type": "FIELD",
           "name": "type_parameters",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "type_parameters"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "bounds",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "trait_bounds"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "type_parameters"
           }
         },
         {

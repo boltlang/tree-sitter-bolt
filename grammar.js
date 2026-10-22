@@ -157,7 +157,7 @@ module.exports = grammar({
       $.function_item,
       $.function_signature_item,
       $.impl_item,
-      $.trait_item,
+      $.class_item,
       $.associated_type,
       $.let_declaration,
       $.import_declaration,
@@ -245,7 +245,7 @@ module.exports = grammar({
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for',
-      'if', 'impl', 'let', 'loop', 'match', 'pub', 'return', 'struct', 'trait',
+      'if', 'impl', 'let', 'loop', 'match', 'pub', 'return', 'struct', 'class',
       'type', 'import', 'where', 'while',
     ),
 
@@ -466,12 +466,13 @@ module.exports = grammar({
       choice(field('body', $.declaration_list), ';'),
     ),
 
-    trait_item: $ => seq(
+    // `class Show[T] { fn show(x: T) -> String; }`. The class parameters are
+    // explicit; superclasses go in the where clause: `class Ord[T] where T: Eq`.
+    class_item: $ => seq(
       optional($.visibility_modifier),
-      'trait',
+      'class',
       field('name', $._type_identifier),
-      field('type_parameters', optional($.type_parameters)),
-      field('bounds', optional($.trait_bounds)),
+      field('type_parameters', $.type_parameters),
       optional($.where_clause),
       field('body', $.declaration_list),
     ),

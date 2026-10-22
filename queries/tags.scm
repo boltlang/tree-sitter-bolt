@@ -22,8 +22,8 @@
 (function_item
     name: [(identifier) (operator_name)] @name) @definition.function
 
-; trait definitions
-(trait_item
+; class definitions
+(class_item
     name: (type_identifier) @name) @definition.interface
 
 ; macro definitions

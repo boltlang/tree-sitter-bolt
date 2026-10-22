@@ -755,6 +755,10 @@
           "named": true
         },
         {
+          "type": "class_item",
+          "named": true
+        },
+        {
           "type": "const_item",
           "named": true
         },
@@ -808,10 +812,6 @@
         },
         {
           "type": "struct_item",
-          "named": true
-        },
-        {
-          "type": "trait_item",
           "named": true
         },
         {
@@ -1061,6 +1061,56 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_item",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "declaration_list",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_parameters",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "visibility_modifier",
+          "named": true
+        },
+        {
+          "type": "where_clause",
           "named": true
         }
       ]
@@ -1339,6 +1389,10 @@
           "named": true
         },
         {
+          "type": "class_item",
+          "named": true
+        },
+        {
           "type": "const_item",
           "named": true
         },
@@ -1388,10 +1442,6 @@
         },
         {
           "type": "struct_item",
-          "named": true
-        },
-        {
-          "type": "trait_item",
           "named": true
         },
         {
@@ -3237,6 +3287,10 @@
           "named": true
         },
         {
+          "type": "class_item",
+          "named": true
+        },
+        {
           "type": "const_item",
           "named": true
         },
@@ -3294,10 +3348,6 @@
         },
         {
           "type": "struct_item",
-          "named": true
-        },
-        {
-          "type": "trait_item",
           "named": true
         },
         {
@@ -3692,66 +3742,6 @@
       "types": [
         {
           "type": "_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trait_item",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "declaration_list",
-            "named": true
-          }
-        ]
-      },
-      "bounds": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "trait_bounds",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      },
-      "type_parameters": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type_parameters",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "visibility_modifier",
-          "named": true
-        },
-        {
-          "type": "where_clause",
           "named": true
         }
       ]
@@ -4484,6 +4474,10 @@
     "named": true
   },
   {
+    "type": "class",
+    "named": false
+  },
+  {
     "type": "const",
     "named": false
   },
@@ -4658,10 +4652,6 @@
   {
     "type": "super",
     "named": true
-  },
-  {
-    "type": "trait",
-    "named": false
   },
   {
     "type": "true",

@@ -805,15 +805,18 @@ fn f3((x, y): (T, U)) {}
 Functions with custom types for self
 ================================================================================
 
-trait Callback {
+class Callback[T] {
     fn call(self: Box[Self]);
 }
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (declaration_list
       (function_signature_item
         (identifier)
@@ -831,7 +834,7 @@ Constant items
 
 const N: i32 = 5;
 
-trait Foo {
+class Foo[T] {
     const X: u8;
 }
 
@@ -842,8 +845,11 @@ trait Foo {
     (identifier)
     (primitive_type)
     (integer_literal))
-  (trait_item
+  (class_item
     (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (declaration_list
       (const_item
         (identifier)
@@ -1403,7 +1409,7 @@ impl[K: Debug + Ord] Display for OccupiedError[K];
 Trait declarations
 ================================================================================
 
-pub trait Item: Clone + Eq + fmt.Debug {
+pub class Item[T] where T: Clone + Eq + fmt.Debug {
     fn summarize(self) -> Self.Summary;
 }
 
@@ -1411,15 +1417,21 @@ pub trait Item: Clone + Eq + fmt.Debug {
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (visibility_modifier)
     (type_identifier)
-    (trait_bounds
-      (type_identifier)
-      (type_identifier)
-      (scoped_type_identifier
-        (identifier)
+    (type_parameters
+      (type_parameter
         (type_identifier)))
+    (where_clause
+      (where_predicate
+        (type_identifier)
+        (trait_bounds
+          (type_identifier)
+          (type_identifier)
+          (scoped_type_identifier
+            (identifier)
+            (type_identifier)))))
     (declaration_list
       (function_signature_item
         (identifier)
@@ -1434,7 +1446,7 @@ pub trait Item: Clone + Eq + fmt.Debug {
 Trait declarations with optional type parameters
 ================================================================================
 
-trait Add[RHS=Self] {
+class Add[RHS=Self] {
     type Output;
     fn add(self, rhs: RHS) -> Self.Output;
 }
@@ -1442,7 +1454,7 @@ trait Add[RHS=Self] {
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (type_identifier)
     (type_parameters
       (type_parameter
@@ -1492,7 +1504,7 @@ Macro invocations inside trait declarations
 ================================================================================
 
 
-pub trait A: B + C + D {
+pub class A[T] where T: B + C + D {
     private_decl!{}
     fn f(self);
 }
@@ -1500,13 +1512,19 @@ pub trait A: B + C + D {
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (visibility_modifier)
     (type_identifier)
-    (trait_bounds
-      (type_identifier)
-      (type_identifier)
-      (type_identifier))
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (where_clause
+      (where_predicate
+        (type_identifier)
+        (trait_bounds
+          (type_identifier)
+          (type_identifier)
+          (type_identifier))))
     (declaration_list
       (macro_invocation
         (identifier)
@@ -1521,7 +1539,7 @@ pub trait A: B + C + D {
 Associated Types
 ================================================================================
 
-pub trait Graph {
+pub class Graph[T] {
     type N: fmt.Display;
     type E;
 }
@@ -1529,9 +1547,12 @@ pub trait Graph {
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (visibility_modifier)
     (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (declaration_list
       (associated_type
         (type_identifier)
@@ -1570,7 +1591,7 @@ impl Trait for T {
 Generic Associated Types
 ================================================================================
 
-pub trait Database {
+pub class Database[T] {
     type F[A, D]: Future[Output = D] + Send;
 }
 
@@ -1588,9 +1609,12 @@ where
 --------------------------------------------------------------------------------
 
 (source_file
-  (trait_item
+  (class_item
     (visibility_modifier)
     (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (declaration_list
       (associated_type
         (type_identifier)
@@ -1753,7 +1777,7 @@ impl[T] A for B[T]
 {
 }
 
-pub trait A[B] where B: C,
+pub class A[B] where B: C,
 {
 }
 
@@ -1878,7 +1902,7 @@ impl[A] Default for B[A] where A: C + D {}
             type_arguments: (type_arguments
               (type_identifier))))))
     body: (declaration_list))
-  (trait_item
+  (class_item
     (visibility_modifier)
     name: (type_identifier)
     type_parameters: (type_parameters
@@ -2053,7 +2077,7 @@ Operator function definitions
 fn (+) (a: i32, b: i32) -> i32 { a }
 pub fn (==)(a: Point, b: Point) -> bool { true }
 fn (!) (a: Flag) -> Flag { a }
-trait Num {
+class Num[T] {
     fn (*) (self, other: Self) -> Self;
 }
 impl Num for V {
@@ -2098,8 +2122,11 @@ fn add(a: i32) {}
     return_type: (type_identifier)
     body: (block
       (identifier)))
-  (trait_item
+  (class_item
     name: (type_identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
     body: (declaration_list
       (function_signature_item
         name: (operator_name)
@@ -2140,7 +2167,7 @@ Functions with untyped parameters
 fn id(x) { x }
 fn add(a, b: i32, mut c, (d, e)) {}
 fn (+) (a, b) { a }
-trait T {
+class C[T] {
     fn f(self, x);
 }
 let f: fn(i32, String) -> i32 = g;
@@ -2181,8 +2208,11 @@ let f: fn(i32, String) -> i32 = g;
         pattern: (identifier)))
     body: (block
       (identifier)))
-  (trait_item
+  (class_item
     name: (type_identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
     body: (declaration_list
       (function_signature_item
         name: (identifier)
@@ -2208,7 +2238,7 @@ fn foo(x = 1) {}
 fn shoot(direction: Vec3, strength: f32 = 1.0, mut n: i32 = a + b * 2) {}
 fn greet(name = "world", (a, b) = (1, 2),) {}
 fn (+) (a, b = 0) { a }
-trait T {
+class C[T] {
     fn f(self, x = default());
 }
 
@@ -2267,8 +2297,11 @@ trait T {
         default: (integer_literal)))
     body: (block
       (identifier)))
-  (trait_item
+  (class_item
     name: (type_identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
     body: (declaration_list
       (function_signature_item
         name: (identifier)
@@ -2290,7 +2323,7 @@ pub fn add(a, b: i32) -> i32 = a + b;
 fn (+) (a, b) = add(a, b);
 fn pick[T](c, a: T, b: T) -> T = if c { a } else { b };
 fn scale(x, by = 2) = x * by;
-trait Show {
+class Show[T] {
     fn show(self) -> String;
     fn print(self) = print(self.show());
 }
@@ -2365,8 +2398,11 @@ impl Show for bool {
     body: (binary_expression
       left: (identifier)
       right: (identifier)))
-  (trait_item
+  (class_item
     name: (type_identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
     body: (declaration_list
       (function_signature_item
         name: (identifier)
