@@ -9,6 +9,10 @@
 
 Bolt grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
+This grammar currently serves as the source of truth for the syntax of the Bolt
+programming language. Any bugs or inconsistenties with Bolt in code the wild
+should be reported in the issue tracker.
+
 ## Credits
 
 This library was based on [tree-sitter-rust][tsrust]. Many thanks to them
