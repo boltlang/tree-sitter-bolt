@@ -397,7 +397,11 @@ module.exports = grammar({
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
       optional($.where_clause),
-      field('body', $.block),
+      choice(
+        field('body', $.block),
+        // `fn id(x) = x;`
+        seq('=', field('body', $._expression), ';'),
+      ),
     ),
 
     function_signature_item: $ => seq(

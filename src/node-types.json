@@ -1848,7 +1848,7 @@
         "required": true,
         "types": [
           {
-            "type": "block",
+            "type": "_expression",
             "named": true
           }
         ]
