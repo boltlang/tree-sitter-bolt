@@ -532,11 +532,6 @@ module.exports = grammar({
       field('type', $._type),
     ),
 
-    removed_trait_bound: $ => seq(
-      '?',
-      $._type,
-    ),
-
     type_parameters: $ => prec(1, seq(
       '<',
       sepBy1(',', seq(
@@ -726,7 +721,6 @@ module.exports = grammar({
       $.macro_invocation,
       $.never_type,
       $.bounded_type,
-      $.removed_trait_bound,
       alias(choice(...primitiveTypes), $.primitive_type),
     ),
 
@@ -858,14 +852,12 @@ module.exports = grammar({
       field('trait', prec(1, choice(
         $._type_identifier,
         $.scoped_type_identifier,
-        $.removed_trait_bound,
         $.generic_type,
         $.function_type,
         $.tuple_type,
         $.bounded_type,
       ))),
     ),
-
 
     mutable_specifier: _ => 'mut',
 

@@ -422,10 +422,6 @@
         "named": true
       },
       {
-        "type": "removed_trait_bound",
-        "named": true
-      },
-      {
         "type": "scoped_type_identifier",
         "named": true
       },
@@ -461,10 +457,6 @@
           },
           {
             "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "removed_trait_bound",
             "named": true
           },
           {
@@ -3232,21 +3224,6 @@
     "type": "remaining_field_pattern",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "removed_trait_bound",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_type",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "return_expression",
