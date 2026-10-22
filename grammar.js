@@ -143,7 +143,6 @@ module.exports = grammar({
       $.mod_item,
       $.foreign_mod_item,
       $.struct_item,
-      $.union_item,
       $.enum_item,
       $.type_item,
       $.function_item,
@@ -241,7 +240,7 @@ module.exports = grammar({
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'gen',
       'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait',
-      'type', 'union', 'use', 'where', 'while',
+      'type', 'use', 'where', 'while',
     ),
 
     // Section - Declarations
@@ -310,15 +309,6 @@ module.exports = grammar({
         ),
         ';',
       ),
-    ),
-
-    union_item: $ => seq(
-      optional($.visibility_modifier),
-      'union',
-      field('name', $._type_identifier),
-      field('type_parameters', optional($.type_parameters)),
-      optional($.where_clause),
-      field('body', $.field_declaration_list),
     ),
 
     enum_item: $ => seq(
@@ -1528,7 +1518,6 @@ module.exports = grammar({
 
     _reserved_identifier: $ => alias(choice(
       'default',
-      'union',
       'gen',
       'raw',
     ), $.identifier),

@@ -80,10 +80,6 @@
         "named": true
       },
       {
-        "type": "union_item",
-        "named": true
-      },
-      {
         "type": "use_declaration",
         "named": true
       }
@@ -4228,56 +4224,6 @@
     }
   },
   {
-    "type": "union_item",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "field_declaration_list",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      },
-      "type_parameters": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type_parameters",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "visibility_modifier",
-          "named": true
-        },
-        {
-          "type": "where_clause",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "unit_expression",
     "named": true,
     "fields": {}
@@ -5105,10 +5051,6 @@
   {
     "type": "type_identifier",
     "named": true
-  },
-  {
-    "type": "union",
-    "named": false
   },
   {
     "type": "use",

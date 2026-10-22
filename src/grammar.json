@@ -111,10 +111,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "union_item"
-        },
-        {
-          "type": "SYMBOL",
           "name": "enum_item"
         },
         {
@@ -1124,10 +1120,6 @@
         },
         {
           "type": "STRING",
-          "value": "union"
-        },
-        {
-          "type": "STRING",
           "value": "use"
         },
         {
@@ -1435,71 +1427,6 @@
               "value": ";"
             }
           ]
-        }
-      ]
-    },
-    "union_item": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "visibility_modifier"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "union"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type_identifier"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "type_parameters",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "type_parameters"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "where_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "SYMBOL",
-            "name": "field_declaration_list"
-          }
         }
       ]
     },
@@ -8870,10 +8797,6 @@
           {
             "type": "STRING",
             "value": "default"
-          },
-          {
-            "type": "STRING",
-            "value": "union"
           },
           {
             "type": "STRING",

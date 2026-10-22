@@ -639,48 +639,6 @@ struct Empty(pub ());
       (unit_type))))
 
 ================================================================================
-Unions
-================================================================================
-
-pub union in6_addr__bindgen_ty_1 {
-    pub __u6_addr8: [__uint8_t; 16usize],
-    pub __u6_addr16: [__uint16_t; 8usize],
-    pub __u6_addr32: [__uint32_t; 4usize],
-    _bindgen_union_align: [u32; 4usize],
-}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (union_item
-    (visibility_modifier)
-    (type_identifier)
-    (field_declaration_list
-      (field_declaration
-        (visibility_modifier)
-        (field_identifier)
-        (array_type
-          (type_identifier)
-          (integer_literal)))
-      (field_declaration
-        (visibility_modifier)
-        (field_identifier)
-        (array_type
-          (type_identifier)
-          (integer_literal)))
-      (field_declaration
-        (visibility_modifier)
-        (field_identifier)
-        (array_type
-          (type_identifier)
-          (integer_literal)))
-      (field_declaration
-        (field_identifier)
-        (array_type
-          (primitive_type)
-          (integer_literal))))))
-
-================================================================================
 Generic structs
 ================================================================================
 

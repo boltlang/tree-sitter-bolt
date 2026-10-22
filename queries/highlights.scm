@@ -123,7 +123,6 @@
 "struct" @keyword
 "trait" @keyword
 "type" @keyword
-"union" @keyword
 "use" @keyword
 "where" @keyword
 "while" @keyword

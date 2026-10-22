@@ -6,9 +6,6 @@
 (enum_item
     name: (type_identifier) @name) @definition.class
 
-(union_item
-    name: (type_identifier) @name) @definition.class
-
 ; type aliases
 
 (type_item
