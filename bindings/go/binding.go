@@ -1,4 +1,4 @@
-package tree_sitter_rust
+package tree_sitter_bolt
 
 // #cgo CFLAGS: -std=c11 -fPIC
 // #include "../../src/parser.c"
@@ -9,5 +9,5 @@ import "unsafe"
 
 // Get the tree-sitter Language for this grammar.
 func Language() unsafe.Pointer {
-	return unsafe.Pointer(C.tree_sitter_rust())
+	return unsafe.Pointer(C.tree_sitter_bolt())
 }

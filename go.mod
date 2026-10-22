@@ -1,4 +1,4 @@
-module github.com/tree-sitter/tree-sitter-rust
+module github.com/boltlang/tree-sitter-bolt
 
 go 1.22
 

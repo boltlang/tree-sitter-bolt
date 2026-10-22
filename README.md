@@ -1,17 +1,17 @@
-# tree-sitter-rust
+# tree-sitter-bolt
 
-[![CI][ci]](https://github.com/tree-sitter/tree-sitter-rust/actions/workflows/ci.yml)
+[![CI][ci]](https://github.com/boltlang/tree-sitter-bolt/actions/workflows/ci.yml)
 [![discord][discord]](https://discord.gg/w7nTvsVJhm)
 [![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)
-[![crates][crates]](https://crates.io/crates/tree-sitter-rust)
-[![npm][npm]](https://www.npmjs.com/package/tree-sitter-rust)
-[![pypi][pypi]](https://pypi.org/project/tree-sitter-rust)
+[![crates][crates]](https://crates.io/crates/tree-sitter-bolt)
+[![npm][npm]](https://www.npmjs.com/package/tree-sitter-bolt)
+[![pypi][pypi]](https://pypi.org/project/tree-sitter-bolt)
 
-Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+Bolt grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
 ## Features
 
-- **Speed** — When initially parsing a file, `tree-sitter-rust` takes around two to three times
+- **Speed** — When initially parsing a file, `tree-sitter-bolt` takes around two to three times
   as long as rustc's hand-written parser.
 
   ```sh
@@ -37,9 +37,9 @@ Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 - [Keywords](https://doc.rust-lang.org/stable/book/appendix-01-keywords.html) and
   [Operators and Symbols](https://doc.rust-lang.org/stable/book/appendix-02-operators.html).
 
-[ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter/tree-sitter-rust/ci.yml?logo=github&label=CI
+[ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter/tree-sitter-bolt/ci.yml?logo=github&label=CI
 [discord]: https://img.shields.io/discord/1063097320771698699?logo=discord&label=discord
 [matrix]: https://img.shields.io/matrix/tree-sitter-chat%3Amatrix.org?logo=matrix&label=matrix
-[npm]: https://img.shields.io/npm/v/tree-sitter-rust?logo=npm
-[crates]: https://img.shields.io/crates/v/tree-sitter-rust?logo=rust
-[pypi]: https://img.shields.io/pypi/v/tree-sitter-rust?logo=pypi&logoColor=ffd242
+[npm]: https://img.shields.io/npm/v/tree-sitter-bolt?logo=npm
+[crates]: https://img.shields.io/crates/v/tree-sitter-bolt?logo=rust
+[pypi]: https://img.shields.io/pypi/v/tree-sitter-bolt?logo=pypi&logoColor=ffd242

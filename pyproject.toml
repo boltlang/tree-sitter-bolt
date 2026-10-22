@@ -3,10 +3,10 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tree-sitter-rust"
-description = "Rust grammar for tree-sitter"
+name = "tree-sitter-bolt"
+description = "Bolt grammar for tree-sitter"
 version = "0.24.2"
-keywords = ["incremental", "parsing", "tree-sitter", "rust"]
+keywords = ["incremental", "parsing", "tree-sitter", "bolt"]
 classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
@@ -23,7 +23,7 @@ license.text = "MIT"
 readme = "README.md"
 
 [project.urls]
-Homepage = "https://github.com/tree-sitter/tree-sitter-rust"
+Homepage = "https://github.com/boltlang/tree-sitter-bolt"
 
 [project.optional-dependencies]
 core = ["tree-sitter~=0.22"]

@@ -1,5 +1,5 @@
 /**
- * @file Rust grammar for tree-sitter
+ * @file Bolt grammar for tree-sitter
  * @author Maxim Sokolov <maxim0xff@gmail.com>
  * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
  * @author Amaan Qureshi <amaanq12@gmail.com>
@@ -58,7 +58,7 @@ const TOKEN_TREE_NON_SPECIAL_PUNCTUATION = [
 const primitiveTypes = numericTypes.concat(['bool', 'str', 'char']);
 
 module.exports = grammar({
-  name: 'rust',
+  name: 'bolt',
 
   extras: $ => [
     /\s/,

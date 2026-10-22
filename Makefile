@@ -2,8 +2,8 @@ ifeq ($(OS),Windows_NT)
 $(error Windows is not supported)
 endif
 
-LANGUAGE_NAME := tree-sitter-rust
-HOMEPAGE_URL := https://github.com/tree-sitter/tree-sitter-rust
+LANGUAGE_NAME := tree-sitter-bolt
+HOMEPAGE_URL := https://github.com/boltlang/tree-sitter-bolt
 VERSION := 0.24.2
 
 # repository
