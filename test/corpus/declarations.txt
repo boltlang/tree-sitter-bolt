@@ -1314,10 +1314,10 @@ impl Machine[{State.Init}] {}
 Trait impls
 ================================================================================
 
-impl[T] iter.Iterator for Self.Iter[T] {
+impl[T] iter.Iterator[Self.Iter[T]] {
 }
 
-impl ConvertTo[i64] for i32 {
+impl ConvertTo[i32, i64] {
     fn convert(self) -> i64 { self as i64 }
 }
 
@@ -1328,22 +1328,24 @@ impl ConvertTo[i64] for i32 {
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    trait: (scoped_type_identifier
-      path: (identifier)
-      name: (type_identifier))
     type: (generic_type
       type: (scoped_type_identifier
         path: (identifier)
         name: (type_identifier))
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (scoped_type_identifier
+            path: (identifier)
+            name: (type_identifier))
+          type_arguments: (type_arguments
+            (type_identifier)))))
     body: (declaration_list))
   (impl_item
-    trait: (generic_type
+    type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
+        (primitive_type)
         (primitive_type)))
-    type: (primitive_type)
     body: (declaration_list
       (function_item
         name: (identifier)
@@ -1357,25 +1359,11 @@ impl ConvertTo[i64] for i32 {
             type: (primitive_type)))))))
 
 ================================================================================
-Disable automatically derived trait impls
-================================================================================
-
-impl !Send for Foo {}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (impl_item
-    (type_identifier)
-    (type_identifier)
-    (declaration_list)))
-
-================================================================================
 Trait impl signature
 ================================================================================
 
-impl[K: Debug + Ord] Debug for OccupiedError[K];
-impl[K: Debug + Ord] Display for OccupiedError[K];
+impl[K: Debug + Ord] Debug[OccupiedError[K]];
+impl[K: Debug + Ord] Display[OccupiedError[K]];
 
 --------------------------------------------------------------------------------
 
@@ -1387,11 +1375,13 @@ impl[K: Debug + Ord] Display for OccupiedError[K];
         (trait_bounds
           (type_identifier)
           (type_identifier))))
-    (type_identifier)
     (generic_type
       (type_identifier)
       (type_arguments
-        (type_identifier))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))))
   (impl_item
     (type_parameters
       (type_parameter
@@ -1399,11 +1389,13 @@ impl[K: Debug + Ord] Display for OccupiedError[K];
         (trait_bounds
           (type_identifier)
           (type_identifier))))
-    (type_identifier)
     (generic_type
       (type_identifier)
       (type_arguments
-        (type_identifier)))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))))))
 
 ================================================================================
 Trait declarations
@@ -1479,7 +1471,7 @@ class Add[RHS=Self] {
 Trait bounds in type arguments in trait
 ================================================================================
 
-impl[T: AstDeref[Target: HasNodeId]] HasNodeId for T {}
+impl[T: AstDeref[Target: HasNodeId]] HasNodeId[T] {}
 
 --------------------------------------------------------------------------------
 
@@ -1495,8 +1487,10 @@ impl[T: AstDeref[Target: HasNodeId]] HasNodeId for T {}
               (type_identifier)
               (trait_bounds
                 (type_identifier)))))))
-    (type_identifier)
-    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (type_identifier)))
     (declaration_list)))
 
 ================================================================================
@@ -1567,7 +1561,7 @@ pub class Graph[T] {
 Associated Type Definitions
 ================================================================================
 
-impl Trait for T {
+impl Trait[T] {
     type Associated = T where T: Clone;
 }
 
@@ -1575,8 +1569,10 @@ impl Trait for T {
 
 (source_file
   (impl_item
-    (type_identifier)
-    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (type_identifier)))
     (declaration_list
       (type_item
         (type_identifier)
@@ -1595,7 +1591,7 @@ pub class Database[T] {
     type F[A, D]: Future[Output = D] + Send;
 }
 
-impl Database for Foo {
+impl Database[Foo] {
     type F[A, D] = DatabaseFuture[A, D];
 }
 
@@ -1632,8 +1628,10 @@ where
                 (type_identifier))))
           (type_identifier)))))
   (impl_item
-    (type_identifier)
-    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (type_identifier)))
     (declaration_list
       (type_item
         (type_identifier)
@@ -1756,10 +1754,10 @@ fn walk[F](self, it: F) -> bool
   return false
 }
 
-impl[T: Clone + Item] Iterator for Iter[T] where Self: Sized {
+impl[T: Clone + Item] Iterator[Iter[T]] where Self: Sized {
 }
 
-impl[T] A for B[T]
+impl[T] A[B[T]]
     where C[T]: D,
           T: Clone,
 {
@@ -1770,9 +1768,9 @@ where E: Read,
 {
 }
 
-impl[T] A for B[T] where (T, T, T): C, {}
+impl[T] A[B[T]] where (T, T, T): C, {}
 
-impl[T] A for B[T]
+impl[T] A[B[T]]
     where D[T]: E[T],
 {
 }
@@ -1783,7 +1781,7 @@ pub class A[B] where B: C,
 
 fn foo[A]() where A: B + As[f64], f64: As[A] {}
 
-impl[A] Default for B[A] where A: C + D {}
+impl[A] Default[B[A]] where A: C + D {}
 
 --------------------------------------------------------------------------------
 
@@ -1819,11 +1817,13 @@ impl[A] Default for B[A] where A: C + D {}
         bounds: (trait_bounds
           (type_identifier)
           (type_identifier))))
-    trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
     (where_clause
       (where_predicate
         left: (type_identifier)
@@ -1834,11 +1834,13 @@ impl[A] Default for B[A] where A: C + D {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
     (where_clause
       (where_predicate
         left: (generic_type
@@ -1867,11 +1869,13 @@ impl[A] Default for B[A] where A: C + D {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
     (where_clause
       (where_predicate
         left: (tuple_type
@@ -1885,11 +1889,13 @@ impl[A] Default for B[A] where A: C + D {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
     (where_clause
       (where_predicate
         left: (generic_type
@@ -1941,11 +1947,13 @@ impl[A] Default for B[A] where A: C + D {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (type_identifier)))
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
     (where_clause
       (where_predicate
         left: (type_identifier)
@@ -2080,7 +2088,7 @@ fn (!) (a: Flag) -> Flag { a }
 class Num[T] {
     fn (*) (self, other: Self) -> Self;
 }
-impl Num for V {
+impl Num[V] {
     fn (<<) (self, n: u32) -> V { self }
 }
 fn add(a: i32) {}
@@ -2138,8 +2146,10 @@ fn add(a: i32) {}
             type: (type_identifier)))
         return_type: (type_identifier))))
   (impl_item
-    trait: (type_identifier)
-    type: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (type_identifier)))
     body: (declaration_list
       (function_item
         name: (operator_name)
@@ -2327,7 +2337,7 @@ class Show[T] {
     fn show(self) -> String;
     fn print(self) = print(self.show());
 }
-impl Show for bool {
+impl Show[bool] {
     fn show(self) -> String = if self { "yes" } else { "no" };
 }
 
@@ -2424,8 +2434,10 @@ impl Show for bool {
                 field: (field_identifier))
               arguments: (arguments)))))))
   (impl_item
-    trait: (type_identifier)
-    type: (primitive_type)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (primitive_type)))
     body: (declaration_list
       (function_item
         name: (identifier)

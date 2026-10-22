@@ -46,8 +46,8 @@
 ; implementations
 
 (impl_item
-    trait: (type_identifier) @name) @reference.implementation
+    type: (type_identifier) @name) @reference.implementation
 
 (impl_item
-    type: (type_identifier) @name
-    !trait) @reference.implementation
+    type: (generic_type
+        type: (type_identifier) @name)) @reference.implementation

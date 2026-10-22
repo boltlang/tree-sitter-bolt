@@ -15,7 +15,7 @@ class Describe[T] {
     fn area(self) -> f64;
 }
 
-impl Describe for Shape {
+impl Describe[Shape] {
     fn name(self) -> String {
         match self {
             Shape.Circle { .. } => "circle",
