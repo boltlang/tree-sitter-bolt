@@ -1040,7 +1040,6 @@ Scoped functions
 ================================================================================
 
 a::b();
-C::<D>::e();
 ::f();
 ::g::h();
 
@@ -1051,15 +1050,6 @@ C::<D>::e();
     (call_expression
       (scoped_identifier
         (identifier)
-        (identifier))
-      (arguments)))
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (type_identifier)))
         (identifier))
       (arguments)))
   (expression_statement
@@ -1131,33 +1121,6 @@ super::super::foo();
           (super))
         (identifier))
       (arguments))))
-
-================================================================================
-Generic functions
-================================================================================
-
-std::sizeof::<u32>();
-foo::<8>();
-
---------------------------------------------------------------------------------
-
-(source_file
-  (expression_statement
-    (call_expression
-      function: (generic_function
-        function: (scoped_identifier
-          path: (identifier)
-          name: (identifier))
-        type_arguments: (type_arguments
-          (primitive_type)))
-      arguments: (arguments)))
-  (expression_statement
-    (call_expression
-      function: (generic_function
-        function: (identifier)
-        type_arguments: (type_arguments
-          (integer_literal)))
-      arguments: (arguments))))
 
 ================================================================================
 Closures

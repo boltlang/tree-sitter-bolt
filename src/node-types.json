@@ -64,10 +64,6 @@
         "named": true
       },
       {
-        "type": "generic_function",
-        "named": true
-      },
-      {
         "type": "identifier",
         "named": true
       },
@@ -231,10 +227,6 @@
       },
       {
         "type": "const_block",
-        "named": true
-      },
-      {
-        "type": "generic_pattern",
         "named": true
       },
       {
@@ -1016,10 +1008,6 @@
           },
           {
             "type": "for_expression",
-            "named": true
-          },
-          {
-            "type": "generic_function",
             "named": true
           },
           {
@@ -2114,70 +2102,6 @@
     }
   },
   {
-    "type": "generic_function",
-    "named": true,
-    "fields": {
-      "function": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "field_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "scoped_identifier",
-            "named": true
-          }
-        ]
-      },
-      "type_arguments": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_arguments",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "generic_pattern",
-    "named": true,
-    "fields": {
-      "type_arguments": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_arguments",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "generic_type",
     "named": true,
     "fields": {
@@ -2186,41 +2110,7 @@
         "required": true,
         "types": [
           {
-            "type": "scoped_identifier",
-            "named": true
-          },
-          {
             "type": "scoped_type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      },
-      "type_arguments": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_arguments",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "generic_type_with_turbofish",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "scoped_identifier",
             "named": true
           },
           {
@@ -3348,10 +3238,6 @@
             "named": true
           },
           {
-            "type": "generic_type",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           },
@@ -3615,10 +3501,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "generic_type_with_turbofish",
-            "named": true
-          },
           {
             "type": "scoped_type_identifier",
             "named": true
@@ -4093,10 +3975,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "generic_type",
-            "named": true
-          },
           {
             "type": "identifier",
             "named": true

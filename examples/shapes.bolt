@@ -38,12 +38,12 @@ impl Describe for Shape {
     }
 }
 
-struct Point<T> {
+struct Point[T] {
     x: T,
     y: T,
 }
 
-fn largest<T: Describe>(shapes: List<T>) -> Option<T> {
+fn largest[T: Describe](shapes: List[T]) -> Option[T] {
     let best = None;
     for shape in shapes {
         best = match best {

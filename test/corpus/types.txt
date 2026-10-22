@@ -30,10 +30,10 @@ type A = (i32, String);
 Generic types
 ================================================================================
 
-type A = B<C>;
-type D = E<F, str>;
-type G = H<I>;
-type J = H<K=L>;
+type A = B[C];
+type D = E[F, str];
+type G = H[I];
+type J = H[K=L];
 
 --------------------------------------------------------------------------------
 
@@ -72,8 +72,8 @@ Scoped types
 
 type A = B::C;
 type D = E::F::G;
-type H = I::J<K>;
-type L = M<N>::O;
+type H = I::J[K];
+type L = M[N]::O;
 
 --------------------------------------------------------------------------------
 
@@ -137,11 +137,11 @@ fn high_order2(value: i32, f: fn(i32) -> i32) -> i32 {
     f(value)
 }
 
-fn high_order3(value: i32, f: Box<FnOnce(i32) -> i32>) -> i32 {
+fn high_order3(value: i32, f: Box[FnOnce(i32) -> i32]) -> i32 {
     f(value)
 }
 
-type F = fn(x: Ref<A>, y: RefMut<B<I, T>>,) -> C;
+type F = fn(x: Ref[A], y: RefMut[B[I, T]],) -> C;
 
 --------------------------------------------------------------------------------
 
@@ -254,9 +254,9 @@ type b = extern "C" fn() -> c_void;
 Trait objects
 ================================================================================
 
-type a = Box<Something + Send>;
-type b = Rc<Something>;
-type c = A<Box<Fn(B) -> C>>;
+type a = Box[Something + Send];
+type b = Rc[Something];
+type c = A[Box[Fn(B) -> C]];
 
 --------------------------------------------------------------------------------
 
@@ -293,8 +293,8 @@ type c = A<Box<Fn(B) -> C>>;
 Type cast expressions with generics
 ================================================================================
 
-a as B<C>;
-d as E<<F as E>::G>;
+a as B[C];
+d as E[<F as E>::G];
 
 --------------------------------------------------------------------------------
 
@@ -318,3 +318,69 @@ d as E<<F as E>::G>;
                 (type_identifier)
                 (type_identifier)))
             (type_identifier)))))))
+
+================================================================================
+Generic arguments versus indexing
+================================================================================
+
+let m: HashMap[String, Vec[i32]] = HashMap::new();
+let x = xs[0];
+let y = grid[i][j];
+let z = x as Vec[i32];
+let w = (x as T)[0];
+impl[T] [T; 3] {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    pattern: (identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (type_identifier)
+        (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (primitive_type)))))
+    value: (call_expression
+      function: (scoped_identifier
+        path: (identifier)
+        name: (identifier))
+      arguments: (arguments)))
+  (let_declaration
+    pattern: (identifier)
+    value: (index_expression
+      (identifier)
+      (integer_literal)))
+  (let_declaration
+    pattern: (identifier)
+    value: (index_expression
+      (index_expression
+        (identifier)
+        (identifier))
+      (identifier)))
+  (let_declaration
+    pattern: (identifier)
+    value: (type_cast_expression
+      value: (identifier)
+      type: (generic_type
+        type: (type_identifier)
+        type_arguments: (type_arguments
+          (primitive_type)))))
+  (let_declaration
+    pattern: (identifier)
+    value: (index_expression
+      (parenthesized_expression
+        (type_cast_expression
+          value: (identifier)
+          type: (type_identifier)))
+      (integer_literal)))
+  (impl_item
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
+    type: (array_type
+      element: (type_identifier)
+      length: (integer_literal))
+    body: (declaration_list)))

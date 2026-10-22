@@ -494,7 +494,7 @@ module.exports = grammar({
     ),
 
     type_parameters: $ => prec(1, seq(
-      '<',
+      '[',
       sepBy1(',', seq(
         repeat($.attribute_item),
         choice(
@@ -504,7 +504,7 @@ module.exports = grammar({
         ),
       )),
       optional(','),
-      '>',
+      ']',
     )),
 
     const_parameter: $ => seq(
@@ -752,17 +752,10 @@ module.exports = grammar({
 
     unit_type: _ => seq('(', ')'),
 
-    generic_function: $ => prec(1, seq(
-      field('function', choice(
-        $.identifier,
-        $.scoped_identifier,
-        $.field_expression,
-      )),
-      '::',
-      field('type_arguments', $.type_arguments),
-    )),
 
-    generic_type: $ => prec(1, seq(
+    // `[` right after a type always starts type arguments, so `x as T[0]` is
+    // a cast to `T[0]`; write `(x as T)[0]` to index the result.
+    generic_type: $ => prec(2, seq(
       field('type', choice(
         $._type_identifier,
         $.scoped_type_identifier,
@@ -770,14 +763,6 @@ module.exports = grammar({
       field('type_arguments', $.type_arguments),
     )),
 
-    generic_type_with_turbofish: $ => seq(
-      field('type', choice(
-        $._type_identifier,
-        $.scoped_identifier,
-      )),
-      '::',
-      field('type_arguments', $.type_arguments),
-    ),
 
     bounded_type: $ => prec.left(-1, seq(
       $._type,
@@ -786,7 +771,7 @@ module.exports = grammar({
     )),
 
     type_arguments: $ => seq(
-      token(prec(1, '<')),
+      '[',
       sepBy1(',', seq(
         choice(
           $._type,
@@ -797,7 +782,7 @@ module.exports = grammar({
         optional($.trait_bounds),
       )),
       optional(','),
-      '>',
+      ']',
     ),
 
     type_binding: $ => seq(
@@ -841,7 +826,6 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.identifier),
       $.self,
       $.scoped_identifier,
-      $.generic_function,
       $.await_expression,
       $.field_expression,
       $.array_expression,
@@ -904,7 +888,6 @@ module.exports = grammar({
       field('path', optional(choice(
         $._path,
         $.bracketed_type,
-        alias($.generic_type_with_turbofish, $.generic_type),
       ))),
       '::',
       field('name', choice($.identifier, $.super)),
@@ -913,7 +896,6 @@ module.exports = grammar({
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
       field('path', optional(choice(
         $._path,
-        alias($.generic_type_with_turbofish, $.generic_type),
       ))),
       '::',
       field('name', $._type_identifier),
@@ -922,7 +904,6 @@ module.exports = grammar({
     scoped_type_identifier: $ => seq(
       field('path', optional(choice(
         $._path,
-        alias($.generic_type_with_turbofish, $.generic_type),
         $.bracketed_type,
         $.generic_type,
       ))),
@@ -1047,7 +1028,6 @@ module.exports = grammar({
       field('name', choice(
         $._type_identifier,
         alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),
-        $.generic_type_with_turbofish,
       )),
       field('body', $.field_initializer_list),
     ),
@@ -1245,7 +1225,6 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.identifier),
       $.identifier,
       $.scoped_identifier,
-      $.generic_pattern,
       $.tuple_pattern,
       $.tuple_struct_pattern,
       $.struct_pattern,
@@ -1260,14 +1239,6 @@ module.exports = grammar({
       '_',
     ),
 
-    generic_pattern: $ => seq(
-      choice(
-        $.identifier,
-        $.scoped_identifier,
-      ),
-      '::',
-      field('type_arguments', $.type_arguments),
-    ),
 
     tuple_pattern: $ => seq(
       '(',
@@ -1287,7 +1258,6 @@ module.exports = grammar({
       field('type', choice(
         $.identifier,
         $.scoped_identifier,
-        alias($.generic_type_with_turbofish, $.generic_type),
       )),
       '(',
       sepBy(',', $._pattern),

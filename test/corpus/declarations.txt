@@ -57,11 +57,11 @@ fn foo() {
     return
 }
 
-fn foo(x: impl FnOnce() -> result::Result<T, E>) {}
+fn foo(x: impl FnOnce() -> result::Result[T, E]) {}
 
 fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
-fn accumulate(self) -> Machine<{State::Accumulate}> {}
+fn accumulate(self) -> Machine[{State::Accumulate}] {}
 
 
 --------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ const fn main() {}
 Functions with abstract return types
 ================================================================================
 
-fn triples(a: impl B) -> impl Iterator<Item=(usize)> {
+fn triples(a: impl B) -> impl Iterator[Item=(usize)] {
 }
 
 --------------------------------------------------------------------------------
@@ -583,11 +583,11 @@ struct Empty(pub ());
 Generic structs
 ================================================================================
 
-struct A<B> {}
-struct C<A, B> {}
-struct C<A,> {}
-struct D<const SIZE: usize> {}
-struct E<#[attr] T> {}
+struct A[B] {}
+struct C[A, B] {}
+struct C[A,] {}
+struct D[const SIZE: usize] {}
+struct E[#[attr] T] {}
 
 --------------------------------------------------------------------------------
 
@@ -633,14 +633,14 @@ struct E<#[attr] T> {}
 Enums
 ================================================================================
 
-pub enum Option<T> {
+pub enum Option[T] {
     None,
     Some(T),
 }
 
-pub enum Node<T: Item> {
+pub enum Node[T: Item] {
     Internal {
-        children: Vec<Tree<T>>,
+        children: Vec[Tree[T]],
         height: u16
     },
     #[attribute1]
@@ -730,9 +730,9 @@ pub enum c_style_enum {
 Generic functions
 ================================================================================
 
-pub fn splice<T: Into<Text>>(self, old_range: Range<usize>, new_text: T) {
+pub fn splice[T: Into[Text]](self, old_range: Range[usize], new_text: T) {
 }
-pub fn uninit_array<const LEN: usize>() -> [Self; LEN] {}
+pub fn uninit_array[const LEN: usize]() -> [Self; LEN] {}
 
 --------------------------------------------------------------------------------
 
@@ -839,7 +839,7 @@ Functions with custom types for self
 ================================================================================
 
 trait Callback {
-    fn call(self: Box<Self>);
+    fn call(self: Box[Self]);
 }
 
 --------------------------------------------------------------------------------
@@ -887,7 +887,7 @@ Type aliases
 ================================================================================
 
 type Inch = u64;
-type Name<T> = Vec<T>;
+type Name[T] = Vec[T];
 type LazyResolve = impl (FnOnce() -> Capture) + Send + Sync + UnwindSafe;
 
 --------------------------------------------------------------------------------
@@ -924,7 +924,7 @@ type LazyResolve = impl (FnOnce() -> Capture) + Send + Sync + UnwindSafe;
 Type alias where clauses
 ================================================================================
 
-type Foo<T> where T: Copy = Box<T>;
+type Foo[T] where T: Copy = Box[T];
 type Assoc3 where = () where;
 
 --------------------------------------------------------------------------------
@@ -1303,7 +1303,7 @@ impl Person {
   fn walk_mut(mut self) {}
 }
 
-impl Machine<{State::Init}> {}
+impl Machine[{State::Init}] {}
 
 --------------------------------------------------------------------------------
 
@@ -1342,10 +1342,10 @@ impl Machine<{State::Init}> {}
 Trait impls
 ================================================================================
 
-impl<T> iter::Iterator for Self::Iter<T> {
+impl[T] iter::Iterator for Self::Iter[T] {
 }
 
-impl ConvertTo<i64> for i32 {
+impl ConvertTo[i64] for i32 {
     fn convert(self) -> i64 { self as i64 }
 }
 
@@ -1402,8 +1402,8 @@ impl !Send for Foo {}
 Trait impl signature
 ================================================================================
 
-impl<K: Debug + Ord> Debug for OccupiedError<K>;
-impl<K: Debug + Ord> Display for OccupiedError<K>;
+impl[K: Debug + Ord] Debug for OccupiedError[K];
+impl[K: Debug + Ord] Display for OccupiedError[K];
 
 --------------------------------------------------------------------------------
 
@@ -1468,7 +1468,7 @@ pub trait Item: Clone + Eq + fmt::Debug {
 Trait declarations with optional type parameters
 ================================================================================
 
-trait Add<RHS=Self> {
+trait Add[RHS=Self] {
     type Output;
     fn add(self, rhs: RHS) -> Self::Output;
 }
@@ -1501,7 +1501,7 @@ trait Add<RHS=Self> {
 Trait bounds in type arguments in trait
 ================================================================================
 
-impl<T: AstDeref<Target: HasNodeId>> HasNodeId for T {}
+impl[T: AstDeref[Target: HasNodeId]] HasNodeId for T {}
 
 --------------------------------------------------------------------------------
 
@@ -1605,18 +1605,18 @@ Generic Associated Types
 ================================================================================
 
 pub trait Database {
-    type F<A, D>: Future<Output = D> + Send;
+    type F[A, D]: Future[Output = D] + Send;
 }
 
 impl Database for Foo {
-    type F<A, D> = DatabaseFuture<A, D>;
+    type F[A, D] = DatabaseFuture[A, D];
 }
 
-fn use_database1<D: Database<F<A, TD> = F>>() {}
+fn use_database1[D: Database[F[A, TD] = F]]() {}
 
-fn use_database2<D>()
+fn use_database2[D]()
 where
-    D: Database<F<A, TD> = F>,
+    D: Database[F[A, TD] = F],
 {}
 
 --------------------------------------------------------------------------------
@@ -1769,40 +1769,40 @@ fn bar(bool: bool) {}
 Where clauses
 ================================================================================
 
-fn walk<F>(self, it: F) -> bool
+fn walk[F](self, it: F) -> bool
     where F: FnMut(Pat) -> bool
 {
   return false
 }
 
-impl<T: Clone + Item> Iterator for Iter<T> where Self: Sized {
+impl[T: Clone + Item] Iterator for Iter[T] where Self: Sized {
 }
 
-impl<T> A for B<T>
-    where C<T>: D,
+impl[T] A for B[T]
+    where C[T]: D,
           T: Clone,
 {
 }
 
-impl<E> Read
+impl[E] Read
 where E: Read,
 {
 }
 
-impl<T> A for B<T> where (T, T, T): C, {}
+impl[T] A for B[T] where (T, T, T): C, {}
 
-impl<T> A for B<T>
-    where D<T>: E<T>,
+impl[T] A for B[T]
+    where D[T]: E[T],
 {
 }
 
-pub trait A<B> where B: C,
+pub trait A[B] where B: C,
 {
 }
 
-fn foo<A>() where A: B + As<f64>, f64: As<A> {}
+fn foo[A]() where A: B + As[f64], f64: As[A] {}
 
-impl<A> Default for B<A> where A: C + D {}
+impl[A] Default for B[A] where A: C + D {}
 
 --------------------------------------------------------------------------------
 
@@ -2033,9 +2033,9 @@ struct A {
 Array Constraint in Where Clause
 ================================================================================
 
-fn foo<D>(val: D)
+fn foo[D](val: D)
 where
-    [u8; 32]: From<D>,
+    [u8; 32]: From[D],
 
 {}
 
@@ -2067,7 +2067,7 @@ where
 Const generics with default
 ================================================================================
 
-pub struct Loaf<T: Sized, const N: usize = 1>([T; N]);
+pub struct Loaf[T: Sized, const N: usize = 1]([T; N]);
 
 --------------------------------------------------------------------------------
 

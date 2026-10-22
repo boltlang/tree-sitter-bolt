@@ -49,15 +49,6 @@
     "::"
     name: (identifier) @function))
 
-(generic_function
-  function: (identifier) @function)
-(generic_function
-  function: (scoped_identifier
-    name: (identifier) @function))
-(generic_function
-  function: (field_expression
-    field: (field_identifier) @function.method))
-
 (macro_invocation
   macro: (identifier) @function.macro
   "!" @function.macro)
@@ -81,13 +72,6 @@
 "]" @punctuation.bracket
 "{" @punctuation.bracket
 "}" @punctuation.bracket
-
-(type_arguments
-  "<" @punctuation.bracket
-  ">" @punctuation.bracket)
-(type_parameters
-  "<" @punctuation.bracket
-  ">" @punctuation.bracket)
 
 "::" @punctuation.delimiter
 ":" @punctuation.delimiter
