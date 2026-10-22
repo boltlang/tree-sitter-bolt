@@ -579,15 +579,15 @@
       "required": true,
       "types": [
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "metavariable",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -3229,15 +3229,15 @@
             "named": true
           },
           {
-            "type": "crate",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "metavariable",
+            "named": true
+          },
+          {
+            "type": "package",
             "named": true
           },
           {
@@ -3263,15 +3263,15 @@
             "named": true
           },
           {
-            "type": "crate",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           },
           {
             "type": "metavariable",
+            "named": true
+          },
+          {
+            "type": "package",
             "named": true
           },
           {
@@ -3352,10 +3352,6 @@
             "named": true
           },
           {
-            "type": "crate",
-            "named": true
-          },
-          {
             "type": "generic_type",
             "named": true
           },
@@ -3365,6 +3361,10 @@
           },
           {
             "type": "metavariable",
+            "named": true
+          },
+          {
+            "type": "package",
             "named": true
           },
           {
@@ -3406,10 +3406,6 @@
             "named": true
           },
           {
-            "type": "crate",
-            "named": true
-          },
-          {
             "type": "generic_type",
             "named": true
           },
@@ -3419,6 +3415,10 @@
           },
           {
             "type": "metavariable",
+            "named": true
+          },
+          {
+            "type": "package",
             "named": true
           },
           {
@@ -3762,10 +3762,6 @@
           "named": true
         },
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -3775,6 +3771,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -3813,10 +3813,6 @@
           "named": true
         },
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -3826,6 +3822,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -3868,10 +3868,6 @@
           "named": true
         },
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -3881,6 +3877,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -3919,10 +3919,6 @@
           "named": true
         },
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -3932,6 +3928,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -4404,15 +4404,15 @@
       "required": false,
       "types": [
         {
-          "type": "crate",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "metavariable",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -4787,10 +4787,6 @@
     "named": false
   },
   {
-    "type": "crate",
-    "named": true
-  },
-  {
     "type": "default",
     "named": false
   },
@@ -4912,6 +4908,10 @@
   },
   {
     "type": "mutable_specifier",
+    "named": true
+  },
+  {
+    "type": "package",
     "named": true
   },
   {

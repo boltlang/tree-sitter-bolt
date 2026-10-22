@@ -1733,8 +1733,8 @@ Visibility modifiers
 pub fn a() {}
 pub(super) fn b() {}
 pub(self) fn c() {}
-pub(crate) fn c() {}
-pub(in crate::d) fn e() {}
+pub(package) fn c() {}
+pub(in package::d) fn e() {}
 
 --------------------------------------------------------------------------------
 
@@ -1758,14 +1758,14 @@ pub(in crate::d) fn e() {}
     (block))
   (function_item
     (visibility_modifier
-      (crate))
+      (package))
     (identifier)
     (parameters)
     (block))
   (function_item
     (visibility_modifier
       (scoped_identifier
-        (crate)
+        (package)
         (identifier)))
     (identifier)
     (parameters)

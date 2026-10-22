@@ -129,7 +129,7 @@
 "where" @keyword
 "while" @keyword
 "yield" @keyword
-(crate) @keyword
+(package) @keyword
 (mutable_specifier) @keyword
 (scoped_identifier (self) @keyword)
 (super) @keyword

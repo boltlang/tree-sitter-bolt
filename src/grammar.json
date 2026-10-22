@@ -746,7 +746,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "crate"
+          "name": "package"
         },
         {
           "type": "ALIAS",
@@ -3925,7 +3925,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "crate"
+                      "name": "package"
                     },
                     {
                       "type": "SEQ",
@@ -8864,7 +8864,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "crate"
+          "name": "package"
         },
         {
           "type": "SYMBOL",
@@ -8932,9 +8932,9 @@
       "type": "STRING",
       "value": "super"
     },
-    "crate": {
+    "package": {
       "type": "STRING",
-      "value": "crate"
+      "value": "package"
     },
     "metavariable": {
       "type": "PATTERN",

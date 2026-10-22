@@ -240,7 +240,7 @@ module.exports = grammar({
     // definitions. This is everything except $ and metavariables (which begin
     // with $).
     _non_special_token: $ => choice(
-      $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.crate,
+      $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.package,
       alias(choice(...primitiveTypes), $.primitive_type),
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
@@ -679,7 +679,7 @@ module.exports = grammar({
         choice(
           $.self,
           $.super,
-          $.crate,
+          $.package,
           seq('in', $._path),
         ),
         ')',
@@ -1502,7 +1502,7 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.identifier),
       $.metavariable,
       $.super,
-      $.crate,
+      $.package,
       $.identifier,
       $.scoped_identifier,
       $._reserved_identifier,
@@ -1522,7 +1522,7 @@ module.exports = grammar({
 
     self: _ => 'self',
     super: _ => 'super',
-    crate: _ => 'crate',
+    package: _ => 'package',
 
     metavariable: _ => /\$[a-zA-Z_]\w*/,
   },
