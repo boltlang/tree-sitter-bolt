@@ -15,6 +15,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 authors = [
+  { name = "Sam Vervaeck", email = "samvv@pm.me" },
   { name = "Max Brunsfeld", email = "maxbrunsfeld@gmail.com" },
   { name = "Amaan Qureshi", email = "amaanq12@gmail.com" },
 ]
