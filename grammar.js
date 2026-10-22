@@ -843,7 +843,6 @@ module.exports = grammar({
       field('type', $._type),
     ),
 
-
     never_type: _ => '!',
 
     abstract_type: $ => seq(
@@ -987,7 +986,6 @@ module.exports = grammar({
       $._expression,
       '?',
     )),
-
 
     binary_expression: $ => {
       const table = [
@@ -1410,7 +1408,6 @@ module.exports = grammar({
       '@',
       $._pattern,
     ),
-
 
     or_pattern: $ => prec.left(-2, choice(
       seq($._pattern, '|', $._pattern),
