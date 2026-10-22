@@ -1,0 +1,77 @@
+// A small tour of Bolt: shapes, traits and pattern matching.
+
+import "std/math" (pi, sqrt);
+import "std/list" as list;
+
+/// A geometric shape.
+pub enum Shape {
+    Circle { radius: f64 },
+    Rect { width: f64, height: f64 },
+    Triangle(f64, f64, f64),
+}
+
+trait Describe {
+    fn name(self) -> String;
+    fn area(self) -> f64;
+}
+
+impl Describe for Shape {
+    fn name(self) -> String {
+        match self {
+            Shape::Circle { .. } => "circle",
+            Shape::Rect { width, height } if width == height => "square",
+            Shape::Rect { .. } => "rectangle",
+            Shape::Triangle(..) => "triangle",
+        }
+    }
+
+    fn area(self) -> f64 {
+        match self {
+            Shape::Circle { radius } => pi * radius * radius,
+            Shape::Rect { width, height } => width * height,
+            Shape::Triangle(a, b, c) => {
+                // Heron's formula
+                let s = (a + b + c) / 2.0;
+                sqrt(s * (s - a) * (s - b) * (s - c))
+            }
+        }
+    }
+}
+
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn largest<T: Describe>(shapes: List<T>) -> Option<T> {
+    let best = None;
+    for shape in shapes {
+        best = match best {
+            Some(b) if b.area() >= shape.area() => Some(b),
+            _ => Some(shape),
+        };
+    }
+    best
+}
+
+fn main() {
+    let shapes = [
+        Shape::Circle { radius: 1.5 },
+        Shape::Rect { width: 2.0, height: 2.0 },
+        Shape::Rect { width: 3.0, height: 1.0 },
+        Shape::Triangle(3.0, 4.0, 5.0),
+    ];
+
+    let total = list::fold(shapes, 0.0, |sum, s| sum + s.area());
+    print("Total area: {total}");
+
+    if let Some(s) = largest(shapes) {
+        print("Largest shape is a {s.name()}");
+    }
+
+    let origin = Point { x: 0, y: 0 };
+    let count = 0;
+    while count < 3 {
+        count += 1;
+    }
+}
