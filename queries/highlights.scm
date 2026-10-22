@@ -120,7 +120,6 @@
 "mod" @keyword
 "move" @keyword
 "pub" @keyword
-"ref" @keyword
 "return" @keyword
 "static" @keyword
 "struct" @keyword

@@ -266,7 +266,7 @@ while let A(x) | B(x) = expr {
 
 let Ok(index) | Err(index) = slice.binary_search(x);
 
-for ref a | b in c {}
+for a | b in c {}
 
 let Ok(x) | Err(x) = binary_search(x);
 
@@ -274,7 +274,7 @@ for A | B | C in c {}
 
 |(Ok(x) | Err(x))| expr();
 
-let ref mut x @ (A | B | C);
+let mut x @ (A | B | C);
 
 fn foo((1 | 2 | 3): u8) {}
 
@@ -334,8 +334,7 @@ if let x!() | y!() = () {}
   (expression_statement
     (for_expression
       pattern: (or_pattern
-        (ref_pattern
-          (identifier))
+        (identifier)
         (identifier))
       value: (identifier)
       body: (block)))
@@ -375,17 +374,15 @@ if let x!() | y!() = () {}
         function: (identifier)
         arguments: (arguments))))
   (let_declaration
-    pattern: (ref_pattern
-      (mut_pattern
-        (mutable_specifier)
-        (captured_pattern
-          (identifier)
-          (tuple_pattern
-            (or_pattern
-              (or_pattern
-                (identifier)
-                (identifier))
-              (identifier)))))))
+    (mutable_specifier)
+    pattern: (captured_pattern
+      (identifier)
+      (tuple_pattern
+        (or_pattern
+          (or_pattern
+            (identifier)
+            (identifier))
+          (identifier)))))
   (function_item
     name: (identifier)
     parameters: (parameters

@@ -407,10 +407,6 @@ module.exports = grammar({
     static_item: $ => seq(
       optional($.visibility_modifier),
       'static',
-
-      // Not actual rust syntax, but made popular by the lazy_static crate.
-      optional('ref'),
-
       optional($.mutable_specifier),
       field('name', $.identifier),
       ':',
@@ -1351,7 +1347,6 @@ module.exports = grammar({
       $.tuple_struct_pattern,
       $.struct_pattern,
       $._reserved_identifier,
-      $.ref_pattern,
       $.slice_pattern,
       $.captured_pattern,
       $.remaining_field_pattern,
@@ -1410,7 +1405,6 @@ module.exports = grammar({
     ),
 
     field_pattern: $ => seq(
-      optional('ref'),
       optional($.mutable_specifier),
       choice(
         field('name', alias($.identifier, $.shorthand_field_identifier)),
@@ -1453,11 +1447,6 @@ module.exports = grammar({
           $._path,
         )),
       ),
-    ),
-
-    ref_pattern: $ => seq(
-      'ref',
-      $._pattern,
     ),
 
     captured_pattern: $ => seq(
