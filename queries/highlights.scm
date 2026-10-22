@@ -95,7 +95,6 @@
 
 (parameter (identifier) @variable.parameter)
 
-(lifetime (identifier) @label)
 
 "as" @keyword
 "async" @keyword

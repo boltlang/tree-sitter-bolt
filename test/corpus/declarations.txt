@@ -89,7 +89,6 @@ fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
 fn accumulate(self) -> Machine<{State::Accumulate}> {}
 
-fn foo(bar: impl for<'a> Baz<Quux<'a>>) {}
 
 --------------------------------------------------------------------------------
 
@@ -202,25 +201,6 @@ fn foo(bar: impl for<'a> Baz<Quux<'a>>) {}
           (scoped_identifier
             path: (identifier)
             name: (identifier)))))
-    body: (block))
-  (function_item
-    name: (identifier)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier)
-        type: (abstract_type
-          (type_parameters
-            (lifetime_parameter
-              name: (lifetime
-                (identifier))))
-          trait: (generic_type
-            type: (type_identifier)
-            type_arguments: (type_arguments
-              (generic_type
-                type: (type_identifier)
-                type_arguments: (type_arguments
-                  (lifetime
-                    (identifier)))))))))
     body: (block)))
 
 ================================================================================
@@ -263,31 +243,6 @@ fn triples(a: impl B) -> impl Iterator<Item=(usize)> {
             (type_identifier)
             (tuple_type
               (primitive_type))))))
-    (block)))
-
-================================================================================
-Impl with lifetimes first
-================================================================================
-
-fn foo<'a>(x: impl 'a + Clone) {}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (function_item
-    (identifier)
-    (type_parameters
-      (lifetime_parameter
-        (lifetime
-          (identifier))))
-    (parameters
-      (parameter
-        (identifier)
-        (abstract_type
-          (bounded_type
-            (lifetime
-              (identifier))
-            (type_identifier)))))
     (block)))
 
 ================================================================================
@@ -730,8 +685,8 @@ Generic structs
 ================================================================================
 
 struct A<B> {}
-struct C<'a, 'b> {}
-struct C<'a,> {}
+struct C<A, B> {}
+struct C<A,> {}
 struct D<const SIZE: usize> {}
 struct E<#[attr] T> {}
 
@@ -747,19 +702,16 @@ struct E<#[attr] T> {}
   (struct_item
     name: (type_identifier)
     type_parameters: (type_parameters
-      (lifetime_parameter
-        name: (lifetime
-          (identifier)))
-      (lifetime_parameter
-        name: (lifetime
-          (identifier))))
+      (type_parameter
+        name: (type_identifier))
+      (type_parameter
+        name: (type_identifier)))
     body: (field_declaration_list))
   (struct_item
     name: (type_identifier)
     type_parameters: (type_parameters
-      (lifetime_parameter
-        name: (lifetime
-          (identifier))))
+      (type_parameter
+        name: (type_identifier)))
     body: (field_declaration_list))
   (struct_item
     name: (type_identifier)
@@ -1510,7 +1462,7 @@ impl Machine<{State::Init}> {}
 Trait impls
 ================================================================================
 
-impl<'a> iter::Iterator for Self::Iter<'a> {
+impl<T> iter::Iterator for Self::Iter<T> {
 }
 
 impl ConvertTo<i64> for i32 {
@@ -1522,9 +1474,8 @@ impl ConvertTo<i64> for i32 {
 (source_file
   (impl_item
     type_parameters: (type_parameters
-      (lifetime_parameter
-        name: (lifetime
-          (identifier))))
+      (type_parameter
+        name: (type_identifier)))
     trait: (scoped_type_identifier
       path: (identifier)
       name: (type_identifier))
@@ -1533,8 +1484,7 @@ impl ConvertTo<i64> for i32 {
         path: (identifier)
         name: (type_identifier))
       type_arguments: (type_arguments
-        (lifetime
-          (identifier))))
+        (type_identifier)))
     body: (declaration_list))
   (impl_item
     trait: (generic_type
@@ -1782,7 +1732,7 @@ Associated Type Definitions
 ================================================================================
 
 impl Trait for T {
-    type Associated = T where 'static: 'static;
+    type Associated = T where T: Clone;
 }
 
 --------------------------------------------------------------------------------
@@ -1797,29 +1747,27 @@ impl Trait for T {
         (type_identifier)
         (where_clause
           (where_predicate
-            (lifetime
-              (identifier))
+            (type_identifier)
             (trait_bounds
-              (lifetime
-                (identifier)))))))))
+              (type_identifier))))))))
 
 ================================================================================
 Generic Associated Types
 ================================================================================
 
 pub trait Database {
-    type F<'a, D>: Future<Output = D> + 'a;
+    type F<A, D>: Future<Output = D> + Send;
 }
 
 impl Database for Foo {
-    type F<'a, D> = DatabaseFuture<'a, D>;
+    type F<A, D> = DatabaseFuture<A, D>;
 }
 
-fn use_database1<D: Database<F<'a, TD> = F>>() {}
+fn use_database1<D: Database<F<A, TD> = F>>() {}
 
 fn use_database2<D>()
 where
-    D: Database<F<'a, TD> = F>,
+    D: Database<F<A, TD> = F>,
 {}
 
 --------------------------------------------------------------------------------
@@ -1832,9 +1780,8 @@ where
       (associated_type
         (type_identifier)
         (type_parameters
-          (lifetime_parameter
-            (lifetime
-              (identifier)))
+          (type_parameter
+            (type_identifier))
           (type_parameter
             (type_identifier)))
         (trait_bounds
@@ -1844,8 +1791,7 @@ where
               (type_binding
                 (type_identifier)
                 (type_identifier))))
-          (lifetime
-            (identifier))))))
+          (type_identifier)))))
   (impl_item
     (type_identifier)
     (type_identifier)
@@ -1853,16 +1799,14 @@ where
       (type_item
         (type_identifier)
         (type_parameters
-          (lifetime_parameter
-            (lifetime
-              (identifier)))
+          (type_parameter
+            (type_identifier))
           (type_parameter
             (type_identifier)))
         (generic_type
           (type_identifier)
           (type_arguments
-            (lifetime
-              (identifier))
+            (type_identifier)
             (type_identifier))))))
   (function_item
     (identifier)
@@ -1876,8 +1820,7 @@ where
               (type_binding
                 (type_identifier)
                 (type_arguments
-                  (lifetime
-                    (identifier))
+                  (type_identifier)
                   (type_identifier))
                 (type_identifier)))))))
     (parameters)
@@ -1898,66 +1841,10 @@ where
               (type_binding
                 (type_identifier)
                 (type_arguments
-                  (lifetime
-                    (identifier))
+                  (type_identifier)
                   (type_identifier))
                 (type_identifier)))))))
     (block)))
-
-================================================================================
-Higher-ranked types
-================================================================================
-
-trait T: for<'a> AddAssign<Ref<'a, usize>> {
-}
-
-type FnObject<'b> = FnLike<Ref<'b, isize>, Ref<'b, isize>> + 'b;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (trait_item
-    (type_identifier)
-    (trait_bounds
-      (higher_ranked_trait_bound
-        (type_parameters
-          (lifetime_parameter
-            (lifetime
-              (identifier))))
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (lifetime
-                  (identifier))
-                (primitive_type)))))))
-    (declaration_list))
-  (type_item
-    (type_identifier)
-    (type_parameters
-      (lifetime_parameter
-        (lifetime
-          (identifier))))
-    (bounded_type
-      (generic_type
-        (type_identifier)
-        (type_arguments
-          (generic_type
-            (type_identifier)
-            (type_arguments
-              (lifetime
-                (identifier))
-              (primitive_type)))
-          (generic_type
-            (type_identifier)
-            (type_arguments
-              (lifetime
-                (identifier))
-              (primitive_type)))))
-      (lifetime
-        (identifier)))))
 
 ================================================================================
 Visibility modifiers
@@ -2039,17 +1926,16 @@ fn walk<F>(self, it: F) -> bool
   return false
 }
 
-impl<'a, T: 'a + Item> Iterator for Iter<'a, T> where Self: 'a {
+impl<T: Clone + Item> Iterator for Iter<T> where Self: Sized {
 }
 
 impl<T> A for B<T>
     where C<T>: D,
-          T: 'c,
-          'c: 'b,
+          T: Clone,
 {
 }
 
-impl<'a, E> Read
+impl<E> Read
 where E: Read,
 {
 }
@@ -2057,7 +1943,7 @@ where E: Read,
 impl<T> A for B<T> where (T, T, T): C, {}
 
 impl<T> A for B<T>
-    where for<'a> D<T>: E<'a>,
+    where D<T>: E<T>,
 {
 }
 
@@ -2098,28 +1984,21 @@ impl<A> Default for B<A> where A: C + D {}
         (boolean_literal))))
   (impl_item
     type_parameters: (type_parameters
-      (lifetime_parameter
-        name: (lifetime
-          (identifier)))
       (type_parameter
         name: (type_identifier)
         bounds: (trait_bounds
-          (lifetime
-            (identifier))
+          (type_identifier)
           (type_identifier))))
     trait: (type_identifier)
     type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
-        (lifetime
-          (identifier))
         (type_identifier)))
     (where_clause
       (where_predicate
         left: (type_identifier)
         bounds: (trait_bounds
-          (lifetime
-            (identifier)))))
+          (type_identifier))))
     body: (declaration_list))
   (impl_item
     type_parameters: (type_parameters
@@ -2141,20 +2020,10 @@ impl<A> Default for B<A> where A: C + D {}
       (where_predicate
         left: (type_identifier)
         bounds: (trait_bounds
-          (lifetime
-            (identifier))))
-      (where_predicate
-        left: (lifetime
-          (identifier))
-        bounds: (trait_bounds
-          (lifetime
-            (identifier)))))
+          (type_identifier))))
     body: (declaration_list))
   (impl_item
     type_parameters: (type_parameters
-      (lifetime_parameter
-        name: (lifetime
-          (identifier)))
       (type_parameter
         name: (type_identifier)))
     type: (type_identifier)
@@ -2193,21 +2062,15 @@ impl<A> Default for B<A> where A: C + D {}
         (type_identifier)))
     (where_clause
       (where_predicate
-        left: (higher_ranked_trait_bound
-          type_parameters: (type_parameters
-            (lifetime_parameter
-              name: (lifetime
-                (identifier))))
-          type: (generic_type
-            type: (type_identifier)
-            type_arguments: (type_arguments
-              (type_identifier))))
+        left: (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))
         bounds: (trait_bounds
           (generic_type
             type: (type_identifier)
             type_arguments: (type_arguments
-              (lifetime
-                (identifier)))))))
+              (type_identifier))))))
     body: (declaration_list))
   (trait_item
     (visibility_modifier)

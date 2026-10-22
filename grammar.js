@@ -210,7 +210,7 @@ module.exports = grammar({
     ),
 
     fragment_specifier: _ => choice(
-      'block', 'expr', 'expr_2021', 'ident', 'item', 'lifetime', 'literal', 'meta', 'pat',
+      'block', 'expr', 'expr_2021', 'ident', 'item', 'literal', 'meta', 'pat',
       'pat_param', 'path', 'stmt', 'tt', 'ty', 'vis',
     ),
 
@@ -469,13 +469,11 @@ module.exports = grammar({
 
     where_predicate: $ => seq(
       field('left', choice(
-        $.lifetime,
         $._type_identifier,
         $.scoped_type_identifier,
         $.generic_type,
         $.tuple_type,
         $.array_type,
-        $.higher_ranked_trait_bound,
         alias(choice(...primitiveTypes), $.primitive_type),
       )),
       field('bounds', $.trait_bounds),
@@ -521,15 +519,7 @@ module.exports = grammar({
       ':',
       sepBy1('+', choice(
         $._type,
-        $.lifetime,
-        $.higher_ranked_trait_bound,
       )),
-    ),
-
-    higher_ranked_trait_bound: $ => seq(
-      'for',
-      field('type_parameters', $.type_parameters),
-      field('type', $._type),
     ),
 
     type_parameters: $ => prec(1, seq(
@@ -539,7 +529,6 @@ module.exports = grammar({
         choice(
           $.metavariable,
           $.type_parameter,
-          $.lifetime_parameter,
           $.const_parameter,
         ),
       )),
@@ -576,11 +565,6 @@ module.exports = grammar({
           field('default_type', $._type),
         ),
       ),
-    )),
-
-    lifetime_parameter: $ => prec(1, seq(
-      field('name', $.lifetime),
-      optional(field('bounds', $.trait_bounds)),
     )),
 
     let_declaration: $ => seq(
@@ -737,8 +721,6 @@ module.exports = grammar({
       field('alias', $._type),
     ),
 
-    lifetime: $ => prec(1, seq('\'', $.identifier)),
-
     array_type: $ => seq(
       '[',
       field('element', $._type),
@@ -749,16 +731,7 @@ module.exports = grammar({
       ']',
     ),
 
-    for_lifetimes: $ => seq(
-      'for',
-      '<',
-      sepBy1(',', $.lifetime),
-      optional(','),
-      '>',
-    ),
-
     function_type: $ => seq(
-      optional($.for_lifetimes),
       prec(PREC.call, seq(
         choice(
           field('trait', choice(
@@ -813,9 +786,9 @@ module.exports = grammar({
     ),
 
     bounded_type: $ => prec.left(-1, seq(
-      choice($.lifetime, $._type),
+      $._type,
       '+',
-      choice($.lifetime, $._type),
+      $._type,
     )),
 
     type_arguments: $ => seq(
@@ -824,7 +797,6 @@ module.exports = grammar({
         choice(
           $._type,
           $.type_binding,
-          $.lifetime,
           $._literal,
           $.block,
         ),

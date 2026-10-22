@@ -32,7 +32,7 @@ Generic types
 
 type A = B<C>;
 type D = E<F, str>;
-type G = H<'a, I>;
+type G = H<I>;
 type J = H<K=L>;
 
 --------------------------------------------------------------------------------
@@ -56,8 +56,6 @@ type J = H<K=L>;
     (generic_type
       (type_identifier)
       (type_arguments
-        (lifetime
-          (identifier))
         (type_identifier))))
   (type_item
     (type_identifier)
@@ -143,7 +141,7 @@ fn high_order3(value: i32, f: Box<FnOnce(i32) -> i32>) -> i32 {
     f(value)
 }
 
-type F = for<'a, 'b> fn(x: Ref<'a, A>, y: RefMut<'a, B<'i, 't>>,) -> C;
+type F = fn(x: Ref<A>, y: RefMut<B<I, T>>,) -> C;
 
 --------------------------------------------------------------------------------
 
@@ -204,34 +202,23 @@ type F = for<'a, 'b> fn(x: Ref<'a, A>, y: RefMut<'a, B<'i, 't>>,) -> C;
   (type_item
     (type_identifier)
     (function_type
-      (for_lifetimes
-        (lifetime
-          (identifier))
-        (lifetime
-          (identifier)))
       (parameters
         (parameter
           (identifier)
           (generic_type
             (type_identifier)
             (type_arguments
-              (lifetime
-                (identifier))
               (type_identifier))))
         (parameter
           (identifier)
           (generic_type
             (type_identifier)
             (type_arguments
-              (lifetime
-                (identifier))
               (generic_type
                 (type_identifier)
                 (type_arguments
-                  (lifetime
-                    (identifier))
-                  (lifetime
-                    (identifier))))))))
+                  (type_identifier)
+                  (type_identifier)))))))
       (type_identifier))))
 
 ================================================================================
@@ -267,7 +254,7 @@ type b = extern "C" fn() -> c_void;
 Trait objects
 ================================================================================
 
-type a = Box<Something + 'a>;
+type a = Box<Something + Send>;
 type b = Rc<Something>;
 type c = A<Box<Fn(B) -> C>>;
 
@@ -281,8 +268,7 @@ type c = A<Box<Fn(B) -> C>>;
       (type_arguments
         (bounded_type
           (type_identifier)
-          (lifetime
-            (identifier))))))
+          (type_identifier)))))
   (type_item
     (type_identifier)
     (generic_type

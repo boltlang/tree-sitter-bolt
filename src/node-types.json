@@ -932,10 +932,6 @@
         {
           "type": "_type",
           "named": true
-        },
-        {
-          "type": "lifetime",
-          "named": true
         }
       ]
     }
@@ -1882,21 +1878,6 @@
     }
   },
   {
-    "type": "for_lifetimes",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "lifetime",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "foreign_mod_item",
     "named": true,
     "fields": {
@@ -2128,13 +2109,9 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
-        {
-          "type": "for_lifetimes",
-          "named": true
-        },
         {
           "type": "function_modifiers",
           "named": true
@@ -2283,32 +2260,6 @@
         "types": [
           {
             "type": "type_arguments",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "higher_ranked_trait_bound",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_type",
-            "named": true
-          }
-        ]
-      },
-      "type_parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_parameters",
             "named": true
           }
         ]
@@ -2572,47 +2523,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "lifetime",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lifetime_parameter",
-    "named": true,
-    "fields": {
-      "bounds": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "trait_bounds",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "lifetime",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -3915,14 +3825,6 @@
         {
           "type": "_type",
           "named": true
-        },
-        {
-          "type": "higher_ranked_trait_bound",
-          "named": true
-        },
-        {
-          "type": "lifetime",
-          "named": true
         }
       ]
     }
@@ -4125,10 +4027,6 @@
           "named": true
         },
         {
-          "type": "lifetime",
-          "named": true
-        },
-        {
           "type": "trait_bounds",
           "named": true
         },
@@ -4301,10 +4199,6 @@
         },
         {
           "type": "const_parameter",
-          "named": true
-        },
-        {
-          "type": "lifetime_parameter",
           "named": true
         },
         {
@@ -4687,14 +4581,6 @@
           },
           {
             "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "higher_ranked_trait_bound",
-            "named": true
-          },
-          {
-            "type": "lifetime",
             "named": true
           },
           {
@@ -5102,10 +4988,6 @@
   },
   {
     "type": "let",
-    "named": false
-  },
-  {
-    "type": "lifetime",
     "named": false
   },
   {
