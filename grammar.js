@@ -153,7 +153,6 @@ module.exports = grammar({
       $.let_declaration,
       $.use_declaration,
       $.extern_crate_declaration,
-      $.static_item,
     ),
 
     // Section - Macro definitions
@@ -389,20 +388,6 @@ module.exports = grammar({
           field('value', $._expression),
         ),
       ),
-      ';',
-    ),
-
-    static_item: $ => seq(
-      optional($.visibility_modifier),
-      'static',
-      optional($.mutable_specifier),
-      field('name', $.identifier),
-      ':',
-      field('type', $._type),
-      optional(seq(
-        '=',
-        field('value', $._expression),
-      )),
       ';',
     ),
 

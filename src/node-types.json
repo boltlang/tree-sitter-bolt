@@ -64,10 +64,6 @@
         "named": true
       },
       {
-        "type": "static_item",
-        "named": true
-      },
-      {
         "type": "struct_item",
         "named": true
       },
@@ -3376,56 +3372,6 @@
         },
         {
           "type": "shebang",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "static_item",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_type",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "mutable_specifier",
-          "named": true
-        },
-        {
-          "type": "visibility_modifier",
           "named": true
         }
       ]
