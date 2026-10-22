@@ -3,6 +3,7 @@ name = "tree-sitter-bolt"
 description = "Bolt grammar for tree-sitter"
 version = "0.1.0"
 authors = [
+  "Sam Vervaeck <samvv@pm.me>",
   "Max Brunsfeld <maxbrunsfeld@gmail.com>",
   "Amaan Qureshi <amaanq12@gmail.com>",
 ]
