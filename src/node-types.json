@@ -1,83 +1,5 @@
 [
   {
-    "type": "_declaration_statement",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "associated_type",
-        "named": true
-      },
-      {
-        "type": "attribute_item",
-        "named": true
-      },
-      {
-        "type": "const_item",
-        "named": true
-      },
-      {
-        "type": "empty_statement",
-        "named": true
-      },
-      {
-        "type": "enum_item",
-        "named": true
-      },
-      {
-        "type": "foreign_mod_item",
-        "named": true
-      },
-      {
-        "type": "function_item",
-        "named": true
-      },
-      {
-        "type": "function_signature_item",
-        "named": true
-      },
-      {
-        "type": "impl_item",
-        "named": true
-      },
-      {
-        "type": "import_declaration",
-        "named": true
-      },
-      {
-        "type": "inner_attribute_item",
-        "named": true
-      },
-      {
-        "type": "let_declaration",
-        "named": true
-      },
-      {
-        "type": "macro_definition",
-        "named": true
-      },
-      {
-        "type": "macro_invocation",
-        "named": true
-      },
-      {
-        "type": "mod_item",
-        "named": true
-      },
-      {
-        "type": "struct_item",
-        "named": true
-      },
-      {
-        "type": "trait_item",
-        "named": true
-      },
-      {
-        "type": "type_item",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "_expression",
     "named": true,
     "subtypes": [
@@ -199,10 +121,6 @@
       },
       {
         "type": "struct_expression",
-        "named": true
-      },
-      {
-        "type": "try_block",
         "named": true
       },
       {
@@ -849,11 +767,27 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration_statement",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "_expression",
+          "type": "associated_type",
+          "named": true
+        },
+        {
+          "type": "attribute_item",
+          "named": true
+        },
+        {
+          "type": "const_item",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
+          "named": true
+        },
+        {
+          "type": "enum_item",
           "named": true
         },
         {
@@ -861,7 +795,55 @@
           "named": true
         },
         {
+          "type": "foreign_mod_item",
+          "named": true
+        },
+        {
+          "type": "function_item",
+          "named": true
+        },
+        {
+          "type": "function_signature_item",
+          "named": true
+        },
+        {
+          "type": "impl_item",
+          "named": true
+        },
+        {
+          "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "inner_attribute_item",
+          "named": true
+        },
+        {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "let_declaration",
+          "named": true
+        },
+        {
+          "type": "macro_definition",
+          "named": true
+        },
+        {
+          "type": "mod_item",
+          "named": true
+        },
+        {
+          "type": "struct_item",
+          "named": true
+        },
+        {
+          "type": "trait_item",
+          "named": true
+        },
+        {
+          "type": "type_item",
           "named": true
         }
       ]
@@ -1094,10 +1076,6 @@
           },
           {
             "type": "struct_expression",
-            "named": true
-          },
-          {
-            "type": "try_block",
             "named": true
           },
           {
@@ -1412,7 +1390,75 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration_statement",
+          "type": "associated_type",
+          "named": true
+        },
+        {
+          "type": "attribute_item",
+          "named": true
+        },
+        {
+          "type": "const_item",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
+          "named": true
+        },
+        {
+          "type": "enum_item",
+          "named": true
+        },
+        {
+          "type": "foreign_mod_item",
+          "named": true
+        },
+        {
+          "type": "function_item",
+          "named": true
+        },
+        {
+          "type": "function_signature_item",
+          "named": true
+        },
+        {
+          "type": "impl_item",
+          "named": true
+        },
+        {
+          "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "inner_attribute_item",
+          "named": true
+        },
+        {
+          "type": "let_declaration",
+          "named": true
+        },
+        {
+          "type": "macro_definition",
+          "named": true
+        },
+        {
+          "type": "macro_invocation",
+          "named": true
+        },
+        {
+          "type": "mod_item",
+          "named": true
+        },
+        {
+          "type": "struct_item",
+          "named": true
+        },
+        {
+          "type": "trait_item",
+          "named": true
+        },
+        {
+          "type": "type_item",
           "named": true
         }
       ]
@@ -3379,7 +3425,23 @@
       "required": false,
       "types": [
         {
-          "type": "_declaration_statement",
+          "type": "associated_type",
+          "named": true
+        },
+        {
+          "type": "attribute_item",
+          "named": true
+        },
+        {
+          "type": "const_item",
+          "named": true
+        },
+        {
+          "type": "empty_statement",
+          "named": true
+        },
+        {
+          "type": "enum_item",
           "named": true
         },
         {
@@ -3387,7 +3449,59 @@
           "named": true
         },
         {
+          "type": "foreign_mod_item",
+          "named": true
+        },
+        {
+          "type": "function_item",
+          "named": true
+        },
+        {
+          "type": "function_signature_item",
+          "named": true
+        },
+        {
+          "type": "impl_item",
+          "named": true
+        },
+        {
+          "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "inner_attribute_item",
+          "named": true
+        },
+        {
+          "type": "let_declaration",
+          "named": true
+        },
+        {
+          "type": "macro_definition",
+          "named": true
+        },
+        {
+          "type": "macro_invocation",
+          "named": true
+        },
+        {
+          "type": "mod_item",
+          "named": true
+        },
+        {
           "type": "shebang",
+          "named": true
+        },
+        {
+          "type": "struct_item",
+          "named": true
+        },
+        {
+          "type": "trait_item",
+          "named": true
+        },
+        {
+          "type": "type_item",
           "named": true
         }
       ]
@@ -3842,21 +3956,6 @@
         },
         {
           "type": "where_clause",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "try_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
           "named": true
         }
       ]
@@ -4802,10 +4901,6 @@
   },
   {
     "type": "true",
-    "named": false
-  },
-  {
-    "type": "try",
     "named": false
   },
   {

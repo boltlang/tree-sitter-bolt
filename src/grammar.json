@@ -4605,10 +4605,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "try_block"
-        },
-        {
-          "type": "SYMBOL",
           "name": "block"
         },
         {
@@ -7054,19 +7050,6 @@
         {
           "type": "STRING",
           "value": "gen"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
-    "try_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "try"
         },
         {
           "type": "SYMBOL",

@@ -818,7 +818,6 @@ module.exports = grammar({
     _expression_ending_with_block: $ => choice(
       $.async_block,
       $.gen_block,
-      $.try_block,
       $.block,
       $.if_expression,
       $.match_expression,
@@ -1188,11 +1187,6 @@ module.exports = grammar({
 
     gen_block: $ => seq(
       'gen',
-      $.block,
-    ),
-
-    try_block: $ => seq(
-      'try',
       $.block,
     ),
 
