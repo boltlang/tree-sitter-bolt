@@ -30,6 +30,16 @@
     name: (identifier) @type))
  (#match? @type "^[A-Z]"))
 
+; In expressions `Shape.Circle` and `HashMap.new()` are field accesses, so
+; guess from capitalization: an uppercase value is a type, and an uppercase
+; field is an enum variant or other constructor.
+((field_expression
+  value: (identifier) @type)
+ (#match? @type "^[A-Z]"))
+((field_expression
+  field: (field_identifier) @constructor)
+ (#match? @constructor "^[A-Z]"))
+
 ; Assume all qualified names in struct patterns are enum constructors. (They're
 ; either that, or struct names; highlighting both as constructors seems to be
 ; the less glaring choice of error, visually.)
@@ -44,10 +54,6 @@
 (call_expression
   function: (field_expression
     field: (field_identifier) @function.method))
-(call_expression
-  function: (scoped_identifier
-    "::"
-    name: (identifier) @function))
 
 (macro_invocation
   macro: (identifier) @function.macro

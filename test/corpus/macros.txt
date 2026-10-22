@@ -5,8 +5,6 @@ Macro invocation - no arguments
 a!();
 b![];
 c!{};
-d::e!();
-f::g::h!{};
 
 --------------------------------------------------------------------------------
 
@@ -22,20 +20,6 @@ f::g::h!{};
   (expression_statement
     (macro_invocation
       (identifier)
-      (token_tree)))
-  (expression_statement
-    (macro_invocation
-      (scoped_identifier
-        (identifier)
-        (identifier))
-      (token_tree)))
-  (expression_statement
-    (macro_invocation
-      (scoped_identifier
-        (scoped_identifier
-          (identifier)
-          (identifier))
-        (identifier))
       (token_tree))))
 
 ================================================================================

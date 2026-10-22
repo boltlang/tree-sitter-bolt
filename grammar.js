@@ -118,6 +118,9 @@ module.exports = grammar({
     [$._function_type_parameters, $.tuple_struct_pattern],
     [$.array_expression],
     [$.visibility_modifier],
+    // `a.b` is a field access, unless a `{` follows and makes it the name of a
+    // struct literal (`Shape.Circle { radius: 1.0 }`) or it is in a pattern.
+    [$._expression_except_range, $.scoped_identifier, $.scoped_type_identifier_in_expression_position],
   ],
 
   word: $ => $.identifier,
@@ -669,7 +672,6 @@ module.exports = grammar({
           $.self,
           $.super,
           $.package,
-          seq('in', $._path),
         ),
         ')',
       )),
@@ -691,21 +693,6 @@ module.exports = grammar({
       $.never_type,
       $.bounded_type,
       alias(choice(...primitiveTypes), $.primitive_type),
-    ),
-
-    bracketed_type: $ => seq(
-      '<',
-      choice(
-        $._type,
-        $.qualified_type,
-      ),
-      '>',
-    ),
-
-    qualified_type: $ => seq(
-      field('type', $._type),
-      'as',
-      field('alias', $._type),
     ),
 
     array_type: $ => seq(
@@ -817,7 +804,6 @@ module.exports = grammar({
       prec.left($.identifier),
       alias(choice(...primitiveTypes), $.identifier),
       $.self,
-      $.scoped_identifier,
       $.await_expression,
       $.field_expression,
       $.array_expression,
@@ -851,10 +837,7 @@ module.exports = grammar({
     ),
 
     macro_invocation: $ => seq(
-      field('macro', choice(
-        $.scoped_identifier,
-        $.identifier,
-      )),
+      field('macro', $.identifier),
       '!',
       alias($.delim_token_tree, $.token_tree),
     ),
@@ -876,32 +859,31 @@ module.exports = grammar({
       '$',
     ),
 
-    scoped_identifier: $ => seq(
-      field('path', optional(choice(
-        $._path,
-        $.bracketed_type,
-      ))),
-      '::',
-      field('name', choice($.identifier, $.super)),
-    ),
+    // Dotted paths like `Shape.Circle`. In expressions `a.b` is always a
+    // field_expression; these rules are only used where a field access
+    // can't appear: patterns, types, attributes and struct literal names.
+    scoped_identifier: $ => prec(2, seq(
+      field('path', $._path),
+      '.',
+      field('name', $.identifier),
+    )),
 
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
-      field('path', optional(choice(
-        $._path,
-      ))),
-      '::',
+      field('path', $._path),
+      '.',
       field('name', $._type_identifier),
     )),
 
-    scoped_type_identifier: $ => seq(
-      field('path', optional(choice(
+    // `.` right after a type continues its path, so `x as T.y` is a cast to
+    // `T.y`; write `(x as T).y` to access a field of the result.
+    scoped_type_identifier: $ => prec(2, seq(
+      field('path', choice(
         $._path,
-        $.bracketed_type,
         $.generic_type,
-      ))),
-      '::',
+      )),
+      '.',
       field('name', $._type_identifier),
-    ),
+    )),
 
     range_expression: $ => prec.left(PREC.range, choice(
       seq($._expression, choice('..', '..='), $._expression),
@@ -1453,10 +1435,7 @@ module.exports = grammar({
 
     _path: $ => choice(
       $.self,
-      alias(choice(...primitiveTypes), $.identifier),
       $.metavariable,
-      $.super,
-      $.package,
       $.identifier,
       $.scoped_identifier,
     ),

@@ -70,10 +70,10 @@ type J = H[K=L];
 Scoped types
 ================================================================================
 
-type A = B::C;
-type D = E::F::G;
-type H = I::J[K];
-type L = M[N]::O;
+type A = B.C;
+type D = E.F.G;
+type H = I.J[K];
+type L = M[N].O;
 
 --------------------------------------------------------------------------------
 
@@ -294,7 +294,6 @@ Type cast expressions with generics
 ================================================================================
 
 a as B[C];
-d as E[<F as E>::G];
 
 --------------------------------------------------------------------------------
 
@@ -305,25 +304,13 @@ d as E[<F as E>::G];
       (generic_type
         (type_identifier)
         (type_arguments
-          (type_identifier)))))
-  (expression_statement
-    (type_cast_expression
-      (identifier)
-      (generic_type
-        (type_identifier)
-        (type_arguments
-          (scoped_type_identifier
-            (bracketed_type
-              (qualified_type
-                (type_identifier)
-                (type_identifier)))
-            (type_identifier)))))))
+          (type_identifier))))))
 
 ================================================================================
 Generic arguments versus indexing
 ================================================================================
 
-let m: HashMap[String, Vec[i32]] = HashMap::new();
+let m: HashMap[String, Vec[i32]] = HashMap.new();
 let x = xs[0];
 let y = grid[i][j];
 let z = x as Vec[i32];
@@ -344,9 +331,9 @@ impl[T] [T; 3] {}
           type_arguments: (type_arguments
             (primitive_type)))))
     value: (call_expression
-      function: (scoped_identifier
-        path: (identifier)
-        name: (identifier))
+      function: (field_expression
+        value: (identifier)
+        field: (field_identifier))
       arguments: (arguments)))
   (let_declaration
     pattern: (identifier)

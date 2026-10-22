@@ -24,11 +24,11 @@ fn foo() {
     return
 }
 
-fn foo(x: impl FnOnce() -> result::Result[T, E]) {}
+fn foo(x: impl FnOnce() -> result.Result[T, E]) {}
 
 fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
-fn accumulate(self) -> Machine[{State::Accumulate}] {}
+fn accumulate(self) -> Machine[{State.Accumulate}] {}
 
 
 --------------------------------------------------------------------------------
@@ -139,9 +139,9 @@ fn accumulate(self) -> Machine[{State::Accumulate}] {}
       type: (type_identifier)
       type_arguments: (type_arguments
         (block
-          (scoped_identifier
-            path: (identifier)
-            name: (identifier)))))
+          (field_expression
+            value: (identifier)
+            field: (field_identifier)))))
     body: (block)))
 
 ================================================================================
@@ -380,7 +380,7 @@ let u32: str = "";
 Let-else Statements
 ================================================================================
 
-let Foo::Bar {
+let Foo.Bar {
     texts,
     values,
 } = foo().bar().await? else {
@@ -950,9 +950,9 @@ struct Foo;
 #[cfg(target_os = "macos")]
 struct MacosOnly;
 
-#![allow(clippy::useless_transmute)]
+#![allow(clippy.useless_transmute)]
 
-#[clippy::cyclomatic_complexity = "100"]
+#[clippy.cyclomatic_complexity = "100"]
 
 --------------------------------------------------------------------------------
 
@@ -1012,7 +1012,7 @@ impl MacosOnly {
 
 match ty {
     #![cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
-    syn::Type::Array(ty) => self.visit_type(ty.elem),
+    syn.Type.Array(ty) => self.visit_type(ty.elem),
 }
 
 --------------------------------------------------------------------------------
@@ -1068,7 +1068,7 @@ Key-Value Attribute Expressions
 #[doc = include_str!("foo-doc.md")]
 fn foo() {}
 
-#[namespace = foo::bar]
+#[namespace = foo.bar]
 fn baz() {}
 
 --------------------------------------------------------------------------------
@@ -1089,9 +1089,9 @@ fn baz() {}
   (attribute_item
     (attribute
       (identifier)
-      (scoped_identifier
+      (field_expression
         (identifier)
-        (identifier))))
+        (field_identifier))))
   (function_item
     (identifier)
     (parameters)
@@ -1269,7 +1269,7 @@ impl Person {
   fn walk_mut(mut self) {}
 }
 
-impl Machine[{State::Init}] {}
+impl Machine[{State.Init}] {}
 
 --------------------------------------------------------------------------------
 
@@ -1299,16 +1299,16 @@ impl Machine[{State::Init}] {}
       type: (type_identifier)
       type_arguments: (type_arguments
         (block
-          (scoped_identifier
-            path: (identifier)
-            name: (identifier)))))
+          (field_expression
+            value: (identifier)
+            field: (field_identifier)))))
     body: (declaration_list)))
 
 ================================================================================
 Trait impls
 ================================================================================
 
-impl[T] iter::Iterator for Self::Iter[T] {
+impl[T] iter.Iterator for Self.Iter[T] {
 }
 
 impl ConvertTo[i64] for i32 {
@@ -1403,8 +1403,8 @@ impl[K: Debug + Ord] Display for OccupiedError[K];
 Trait declarations
 ================================================================================
 
-pub trait Item: Clone + Eq + fmt::Debug {
-    fn summarize(self) -> Self::Summary;
+pub trait Item: Clone + Eq + fmt.Debug {
+    fn summarize(self) -> Self.Summary;
 }
 
 
@@ -1436,7 +1436,7 @@ Trait declarations with optional type parameters
 
 trait Add[RHS=Self] {
     type Output;
-    fn add(self, rhs: RHS) -> Self::Output;
+    fn add(self, rhs: RHS) -> Self.Output;
 }
 
 --------------------------------------------------------------------------------
@@ -1522,7 +1522,7 @@ Associated Types
 ================================================================================
 
 pub trait Graph {
-    type N: fmt::Display;
+    type N: fmt.Display;
     type E;
 }
 
@@ -1669,7 +1669,6 @@ pub fn a() {}
 pub(super) fn b() {}
 pub(self) fn c() {}
 pub(package) fn c() {}
-pub(in package::d) fn e() {}
 
 --------------------------------------------------------------------------------
 
@@ -1694,14 +1693,6 @@ pub(in package::d) fn e() {}
   (function_item
     (visibility_modifier
       (package))
-    (identifier)
-    (parameters)
-    (block))
-  (function_item
-    (visibility_modifier
-      (scoped_identifier
-        (package)
-        (identifier)))
     (identifier)
     (parameters)
     (block)))
@@ -1974,8 +1965,8 @@ Reserved keywords in path
 ================================================================================
 
 struct A {
-  a: default::B,
-  b: union::C,
+  a: default.B,
+  b: union.C,
 }
 
 --------------------------------------------------------------------------------

@@ -412,8 +412,8 @@ Struct expressions
 NothingInMe {};
 Point {x: 10.0, y: 20.0};
 let a = SomeStruct { field1, field2: expression, field3, };
-let u = game::User {name: "Joe", age: 35, score: 100_000};
-let i = Instant { 0: Duration::from_millis(0) };
+let u = game.User {name: "Joe", age: 35, score: 100_000};
+let i = Instant { 0: Duration.from_millis(0) };
 
 --------------------------------------------------------------------------------
 
@@ -469,9 +469,9 @@ let i = Instant { 0: Duration::from_millis(0) };
         (field_initializer
           (integer_literal)
           (call_expression
-            (scoped_identifier
+            (field_expression
               (identifier)
-              (identifier))
+              (field_identifier))
             (arguments
               (integer_literal))))))))
 
@@ -1039,87 +1039,16 @@ arr[n];
 Scoped functions
 ================================================================================
 
-a::b();
-::f();
-::g::h();
+a.b();
 
 --------------------------------------------------------------------------------
 
 (source_file
   (expression_statement
     (call_expression
-      (scoped_identifier
+      (field_expression
         (identifier)
-        (identifier))
-      (arguments)))
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (identifier))
-      (arguments)))
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (scoped_identifier
-          (identifier))
-        (identifier))
-      (arguments))))
-
-================================================================================
-Scoped functions with fully qualified syntax
-================================================================================
-
-<Dog as Animal>::eat(d);
-
---------------------------------------------------------------------------------
-
-(source_file
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (bracketed_type
-          (qualified_type
-            (type_identifier)
-            (type_identifier)))
-        (identifier))
-      (arguments
-        (identifier)))))
-
-================================================================================
-Scoped functions with macros as types
-================================================================================
-
-<Token![]>::foo();
-
---------------------------------------------------------------------------------
-
-(source_file
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (bracketed_type
-          (macro_invocation
-            (identifier)
-            (token_tree)))
-        (identifier))
-      (arguments))))
-
-================================================================================
-Scoped identifier with nested super
-================================================================================
-
-super::super::foo();
-
---------------------------------------------------------------------------------
-
-(source_file
-  (expression_statement
-    (call_expression
-      (scoped_identifier
-        (scoped_identifier
-          (super)
-          (super))
-        (identifier))
+        (field_identifier))
       (arguments))))
 
 ================================================================================

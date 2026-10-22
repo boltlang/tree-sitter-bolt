@@ -18,14 +18,16 @@ const A: [str] = [
             element: (primitive_type))
         value: (array_expression
             (ERROR)
-            (string_literal
-                (string_content))
-            (ERROR)
-            (string_literal
-                (string_content))
-            (ERROR)
-            (string_literal
-                (string_content))
+            (binary_expression
+                left: (binary_expression
+                    left: (string_literal
+                        (string_content))
+                    (ERROR)
+                    right: (string_literal
+                        (string_content)))
+                (ERROR)
+                right: (string_literal
+                    (string_content)))
             (ERROR)
             (string_literal
                 (string_content)))))
