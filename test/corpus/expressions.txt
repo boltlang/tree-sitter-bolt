@@ -1225,3 +1225,42 @@ let three_ranges = [const { (0..=5).into_inner() }; 3];
               field: (field_identifier))
             arguments: (arguments))))
       length: (integer_literal))))
+
+================================================================================
+Yield expressions
+================================================================================
+
+yield 42;
+let x = yield 42;
+let y = yield;
+f(yield a + b);
+let z = (yield 1) + 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (yield_expression
+      (integer_literal)))
+  (let_declaration
+    pattern: (identifier)
+    value: (yield_expression
+      (integer_literal)))
+  (let_declaration
+    pattern: (identifier)
+    value: (yield_expression))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (yield_expression
+          (binary_expression
+            left: (identifier)
+            right: (identifier))))))
+  (let_declaration
+    pattern: (identifier)
+    value: (binary_expression
+      left: (parenthesized_expression
+        (yield_expression
+          (integer_literal)))
+      right: (integer_literal))))
