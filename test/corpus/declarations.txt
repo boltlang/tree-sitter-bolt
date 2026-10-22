@@ -2070,45 +2070,6 @@ extern "C" {}
     (declaration_list)))
 
 ================================================================================
-Crate visibility
-================================================================================
-
-crate mod foo;
-crate struct Foo(crate crate::Bar);
-crate fn foo() { }
-crate const X: u32 = 0;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (mod_item
-    (visibility_modifier
-      (crate))
-    (identifier))
-  (struct_item
-    (visibility_modifier
-      (crate))
-    (type_identifier)
-    (ordered_field_declaration_list
-      (visibility_modifier
-        (crate))
-      (scoped_type_identifier
-        (crate)
-        (type_identifier))))
-  (function_item
-    (visibility_modifier
-      (crate))
-    (identifier)
-    (parameters)
-    (block))
-  (const_item
-    (visibility_modifier
-      (crate))
-    (identifier)
-    (primitive_type)
-    (integer_literal)))
-
-================================================================================
 Reserved keywords in path
 ================================================================================
 

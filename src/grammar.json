@@ -3607,69 +3607,60 @@
       ]
     },
     "visibility_modifier": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "crate"
+          "type": "STRING",
+          "value": "pub"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "pub"
-            },
-            {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SEQ",
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "STRING",
-                      "value": "("
+                      "type": "SYMBOL",
+                      "name": "self"
                     },
                     {
-                      "type": "CHOICE",
+                      "type": "SYMBOL",
+                      "name": "super"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "crate"
+                    },
+                    {
+                      "type": "SEQ",
                       "members": [
                         {
-                          "type": "SYMBOL",
-                          "name": "self"
+                          "type": "STRING",
+                          "value": "in"
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "super"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "crate"
-                        },
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": "in"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_path"
-                            }
-                          ]
+                          "name": "_path"
                         }
                       ]
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ")"
                     }
                   ]
                 },
                 {
-                  "type": "BLANK"
+                  "type": "STRING",
+                  "value": ")"
                 }
               ]
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }
@@ -8730,11 +8721,6 @@
     ],
     [
       "visibility_modifier"
-    ],
-    [
-      "visibility_modifier",
-      "scoped_identifier",
-      "scoped_type_identifier"
     ]
   ],
   "precedences": [],
