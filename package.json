@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-bolt",
-  "version": "0.24.2",
+  "version": "0.1.0",
   "description": "Bolt grammar for tree-sitter",
   "repository": "https://github.com/boltlang/tree-sitter-bolt",
   "license": "MIT",
