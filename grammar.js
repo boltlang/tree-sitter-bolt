@@ -931,7 +931,7 @@ module.exports = grammar({
     ),
 
     range_expression: $ => prec.left(PREC.range, choice(
-      seq($._expression, choice('..', '...', '..='), $._expression),
+      seq($._expression, choice('..', '..='), $._expression),
       seq($._expression, '..'),
       seq('..', $._expression),
       '..',
@@ -1333,7 +1333,7 @@ module.exports = grammar({
         )),
         choice(
           seq(
-            choice('...', '..=', '..'),
+            choice('..=', '..'),
             field('right', choice(
               $._literal_pattern,
               $._path,

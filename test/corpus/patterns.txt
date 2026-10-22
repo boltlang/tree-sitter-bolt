@@ -147,9 +147,9 @@ Captured patterns
 
 match x {
   a @ A(_) | b @ B(..) => a,
-  a @ 1 ... 5 => a,
-  Some(1 ... 5) => a,
-  a @ b...c => a,
+  a @ 1 ..= 5 => a,
+  Some(1 ..= 5) => a,
+  a @ b..c => a,
   a @ b..=c => a,
   d.. => a,
   ..d => d,
