@@ -147,7 +147,6 @@ module.exports = grammar({
       $.empty_statement,
       $.attribute_item,
       $.inner_attribute_item,
-      $.mod_item,
       $.foreign_mod_item,
       $.struct_item,
       $.enum_item,
@@ -243,7 +242,7 @@ module.exports = grammar({
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for',
-      'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'struct', 'trait',
+      'if', 'impl', 'let', 'loop', 'match', 'pub', 'return', 'struct', 'trait',
       'type', 'import', 'where', 'while',
     ),
 
@@ -270,13 +269,6 @@ module.exports = grammar({
         seq('=', field('value', $._expression)),
         field('arguments', alias($.delim_token_tree, $.token_tree)),
       )),
-    ),
-
-    mod_item: $ => seq(
-      optional($.visibility_modifier),
-      'mod',
-      field('name', $.identifier),
-      field('body', $.declaration_list),
     ),
 
     foreign_mod_item: $ => seq(

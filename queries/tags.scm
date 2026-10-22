@@ -26,10 +26,6 @@
 (trait_item
     name: (type_identifier) @name) @definition.interface
 
-; module definitions
-(mod_item
-    name: (identifier) @name) @definition.module
-
 ; macro definitions
 
 (macro_definition

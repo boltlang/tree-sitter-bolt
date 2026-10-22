@@ -819,10 +819,6 @@
           "named": true
         },
         {
-          "type": "mod_item",
-          "named": true
-        },
-        {
           "type": "struct_item",
           "named": true
         },
@@ -1423,10 +1419,6 @@
         },
         {
           "type": "macro_invocation",
-          "named": true
-        },
-        {
-          "type": "mod_item",
           "named": true
         },
         {
@@ -2757,42 +2749,6 @@
     }
   },
   {
-    "type": "mod_item",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "declaration_list",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "visibility_modifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "mut_pattern",
     "named": true,
     "fields": {},
@@ -3439,10 +3395,6 @@
         },
         {
           "type": "macro_invocation",
-          "named": true
-        },
-        {
-          "type": "mod_item",
           "named": true
         },
         {
@@ -4767,10 +4719,6 @@
   {
     "type": "metavariable",
     "named": true
-  },
-  {
-    "type": "mod",
-    "named": false
   },
   {
     "type": "mutable_specifier",

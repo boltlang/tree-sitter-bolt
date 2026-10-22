@@ -1,37 +1,4 @@
 ================================================================================
-Modules
-================================================================================
-
-mod english {}
-
-mod english {
-    mod greetings {}
-    mod farewells {}
-}
-
-pub mod english {}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (mod_item
-    (identifier)
-    (declaration_list))
-  (mod_item
-    (identifier)
-    (declaration_list
-      (mod_item
-        (identifier)
-        (declaration_list))
-      (mod_item
-        (identifier)
-        (declaration_list))))
-  (mod_item
-    (visibility_modifier)
-    (identifier)
-    (declaration_list)))
-
-================================================================================
 Function declarations
 ================================================================================
 
@@ -981,7 +948,7 @@ struct Baz;
 struct Foo;
 
 #[cfg(target_os = "macos")]
-mod macos_only {}
+struct MacosOnly;
 
 #![allow(clippy::useless_transmute)]
 
@@ -1019,9 +986,8 @@ mod macos_only {}
         (identifier)
         (string_literal
           (string_content)))))
-  (mod_item
-    name: (identifier)
-    body: (declaration_list))
+  (struct_item
+    name: (type_identifier))
   (inner_attribute_item
     (attribute
       (identifier)
@@ -1040,7 +1006,7 @@ mod macos_only {}
 Inner attributes
 ================================================================================
 
-mod macos_only {
+impl MacosOnly {
   #![cfg(target_os = "macos")]
 }
 
@@ -1052,8 +1018,8 @@ match ty {
 --------------------------------------------------------------------------------
 
 (source_file
-  (mod_item
-    name: (identifier)
+  (impl_item
+    type: (type_identifier)
     body: (declaration_list
       (inner_attribute_item
         (attribute

@@ -100,7 +100,6 @@
 "loop" @keyword
 "macro_rules!" @keyword
 "match" @keyword
-"mod" @keyword
 "pub" @keyword
 "return" @keyword
 "struct" @keyword
