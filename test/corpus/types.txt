@@ -27,35 +27,6 @@ type A = (i32, String);
       (type_identifier))))
 
 ================================================================================
-Reference types
-================================================================================
-
-type A = &B;
-type C = &'a str;
-type D = &'a mut str;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (type_item
-    (type_identifier)
-    (reference_type
-      (type_identifier)))
-  (type_item
-    (type_identifier)
-    (reference_type
-      (lifetime
-        (identifier))
-      (primitive_type)))
-  (type_item
-    (type_identifier)
-    (reference_type
-      (lifetime
-        (identifier))
-      (mutable_specifier)
-      (primitive_type))))
-
-================================================================================
 Raw pointer types
 ================================================================================
 
@@ -163,7 +134,7 @@ Array types
 ================================================================================
 
 type A = [B; 4];
-type C = &[D];
+type C = [D];
 
 --------------------------------------------------------------------------------
 
@@ -175,9 +146,8 @@ type C = &[D];
       (integer_literal)))
   (type_item
     (type_identifier)
-    (reference_type
-      (array_type
-        (type_identifier)))))
+    (array_type
+      (type_identifier))))
 
 ================================================================================
 Function types
@@ -189,11 +159,11 @@ fn high_order2(value: i32, f: fn(i32) -> i32) -> i32 {
     f(value)
 }
 
-fn high_order3(value: i32, f: &FnOnce(i32) -> i32) -> i32 {
+fn high_order3(value: i32, f: Box<FnOnce(i32) -> i32>) -> i32 {
     f(value)
 }
 
-type F = for<'a, 'b> fn(x: &'a A, y: &'a mut B<'i, 't>,) -> C;
+type F = for<'a, 'b> fn(x: Ref<'a, A>, y: RefMut<'a, B<'i, 't>>,) -> C;
 
 --------------------------------------------------------------------------------
 
@@ -237,12 +207,14 @@ type F = for<'a, 'b> fn(x: &'a A, y: &'a mut B<'i, 't>,) -> C;
         (primitive_type))
       (parameter
         (identifier)
-        (reference_type
-          (function_type
-            (type_identifier)
-            (parameters
-              (primitive_type))
-            (primitive_type)))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (function_type
+              (type_identifier)
+              (parameters
+                (primitive_type))
+              (primitive_type))))))
     (primitive_type)
     (block
       (call_expression
@@ -260,23 +232,26 @@ type F = for<'a, 'b> fn(x: &'a A, y: &'a mut B<'i, 't>,) -> C;
       (parameters
         (parameter
           (identifier)
-          (reference_type
-            (lifetime
-              (identifier))
-            (type_identifier)))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (lifetime
+                (identifier))
+              (type_identifier))))
         (parameter
           (identifier)
-          (reference_type
-            (lifetime
-              (identifier))
-            (mutable_specifier)
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (lifetime
-                  (identifier))
-                (lifetime
-                  (identifier)))))))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (lifetime
+                (identifier))
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (lifetime
+                    (identifier))
+                  (lifetime
+                    (identifier))))))))
       (type_identifier))))
 
 ================================================================================
@@ -318,7 +293,7 @@ Trait objects
 
 type a = Box<Something + 'a>;
 type b = Rc<dyn Something>;
-type c = A<&dyn Fn(&B) -> C>;
+type c = A<Box<dyn Fn(B) -> C>>;
 
 --------------------------------------------------------------------------------
 
@@ -344,14 +319,15 @@ type c = A<&dyn Fn(&B) -> C>;
     (generic_type
       (type_identifier)
       (type_arguments
-        (reference_type
-          (dynamic_type
-            (function_type
-              (type_identifier)
-              (parameters
-                (reference_type
-                  (type_identifier)))
-              (type_identifier))))))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (dynamic_type
+              (function_type
+                (type_identifier)
+                (parameters
+                  (type_identifier))
+                (type_identifier)))))))))
 
 ================================================================================
 Type cast expressions with generics

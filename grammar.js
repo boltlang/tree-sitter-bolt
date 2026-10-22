@@ -480,7 +480,6 @@ module.exports = grammar({
         $._type_identifier,
         $.scoped_type_identifier,
         $.generic_type,
-        $.reference_type,
         $.pointer_type,
         $.tuple_type,
         $.array_type,
@@ -726,7 +725,6 @@ module.exports = grammar({
 
     _type: $ => choice(
       $.abstract_type,
-      $.reference_type,
       $.metavariable,
       $.pointer_type,
       $.generic_type,
@@ -877,12 +875,6 @@ module.exports = grammar({
       field('type', $._type),
     ),
 
-    reference_type: $ => seq(
-      '&',
-      optional($.lifetime),
-      optional($.mutable_specifier),
-      field('type', $._type),
-    ),
 
     pointer_type: $ => seq(
       '*',
@@ -924,7 +916,6 @@ module.exports = grammar({
 
     _expression_except_range: $ => choice(
       $.unary_expression,
-      $.reference_expression,
       $.try_expression,
       $.binary_expression,
       $.assignment_expression,
@@ -1049,14 +1040,6 @@ module.exports = grammar({
       '?',
     )),
 
-    reference_expression: $ => prec(PREC.unary, seq(
-      '&',
-      choice(
-        seq('raw', choice('const', $.mutable_specifier)),
-        optional($.mutable_specifier),
-      ),
-      field('value', $._expression),
-    )),
 
     binary_expression: $ => {
       const table = [
@@ -1383,7 +1366,6 @@ module.exports = grammar({
       $.ref_pattern,
       $.slice_pattern,
       $.captured_pattern,
-      $.reference_pattern,
       $.remaining_field_pattern,
       $.mut_pattern,
       $.range_pattern,
@@ -1496,11 +1478,6 @@ module.exports = grammar({
       $._pattern,
     ),
 
-    reference_pattern: $ => seq(
-      '&',
-      optional($.mutable_specifier),
-      $._pattern,
-    ),
 
     or_pattern: $ => prec.left(-2, choice(
       seq($._pattern, '|', $._pattern),

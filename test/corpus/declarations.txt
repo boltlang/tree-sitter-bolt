@@ -67,7 +67,7 @@ fn add(x: i32, y: i32) -> i32 {
     return x + y;
 }
 
-fn takes_slice(slice: &str) {
+fn takes_slice(slice: str) {
     println!("Got: {}", slice);
 }
 
@@ -119,8 +119,7 @@ fn foo(bar: impl for<'a> Baz<Quux<'a>>) {}
     parameters: (parameters
       (parameter
         pattern: (identifier)
-        type: (reference_type
-          type: (primitive_type))))
+        type: (primitive_type)))
     body: (block
       (expression_statement
         (macro_invocation
@@ -1009,7 +1008,7 @@ Functions with destructured parameters
 ================================================================================
 
 fn f1([x, y]: [u32; 2]) {}
-fn f2(&x: &Y) {}
+fn f2(x: Y) {}
 fn f3((x, y): (T, U)) {}
 
 --------------------------------------------------------------------------------
@@ -1030,10 +1029,8 @@ fn f3((x, y): (T, U)) {}
     (identifier)
     (parameters
       (parameter
-        (reference_pattern
-          (identifier))
-        (reference_type
-          (type_identifier))))
+        (identifier)
+        (type_identifier)))
     (block))
   (function_item
     (identifier)
@@ -1295,7 +1292,7 @@ mod macos_only {
 
 match ty {
     #![cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
-    syn::Type::Array(ty) => self.visit_type(&ty.elem),
+    syn::Type::Array(ty) => self.visit_type(ty.elem),
 }
 
 --------------------------------------------------------------------------------
@@ -1340,10 +1337,9 @@ match ty {
               value: (self)
               field: (field_identifier))
             arguments: (arguments
-              (reference_expression
-                value: (field_expression
-                  value: (identifier)
-                  field: (field_identifier))))))))))
+              (field_expression
+                value: (identifier)
+                field: (field_identifier)))))))))
 
 ================================================================================
 Key-Value Attribute Expressions
@@ -1851,7 +1847,7 @@ Unsized types in trait bounds
 trait Foo<T: ?Sized> {
 }
 
-fn univariant(this: &impl ?Sized, that: &(impl LayoutCalculator + ?Sized)) {}
+fn univariant(this: impl ?Sized, that: Box<impl LayoutCalculator + ?Sized>) {}
 
 --------------------------------------------------------------------------------
 
@@ -1870,14 +1866,14 @@ fn univariant(this: &impl ?Sized, that: &(impl LayoutCalculator + ?Sized)) {}
     (parameters
       (parameter
         (identifier)
-        (reference_type
-          (abstract_type
-            (removed_trait_bound
-              (type_identifier)))))
+        (abstract_type
+          (removed_trait_bound
+            (type_identifier))))
       (parameter
         (identifier)
-        (reference_type
-          (tuple_type
+        (generic_type
+          (type_identifier)
+          (type_arguments
             (bounded_type
               (abstract_type
                 (type_identifier))
@@ -2095,10 +2091,10 @@ where
 Higher-ranked types
 ================================================================================
 
-trait T: for<'a> AddAssign<&'a usize> {
+trait T: for<'a> AddAssign<Ref<'a, usize>> {
 }
 
-type FnObject<'b> = dyn for<'a> FnLike<&'a isize, &'a isize> + 'b;
+type FnObject<'b> = dyn for<'a> FnLike<Ref<'a, isize>, Ref<'a, isize>> + 'b;
 
 --------------------------------------------------------------------------------
 
@@ -2114,10 +2110,12 @@ type FnObject<'b> = dyn for<'a> FnLike<&'a isize, &'a isize> + 'b;
         (generic_type
           (type_identifier)
           (type_arguments
-            (reference_type
-              (lifetime
-                (identifier))
-              (primitive_type))))))
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (lifetime
+                  (identifier))
+                (primitive_type)))))))
     (declaration_list))
   (type_item
     (type_identifier)
@@ -2135,14 +2133,18 @@ type FnObject<'b> = dyn for<'a> FnLike<&'a isize, &'a isize> + 'b;
           (generic_type
             (type_identifier)
             (type_arguments
-              (reference_type
-                (lifetime
-                  (identifier))
-                (primitive_type))
-              (reference_type
-                (lifetime
-                  (identifier))
-                (primitive_type))))))
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (lifetime
+                    (identifier))
+                  (primitive_type)))
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (lifetime
+                    (identifier))
+                  (primitive_type)))))))
       (lifetime
         (identifier)))))
 
@@ -2221,8 +2223,8 @@ fn bar(bool: bool) {}
 Where clauses
 ================================================================================
 
-fn walk<F>(&self, it: &mut F) -> bool
-    where F: FnMut(&Pat) -> bool
+fn walk<F>(&self, it: F) -> bool
+    where F: FnMut(Pat) -> bool
 {
   return false
 }
@@ -2238,7 +2240,7 @@ impl<T> A for B<T>
 }
 
 impl<'a, E> Read
-where &'a E: Read,
+where E: Read,
 {
 }
 
@@ -2270,9 +2272,7 @@ impl<A> Default for B<A> where *mut A: C + D {}
         (self))
       (parameter
         pattern: (identifier)
-        type: (reference_type
-          (mutable_specifier)
-          type: (type_identifier))))
+        type: (type_identifier)))
     return_type: (primitive_type)
     (where_clause
       (where_predicate
@@ -2281,8 +2281,7 @@ impl<A> Default for B<A> where *mut A: C + D {}
           (function_type
             trait: (type_identifier)
             parameters: (parameters
-              (reference_type
-                type: (type_identifier)))
+              (type_identifier))
             return_type: (primitive_type)))))
     body: (block
       (return_expression
@@ -2351,10 +2350,7 @@ impl<A> Default for B<A> where *mut A: C + D {}
     type: (type_identifier)
     (where_clause
       (where_predicate
-        left: (reference_type
-          (lifetime
-            (identifier))
-          type: (type_identifier))
+        left: (type_identifier)
         bounds: (trait_bounds
           (type_identifier))))
     body: (declaration_list))

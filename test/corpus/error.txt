@@ -2,7 +2,7 @@
 Unexpected string literal prefixes
 ====================================
 
-const A: &[&str] = &[
+const A: [str] = [
     @"asdf",
     <"asdf",
     >"asdf",
@@ -13,12 +13,9 @@ const A: &[&str] = &[
 
 (source_file
     (const_item
-    name: (identifier)
-    type: (reference_type
+        name: (identifier)
         type: (array_type
-        element: (reference_type
-            type: (primitive_type))))
-    value: (reference_expression
+            element: (primitive_type))
         value: (array_expression
             (ERROR)
             (string_literal
@@ -31,7 +28,7 @@ const A: &[&str] = &[
                 (string_content))
             (ERROR)
             (string_literal
-                (string_content))))))
+                (string_content)))))
 
 ====================================
 Json macro contents

@@ -198,10 +198,6 @@
         "named": true
       },
       {
-        "type": "reference_expression",
-        "named": true
-      },
-      {
         "type": "return_expression",
         "named": true
       },
@@ -368,10 +364,6 @@
         "named": true
       },
       {
-        "type": "reference_pattern",
-        "named": true
-      },
-      {
         "type": "remaining_field_pattern",
         "named": true
       },
@@ -443,10 +435,6 @@
       },
       {
         "type": "primitive_type",
-        "named": true
-      },
-      {
-        "type": "reference_type",
         "named": true
       },
       {
@@ -1134,10 +1122,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "reference_expression",
             "named": true
           },
           {
@@ -3346,81 +3330,6 @@
     }
   },
   {
-    "type": "reference_expression",
-    "named": true,
-    "fields": {
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "mutable_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "reference_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_pattern",
-          "named": true
-        },
-        {
-          "type": "mutable_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "reference_type",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "lifetime",
-          "named": true
-        },
-        {
-          "type": "mutable_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "remaining_field_pattern",
     "named": true,
     "fields": {}
@@ -4959,10 +4868,6 @@
             "named": true
           },
           {
-            "type": "reference_type",
-            "named": true
-          },
-          {
             "type": "scoped_type_identifier",
             "named": true
           },
@@ -5427,10 +5332,6 @@
   },
   {
     "type": "pub",
-    "named": false
-  },
-  {
-    "type": "raw",
     "named": false
   },
   {
