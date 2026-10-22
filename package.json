@@ -5,10 +5,14 @@
   "repository": "https://github.com/boltlang/tree-sitter-bolt",
   "license": "MIT",
   "author": {
-    "name": "Maxim Sokolov",
-    "email": "maxim0xff@gmail.com"
+    "name": "Sam Vervaeck",
+    "email": "samvv@pm.me"
   },
   "contributors": [
+    {
+      "name": "Maxim Sokolov",
+      "email": "maxim0xff@gmail.com"
+    },
     {
       "name": "Max Brunsfeld",
       "email": "maxbrunsfeld@gmail.com"
