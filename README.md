@@ -12,7 +12,7 @@ Bolt grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 ## Credits
 
 This library was based on [tree-sitter-rust][tsrust]. Many thanks to them
-forproviding us a boilerplate to get going!
+for providing us a boilerplate to get going!
 
 [tsrust]: https://github.com/tree-sitter/tree-sitter-rust
 [ci]: https://img.shields.io/github/actions/workflow/status/tree-sitter/tree-sitter-bolt/ci.yml?logo=github&label=CI
