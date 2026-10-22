@@ -150,7 +150,7 @@ module.exports = grammar({
       $.trait_item,
       $.associated_type,
       $.let_declaration,
-      $.use_declaration,
+      $.import_declaration,
     ),
 
     // Section - Macro definitions
@@ -237,7 +237,7 @@ module.exports = grammar({
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'gen',
       'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait',
-      'type', 'use', 'where', 'while',
+      'type', 'import', 'where', 'while',
     ),
 
     // Section - Declarations
@@ -269,10 +269,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       'mod',
       field('name', $.identifier),
-      choice(
-        ';',
-        field('body', $.declaration_list),
-      ),
+      field('body', $.declaration_list),
     ),
 
     foreign_mod_item: $ => seq(
@@ -547,46 +544,36 @@ module.exports = grammar({
       ';',
     ),
 
-    use_declaration: $ => seq(
+    // import "./path";
+    // import "./path" (foo, bar as baz);
+    // import "./path" as name;
+    // import "./path" *;
+    import_declaration: $ => seq(
       optional($.visibility_modifier),
-      'use',
-      field('argument', $._use_clause),
+      'import',
+      field('source', $.string_literal),
+      optional(choice(
+        field('list', $.import_list),
+        seq('as', field('alias', $.identifier)),
+        field('wildcard', $.import_wildcard),
+      )),
       ';',
     ),
 
-    _use_clause: $ => choice(
-      $._path,
-      $.use_as_clause,
-      $.use_list,
-      $.scoped_use_list,
-      $.use_wildcard,
-    ),
-
-    scoped_use_list: $ => seq(
-      field('path', optional($._path)),
-      '::',
-      field('list', $.use_list),
-    ),
-
-    use_list: $ => seq(
-      '{',
-      sepBy(',', choice(
-        $._use_clause,
-      )),
+    import_list: $ => seq(
+      '(',
+      sepBy1(',', choice($.identifier, $.import_alias)),
       optional(','),
-      '}',
+      ')',
     ),
 
-    use_as_clause: $ => seq(
-      field('path', $._path),
+    import_alias: $ => seq(
+      field('name', $.identifier),
       'as',
       field('alias', $.identifier),
     ),
 
-    use_wildcard: $ => seq(
-      optional(seq(optional($._path), '::')),
-      '*',
-    ),
+    import_wildcard: _ => '*',
 
     parameters: $ => seq(
       '(',

@@ -123,14 +123,12 @@
 "struct" @keyword
 "trait" @keyword
 "type" @keyword
-"use" @keyword
+"import" @keyword
 "where" @keyword
 "while" @keyword
 "yield" @keyword
 (crate) @keyword
 (mutable_specifier) @keyword
-(use_list (self) @keyword)
-(scoped_use_list (self) @keyword)
 (scoped_identifier (self) @keyword)
 (super) @keyword
 
@@ -150,5 +148,6 @@
 (inner_attribute_item) @attribute
 
 "*" @operator
+(import_wildcard) @operator
 "&" @operator
 "'" @operator

@@ -2,8 +2,6 @@
 Modules
 ================================================================================
 
-mod english;
-
 mod english {}
 
 mod english {
@@ -11,13 +9,11 @@ mod english {
     mod farewells {}
 }
 
-pub mod english;
+pub mod english {}
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (mod_item
-    (identifier))
   (mod_item
     (identifier)
     (declaration_list))
@@ -32,7 +28,8 @@ pub mod english;
         (declaration_list))))
   (mod_item
     (visibility_modifier)
-    (identifier)))
+    (identifier)
+    (declaration_list)))
 
 ================================================================================
 Function declarations
@@ -303,102 +300,68 @@ pub extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
       (line_comment))))
 
 ================================================================================
-Use declarations
+Import declarations
 ================================================================================
 
-use abc;
-use phrases::japanese;
-use sayings::english::greetings;
-use sayings::english::greetings as en_greetings ;
-use phrases::english::{greetings,farewells};
-use sayings::japanese::farewells::*;
-pub use self::greetings::hello;
-use sayings::english::{self, greetings as en_greetings, farewells as en_farewells};
-use three::{ dot::{one, four} };
-use my::{ some::* };
-use my::{*};
-use ::*;
+import "./abc";
+import "./phrases" (japanese);
+import "../sayings/english" (greetings, farewells);
+import "./sayings/english" (greetings as en_greetings, farewells,);
+import "std/io" as io;
+import "./sayings/japanese/farewells" *;
+pub import "./greetings" (hello);
+import "./three" (
+    one,
+    four as five,
+);
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (use_declaration
-    argument: (identifier))
-  (use_declaration
-    argument: (scoped_identifier
-      path: (identifier)
-      name: (identifier)))
-  (use_declaration
-    argument: (scoped_identifier
-      path: (scoped_identifier
-        path: (identifier)
-        name: (identifier))
-      name: (identifier)))
-  (use_declaration
-    argument: (use_as_clause
-      path: (scoped_identifier
-        path: (scoped_identifier
-          path: (identifier)
-          name: (identifier))
-        name: (identifier))
-      alias: (identifier)))
-  (use_declaration
-    argument: (scoped_use_list
-      path: (scoped_identifier
-        path: (identifier)
-        name: (identifier))
-      list: (use_list
-        (identifier)
-        (identifier))))
-  (use_declaration
-    argument: (use_wildcard
-      (scoped_identifier
-        path: (scoped_identifier
-          path: (identifier)
-          name: (identifier))
-        name: (identifier))))
-  (use_declaration
+  (import_declaration
+    source: (string_literal
+      (string_content)))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    list: (import_list
+      (identifier)))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    list: (import_list
+      (identifier)
+      (identifier)))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    list: (import_list
+      (import_alias
+        name: (identifier)
+        alias: (identifier))
+      (identifier)))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    alias: (identifier))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    wildcard: (import_wildcard))
+  (import_declaration
     (visibility_modifier)
-    argument: (scoped_identifier
-      path: (scoped_identifier
-        path: (self)
-        name: (identifier))
-      name: (identifier)))
-  (use_declaration
-    argument: (scoped_use_list
-      path: (scoped_identifier
-        path: (identifier)
-        name: (identifier))
-      list: (use_list
-        (self)
-        (use_as_clause
-          path: (identifier)
-          alias: (identifier))
-        (use_as_clause
-          path: (identifier)
-          alias: (identifier)))))
-  (use_declaration
-    argument: (scoped_use_list
-      path: (identifier)
-      list: (use_list
-        (scoped_use_list
-          path: (identifier)
-          list: (use_list
-            (identifier)
-            (identifier))))))
-  (use_declaration
-    argument: (scoped_use_list
-      path: (identifier)
-      list: (use_list
-        (use_wildcard
-          (identifier)))))
-  (use_declaration
-    argument: (scoped_use_list
-      path: (identifier)
-      list: (use_list
-        (use_wildcard))))
-  (use_declaration
-    argument: (use_wildcard)))
+    source: (string_literal
+      (string_content))
+    list: (import_list
+      (identifier)))
+  (import_declaration
+    source: (string_literal
+      (string_content))
+    list: (import_list
+      (identifier)
+      (import_alias
+        name: (identifier)
+        alias: (identifier)))))
 
 ================================================================================
 Variable bindings
@@ -1215,7 +1178,7 @@ Derive macro helper attributes
 
 // Example from https://github.com/dtolnay/thiserror/blob/21c26903e29cb92ba1a7ff11e82ae2001646b60d/README.md
 
-use thiserror::Error;
+import "thiserror" (Error);
 
 #[derive(Error, Debug)]
 pub enum Error {
@@ -1229,9 +1192,10 @@ pub enum Error {
 
 (source_file
   (line_comment)
-  (use_declaration
-    (scoped_identifier
-      (identifier)
+  (import_declaration
+    (string_literal
+      (string_content))
+    (import_list
       (identifier)))
   (attribute_item
     (attribute
