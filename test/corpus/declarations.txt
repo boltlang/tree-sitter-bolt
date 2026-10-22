@@ -268,7 +268,8 @@ pub extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
           (string_content))))
     (identifier)
     (parameters
-      (type_identifier)
+      (parameter
+        (identifier))
       (variadic_parameter))
     (block))
   (function_item
@@ -2205,3 +2206,70 @@ fn add(a: i32) {}
         pattern: (identifier)
         type: (primitive_type)))
     body: (block)))
+
+================================================================================
+Functions with untyped parameters
+================================================================================
+
+fn id(x) { x }
+fn add(a, b: i32, mut c, (d, e)) {}
+fn (+) (a, b) { a }
+trait T {
+    fn f(self, x);
+}
+let f: fn(i32, String) -> i32 = g;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)))
+    body: (block
+      (identifier)))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type))
+      (parameter
+        pattern: (mut_pattern
+          (mutable_specifier)
+          (identifier)))
+      (parameter
+        pattern: (tuple_pattern
+          (identifier)
+          (identifier))))
+    body: (block))
+  (function_item
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier))
+      (parameter
+        pattern: (identifier)))
+    body: (block
+      (identifier)))
+  (trait_item
+    name: (type_identifier)
+    body: (declaration_list
+      (function_signature_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (self))
+          (parameter
+            pattern: (identifier))))))
+  (let_declaration
+    pattern: (identifier)
+    type: (function_type
+      parameters: (parameters
+        (primitive_type)
+        (type_identifier))
+      return_type: (primitive_type))
+    value: (identifier)))

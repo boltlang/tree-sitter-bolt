@@ -3417,6 +3417,150 @@
                           "name": "parameter"
                         },
                         {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "_untyped_parameter"
+                          },
+                          "named": true,
+                          "value": "parameter"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "self_parameter"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "variadic_parameter"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "attribute_item"
+                              },
+                              {
+                                "type": "BLANK"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "parameter"
+                              },
+                              {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "_untyped_parameter"
+                                },
+                                "named": true,
+                                "value": "parameter"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "self_parameter"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "variadic_parameter"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_untyped_parameter": {
+      "type": "FIELD",
+      "name": "pattern",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_pattern"
+      }
+    },
+    "_function_type_parameters": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "attribute_item"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "parameter"
+                        },
+                        {
                           "type": "SYMBOL",
                           "name": "self_parameter"
                         },
@@ -3993,8 +4137,13 @@
                 "type": "FIELD",
                 "name": "parameters",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "parameters"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_function_type_parameters"
+                  },
+                  "named": true,
+                  "value": "parameters"
                 }
               }
             ]
@@ -8718,11 +8867,11 @@
       "scoped_type_identifier"
     ],
     [
-      "parameters",
+      "_function_type_parameters",
       "_pattern"
     ],
     [
-      "parameters",
+      "_function_type_parameters",
       "tuple_struct_pattern"
     ],
     [

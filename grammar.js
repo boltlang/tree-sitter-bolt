@@ -115,8 +115,8 @@ module.exports = grammar({
     [$._type, $._pattern],
     [$.unit_type, $.tuple_pattern],
     [$.scoped_identifier, $.scoped_type_identifier],
-    [$.parameters, $._pattern],
-    [$.parameters, $.tuple_struct_pattern],
+    [$._function_type_parameters, $._pattern],
+    [$._function_type_parameters, $.tuple_struct_pattern],
     [$.array_expression],
     [$.visibility_modifier],
   ],
@@ -591,7 +591,27 @@ module.exports = grammar({
 
     import_wildcard: _ => '*',
 
+    // Parameters of named functions. Type annotations are optional, so
+    // `fn id(x)` takes a parameter named `x`.
     parameters: $ => seq(
+      '(',
+      sepBy(',', seq(
+        optional($.attribute_item),
+        choice(
+          $.parameter,
+          alias($._untyped_parameter, $.parameter),
+          $.self_parameter,
+          $.variadic_parameter,
+        ))),
+      optional(','),
+      ')',
+    ),
+
+    _untyped_parameter: $ => field('pattern', $._pattern),
+
+    // Parameters of function types like `fn(i32) -> i32`, where a bare name
+    // is a type, not a parameter.
+    _function_type_parameters: $ => seq(
       '(',
       sepBy(',', seq(
         optional($.attribute_item),
@@ -704,7 +724,7 @@ module.exports = grammar({
             'fn',
           ),
         ),
-        field('parameters', $.parameters),
+        field('parameters', alias($._function_type_parameters, $.parameters)),
       )),
       optional(seq('->', field('return_type', $._type))),
     ),
