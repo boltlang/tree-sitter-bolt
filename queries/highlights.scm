@@ -121,7 +121,6 @@
 "mod" @keyword
 "pub" @keyword
 "return" @keyword
-"static" @keyword
 "struct" @keyword
 "trait" @keyword
 "type" @keyword

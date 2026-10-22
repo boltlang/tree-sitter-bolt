@@ -245,7 +245,7 @@ module.exports = grammar({
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'gen',
-      'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait',
+      'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'struct', 'trait',
       'type', 'import', 'where', 'while',
     ),
 
@@ -1188,7 +1188,6 @@ module.exports = grammar({
     ),
 
     closure_expression: $ => prec(PREC.closure, seq(
-      optional('static'),
       optional('async'),
       field('parameters', $.closure_parameters),
       choice(

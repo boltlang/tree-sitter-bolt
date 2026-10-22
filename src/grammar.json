@@ -1096,10 +1096,6 @@
         },
         {
           "type": "STRING",
-          "value": "static"
-        },
-        {
-          "type": "STRING",
           "value": "struct"
         },
         {
@@ -7058,18 +7054,6 @@
       "content": {
         "type": "SEQ",
         "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "static"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
           {
             "type": "CHOICE",
             "members": [

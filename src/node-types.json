@@ -4951,10 +4951,6 @@
     "named": true
   },
   {
-    "type": "static",
-    "named": false
-  },
-  {
     "type": "stmt",
     "named": false
   },
