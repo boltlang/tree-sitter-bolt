@@ -4146,7 +4146,7 @@
     "fields": {
       "bounds": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "trait_bounds",
@@ -4154,9 +4154,19 @@
           }
         ]
       },
+      "constraint": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_type",
+            "named": true
+          }
+        ]
+      },
       "left": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array_type",

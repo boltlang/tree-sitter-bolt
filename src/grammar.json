@@ -2404,121 +2404,134 @@
       }
     },
     "where_predicate": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "left",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "scoped_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "generic_type"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "tuple_type"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "array_type"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "u8"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "left",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_type_identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "scoped_type_identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "generic_type"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "tuple_type"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "array_type"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "u8"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "i8"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "u16"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "i16"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "u32"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "i32"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "u64"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "i64"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "u128"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "i128"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "isize"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "usize"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "f32"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "f64"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "bool"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "str"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "char"
+                        }
+                      ]
                     },
-                    {
-                      "type": "STRING",
-                      "value": "i8"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "u16"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "i16"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "u32"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "i32"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "u64"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "i64"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "u128"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "i128"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "isize"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "usize"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "f32"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "f64"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "bool"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "str"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "char"
-                    }
-                  ]
-                },
-                "named": true,
-                "value": "primitive_type"
+                    "named": true,
+                    "value": "primitive_type"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "FIELD",
+              "name": "bounds",
+              "content": {
+                "type": "SYMBOL",
+                "name": "trait_bounds"
+              }
+            }
+          ]
         },
         {
           "type": "FIELD",
-          "name": "bounds",
+          "name": "constraint",
           "content": {
             "type": "SYMBOL",
-            "name": "trait_bounds"
+            "name": "generic_type"
           }
         }
       ]

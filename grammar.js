@@ -437,16 +437,21 @@ module.exports = grammar({
       )),
     )),
 
-    where_predicate: $ => seq(
-      field('left', choice(
-        $._type_identifier,
-        $.scoped_type_identifier,
-        $.generic_type,
-        $.tuple_type,
-        $.array_type,
-        alias(choice(...primitiveTypes), $.primitive_type),
-      )),
-      field('bounds', $.trait_bounds),
+    where_predicate: $ => choice(
+      // `T: Show + Eq`, shorthand for `Show[T], Eq[T]`
+      seq(
+        field('left', choice(
+          $._type_identifier,
+          $.scoped_type_identifier,
+          $.generic_type,
+          $.tuple_type,
+          $.array_type,
+          alias(choice(...primitiveTypes), $.primitive_type),
+        )),
+        field('bounds', $.trait_bounds),
+      ),
+      // `Convert[A, B]`, for classes over several types
+      field('constraint', $.generic_type),
     ),
 
     impl_item: $ => seq(
