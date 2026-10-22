@@ -27,26 +27,6 @@ type A = (i32, String);
       (type_identifier))))
 
 ================================================================================
-Raw pointer types
-================================================================================
-
-type A = *mut B;
-type C = *const str;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (type_item
-    (type_identifier)
-    (pointer_type
-      (mutable_specifier)
-      (type_identifier)))
-  (type_item
-    (type_identifier)
-    (pointer_type
-      (primitive_type))))
-
-================================================================================
 Generic types
 ================================================================================
 
@@ -258,8 +238,8 @@ type F = for<'a, 'b> fn(x: Ref<'a, A>, y: RefMut<'a, B<'i, 't>>,) -> C;
 Unsafe and extern function types
 ================================================================================
 
-type a = extern "C" fn(*mut c_void);
-type b = unsafe extern "C" fn() -> *mut c_void;
+type a = extern "C" fn(c_void);
+type b = unsafe extern "C" fn() -> c_void;
 
 --------------------------------------------------------------------------------
 
@@ -272,9 +252,7 @@ type b = unsafe extern "C" fn() -> *mut c_void;
           (string_literal
             (string_content))))
       (parameters
-        (pointer_type
-          (mutable_specifier)
-          (type_identifier)))))
+        (type_identifier))))
   (type_item
     (type_identifier)
     (function_type
@@ -283,9 +261,7 @@ type b = unsafe extern "C" fn() -> *mut c_void;
           (string_literal
             (string_content))))
       (parameters)
-      (pointer_type
-        (mutable_specifier)
-        (type_identifier)))))
+      (type_identifier))))
 
 ================================================================================
 Trait objects
@@ -332,7 +308,7 @@ Type cast expressions with generics
 ================================================================================
 
 a as B<C>;
-d as *mut E<<F as E>::G>;
+d as E<<F as E>::G>;
 
 --------------------------------------------------------------------------------
 
@@ -347,14 +323,12 @@ d as *mut E<<F as E>::G>;
   (expression_statement
     (type_cast_expression
       (identifier)
-      (pointer_type
-        (mutable_specifier)
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (scoped_type_identifier
-              (bracketed_type
-                (qualified_type
-                  (type_identifier)
-                  (type_identifier)))
-              (type_identifier))))))))
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (scoped_type_identifier
+            (bracketed_type
+              (qualified_type
+                (type_identifier)
+                (type_identifier)))
+            (type_identifier)))))))

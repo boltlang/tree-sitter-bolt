@@ -476,7 +476,6 @@ module.exports = grammar({
         $._type_identifier,
         $.scoped_type_identifier,
         $.generic_type,
-        $.pointer_type,
         $.tuple_type,
         $.array_type,
         $.higher_ranked_trait_bound,
@@ -722,7 +721,6 @@ module.exports = grammar({
     _type: $ => choice(
       $.abstract_type,
       $.metavariable,
-      $.pointer_type,
       $.generic_type,
       $.scoped_type_identifier,
       $.tuple_type,
@@ -870,12 +868,6 @@ module.exports = grammar({
       field('type', $._type),
     ),
 
-
-    pointer_type: $ => seq(
-      '*',
-      choice('const', $.mutable_specifier),
-      field('type', $._type),
-    ),
 
     never_type: _ => '!',
 

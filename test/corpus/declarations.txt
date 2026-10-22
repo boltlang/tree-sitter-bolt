@@ -369,11 +369,11 @@ Extern function declarations
 
 extern "C" fn foo() {}
 extern "C" fn printf(
-    *const c_char,
+    c_char,
     ...,
 ) {}
 
-pub unsafe extern "C" fn c_variadic_no_use(fmt: *const i8, mut ap: ...) -> i32 {
+pub unsafe extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
     // CHECK: call void @llvm.va_start
     vprintf(fmt, ap.as_va_list())
     // CHECK: call void @llvm.va_end
@@ -397,8 +397,7 @@ pub unsafe extern "C" fn c_variadic_no_use(fmt: *const i8, mut ap: ...) -> i32 {
           (string_content))))
     (identifier)
     (parameters
-      (pointer_type
-        (type_identifier))
+      (type_identifier)
       (variadic_parameter))
     (block))
   (function_item
@@ -411,8 +410,7 @@ pub unsafe extern "C" fn c_variadic_no_use(fmt: *const i8, mut ap: ...) -> i32 {
     (parameters
       (parameter
         (identifier)
-        (pointer_type
-          (primitive_type)))
+        (primitive_type))
       (variadic_parameter
         (mutable_specifier)
         (identifier)))
@@ -1097,7 +1095,7 @@ Static items
 ================================================================================
 
 static N: i32 = 5;
-static mut __progname: *mut ::c_char;
+static mut __progname: ::c_char;
 
 --------------------------------------------------------------------------------
 
@@ -1109,10 +1107,8 @@ static mut __progname: *mut ::c_char;
   (static_item
     (mutable_specifier)
     (identifier)
-    (pointer_type
-      (mutable_specifier)
-      (scoped_type_identifier
-        (type_identifier)))))
+    (scoped_type_identifier
+      (type_identifier))))
 
 ================================================================================
 Type aliases
@@ -2148,7 +2144,7 @@ pub(in crate::d) fn e() {}
 Function parameter names that match built-in type names
 ================================================================================
 
-fn foo(str: *const c_char) {}
+fn foo(str: c_char) {}
 fn bar(bool: bool) {}
 
 --------------------------------------------------------------------------------
@@ -2159,8 +2155,7 @@ fn bar(bool: bool) {}
     (parameters
       (parameter
         (identifier)
-        (pointer_type
-          (type_identifier))))
+        (type_identifier)))
     (block))
   (function_item
     (identifier)
@@ -2208,7 +2203,7 @@ pub trait A<B> where B: C,
 
 fn foo<A>() where A: B + As<f64>, f64: As<A> {}
 
-impl<A> Default for B<A> where *mut A: C + D {}
+impl<A> Default for B<A> where A: C + D {}
 
 --------------------------------------------------------------------------------
 
@@ -2396,9 +2391,7 @@ impl<A> Default for B<A> where *mut A: C + D {}
         (type_identifier)))
     (where_clause
       (where_predicate
-        left: (pointer_type
-          (mutable_specifier)
-          type: (type_identifier))
+        left: (type_identifier)
         bounds: (trait_bounds
           (type_identifier)
           (type_identifier))))
@@ -2409,7 +2402,7 @@ External Modules
 ================================================================================
 
 extern {
-  pub fn napi_module_register(mod_: *mut napi_module);
+  pub fn napi_module_register(mod_: napi_module);
 }
 
 extern "C" {}
@@ -2428,9 +2421,7 @@ unsafe extern "C" {}
         (parameters
           (parameter
             (identifier)
-            (pointer_type
-              (mutable_specifier)
-              (type_identifier)))))))
+            (type_identifier))))))
   (foreign_mod_item
     (extern_modifier
       (string_literal

@@ -2629,10 +2629,6 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "pointer_type"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "tuple_type"
               },
               {
@@ -4092,10 +4088,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pointer_type"
-        },
-        {
-          "type": "SYMBOL",
           "name": "generic_type"
         },
         {
@@ -4962,36 +4954,6 @@
         {
           "type": "STRING",
           "value": "="
-        },
-        {
-          "type": "FIELD",
-          "name": "type",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type"
-          }
-        }
-      ]
-    },
-    "pointer_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "const"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "mutable_specifier"
-            }
-          ]
         },
         {
           "type": "FIELD",

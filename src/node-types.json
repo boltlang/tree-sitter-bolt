@@ -422,10 +422,6 @@
         "named": true
       },
       {
-        "type": "pointer_type",
-        "named": true
-      },
-      {
         "type": "primitive_type",
         "named": true
       },
@@ -3115,32 +3111,6 @@
     }
   },
   {
-    "type": "pointer_type",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "mutable_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "qualified_type",
     "named": true,
     "fields": {
@@ -4798,10 +4768,6 @@
           },
           {
             "type": "lifetime",
-            "named": true
-          },
-          {
-            "type": "pointer_type",
             "named": true
           },
           {
