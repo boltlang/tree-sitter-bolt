@@ -24,10 +24,6 @@
         "named": true
       },
       {
-        "type": "extern_crate_declaration",
-        "named": true
-      },
-      {
         "type": "foreign_mod_item",
         "named": true
       },
@@ -1575,46 +1571,6 @@
       "types": [
         {
           "type": "_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "extern_crate_declaration",
-    "named": true,
-    "fields": {
-      "alias": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "crate",
-          "named": true
-        },
-        {
-          "type": "visibility_modifier",
           "named": true
         }
       ]

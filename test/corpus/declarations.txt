@@ -35,29 +35,6 @@ pub mod english;
     (identifier)))
 
 ================================================================================
-Extern crate declarations
-================================================================================
-
-extern crate std;
-extern crate std as ruststd;
-pub extern crate futures;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (extern_crate_declaration
-    (crate)
-    (identifier))
-  (extern_crate_declaration
-    (crate)
-    (identifier)
-    (identifier))
-  (extern_crate_declaration
-    (visibility_modifier)
-    (crate)
-    (identifier)))
-
-================================================================================
 Function declarations
 ================================================================================
 

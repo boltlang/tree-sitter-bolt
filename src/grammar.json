@@ -144,10 +144,6 @@
         {
           "type": "SYMBOL",
           "name": "use_declaration"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "extern_crate_declaration"
         }
       ]
     },
@@ -1878,68 +1874,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "extern_crate_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "visibility_modifier"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "extern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "crate"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "as"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "alias",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },

@@ -152,7 +152,6 @@ module.exports = grammar({
       $.associated_type,
       $.let_declaration,
       $.use_declaration,
-      $.extern_crate_declaration,
     ),
 
     // Section - Macro definitions
@@ -362,18 +361,6 @@ module.exports = grammar({
       )),
       optional(','),
       ')',
-    ),
-
-    extern_crate_declaration: $ => seq(
-      optional($.visibility_modifier),
-      'extern',
-      $.crate,
-      field('name', $.identifier),
-      optional(seq(
-        'as',
-        field('alias', $.identifier),
-      )),
-      ';',
     ),
 
     const_item: $ => seq(
