@@ -5210,10 +5210,6 @@
     "named": false
   },
   {
-    "type": "move",
-    "named": false
-  },
-  {
     "type": "mutable_specifier",
     "named": true
   },

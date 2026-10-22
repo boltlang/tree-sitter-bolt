@@ -1254,7 +1254,6 @@ module.exports = grammar({
     closure_expression: $ => prec(PREC.closure, seq(
       optional('static'),
       optional('async'),
-      optional('move'),
       field('parameters', $.closure_parameters),
       choice(
         seq(
@@ -1304,13 +1303,11 @@ module.exports = grammar({
 
     async_block: $ => seq(
       'async',
-      optional('move'),
       $.block,
     ),
 
     gen_block: $ => seq(
       'gen',
-      optional('move'),
       $.block,
     ),
 

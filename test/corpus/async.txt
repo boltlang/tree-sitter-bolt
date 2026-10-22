@@ -69,7 +69,6 @@ Async Block
 
 async {}
 async { let x = 10; }
-async move {}
 
 --------------------------------------------------------------------------------
 
@@ -82,10 +81,7 @@ async move {}
       (block
         (let_declaration
           (identifier)
-          (integer_literal)))))
-  (expression_statement
-    (async_block
-      (block))))
+          (integer_literal))))))
 
 ================================================================================
 Async closure
@@ -102,10 +98,10 @@ let _ = async || ();
       (unit_expression))))
 
 ================================================================================
-Async move async move closure
+Async closure returning async block
 ================================================================================
 
-let a = async move || async move {};
+let a = async || async {};
 
 --------------------------------------------------------------------------------
 
@@ -116,7 +112,6 @@ let a = async move || async move {};
       (closure_parameters)
       (async_block
         (block)))))
-
 
 ================================================================================
 Try Block
@@ -138,7 +133,6 @@ Gen Block
 gen {}
 gen { let x = 10; }
 gen { yield (); }
-gen move {}
 
 --------------------------------------------------------------------------------
 
@@ -157,7 +151,4 @@ gen move {}
       (block
         (expression_statement
           (yield_expression
-            (unit_expression))))))
-  (expression_statement
-    (gen_block
-      (block))))
+            (unit_expression)))))))

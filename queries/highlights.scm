@@ -118,7 +118,6 @@
 "macro_rules!" @keyword
 "match" @keyword
 "mod" @keyword
-"move" @keyword
 "pub" @keyword
 "return" @keyword
 "static" @keyword
