@@ -821,24 +821,10 @@ module.exports = grammar({
     ),
 
     bounded_type: $ => prec.left(-1, seq(
-      choice($.lifetime, $._type, $.use_bounds),
+      choice($.lifetime, $._type),
       '+',
-      choice($.lifetime, $._type, $.use_bounds),
+      choice($.lifetime, $._type),
     )),
-
-    use_bounds: $ => seq(
-      'use',
-      token(prec(1, '<')),
-      sepBy(
-        ',',
-        choice(
-          $.lifetime,
-          $._type_identifier,
-        ),
-      ),
-      optional(','),
-      '>',
-    ),
 
     type_arguments: $ => seq(
       token(prec(1, '<')),
