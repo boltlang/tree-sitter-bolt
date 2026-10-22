@@ -244,7 +244,7 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.primitive_type),
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
-      'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'gen',
+      'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for', 'gen',
       'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'struct', 'trait',
       'type', 'import', 'where', 'while',
     ),
@@ -428,7 +428,6 @@ module.exports = grammar({
 
     function_modifiers: $ => repeat1(choice(
       'async',
-      'default',
       'const',
       $.extern_modifier,
     )),
@@ -1511,10 +1510,7 @@ module.exports = grammar({
 
     shebang: _ => /#![\r\f\t\v ]*([^\[\n].*)?\n/,
 
-    _reserved_identifier: $ => alias(choice(
-      'default',
-      'gen',
-    ), $.identifier),
+    _reserved_identifier: $ => alias('gen', $.identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),

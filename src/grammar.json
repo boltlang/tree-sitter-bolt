@@ -1044,10 +1044,6 @@
         },
         {
           "type": "STRING",
-          "value": "default"
-        },
-        {
-          "type": "STRING",
           "value": "enum"
         },
         {
@@ -2359,10 +2355,6 @@
           {
             "type": "STRING",
             "value": "async"
-          },
-          {
-            "type": "STRING",
-            "value": "default"
           },
           {
             "type": "STRING",
@@ -8875,17 +8867,8 @@
     "_reserved_identifier": {
       "type": "ALIAS",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "default"
-          },
-          {
-            "type": "STRING",
-            "value": "gen"
-          }
-        ]
+        "type": "STRING",
+        "value": "gen"
       },
       "named": true,
       "value": "identifier"

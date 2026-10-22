@@ -104,7 +104,6 @@
 "break" @keyword
 "const" @keyword
 "continue" @keyword
-"default" @keyword
 "else" @keyword
 "enum" @keyword
 "extern" @keyword

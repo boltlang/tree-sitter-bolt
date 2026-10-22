@@ -4787,10 +4787,6 @@
     "named": false
   },
   {
-    "type": "default",
-    "named": false
-  },
-  {
     "type": "doc_comment",
     "named": true
   },
