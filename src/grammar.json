@@ -4601,10 +4601,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "gen_block"
-        },
-        {
-          "type": "SYMBOL",
           "name": "block"
         },
         {
@@ -7037,19 +7033,6 @@
         {
           "type": "STRING",
           "value": "async"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
-    "gen_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "gen"
         },
         {
           "type": "SYMBOL",
