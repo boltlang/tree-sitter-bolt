@@ -30,6 +30,15 @@ const PREC = {
   closure: -1,
 };
 
+// Operators that can be defined with `fn (op) (...)`. `&&` and `||` are left
+// out because they short-circuit, which an ordinary function call cannot do.
+const OVERLOADABLE_OPERATORS = [
+  '+', '-', '*', '/', '%',
+  '==', '!=', '<', '<=', '>', '>=',
+  '&', '|', '^', '<<', '>>',
+  '!',
+];
+
 const numericTypes = [
   'u8',
   'i8',
@@ -390,7 +399,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      field('name', choice($.identifier, $.metavariable)),
+      field('name', choice($.identifier, $.metavariable, $.operator_name)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
@@ -402,12 +411,19 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      field('name', choice($.identifier, $.metavariable)),
+      field('name', choice($.identifier, $.metavariable, $.operator_name)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
       optional($.where_clause),
       ';',
+    ),
+
+    // The `(+)` in `fn (+) (a: i32, b: i32) -> i32 { ... }`
+    operator_name: _ => seq(
+      '(',
+      field('operator', choice(...OVERLOADABLE_OPERATORS)),
+      ')',
     ),
 
     function_modifiers: $ => repeat1(choice(

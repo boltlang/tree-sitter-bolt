@@ -2118,3 +2118,90 @@ pub struct Loaf<T: Sized, const N: usize = 1>([T; N]);
       (array_type
         (type_identifier)
         (identifier)))))
+
+================================================================================
+Operator function definitions
+================================================================================
+
+fn (+) (a: i32, b: i32) -> i32 { a }
+pub fn (==)(a: Point, b: Point) -> bool { true }
+fn (!) (a: Flag) -> Flag { a }
+trait Num {
+    fn (*) (self, other: Self) -> Self;
+}
+impl Num for V {
+    fn (<<) (self, n: u32) -> V { self }
+}
+fn add(a: i32) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    return_type: (primitive_type)
+    body: (block
+      (identifier)))
+  (function_item
+    (visibility_modifier)
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier))
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier)))
+    return_type: (primitive_type)
+    body: (block
+      (boolean_literal)))
+  (function_item
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier)))
+    return_type: (type_identifier)
+    body: (block
+      (identifier)))
+  (trait_item
+    name: (type_identifier)
+    body: (declaration_list
+      (function_signature_item
+        name: (operator_name)
+        parameters: (parameters
+          (self_parameter
+            (self))
+          (parameter
+            pattern: (identifier)
+            type: (type_identifier)))
+        return_type: (type_identifier))))
+  (impl_item
+    trait: (type_identifier)
+    type: (type_identifier)
+    body: (declaration_list
+      (function_item
+        name: (operator_name)
+        parameters: (parameters
+          (self_parameter
+            (self))
+          (parameter
+            pattern: (identifier)
+            type: (primitive_type)))
+        return_type: (type_identifier)
+        body: (block
+          (self)))))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)))
+    body: (block)))

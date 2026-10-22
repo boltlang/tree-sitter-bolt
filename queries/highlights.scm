@@ -66,6 +66,8 @@
 
 (function_item (identifier) @function)
 (function_signature_item (identifier) @function)
+(function_item name: (operator_name) @function)
+(function_signature_item name: (operator_name) @function)
 
 (line_comment) @comment
 (block_comment) @comment

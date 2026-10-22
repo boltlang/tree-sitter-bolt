@@ -15,12 +15,12 @@
 
 (declaration_list
     (function_item
-        name: (identifier) @name) @definition.method)
+        name: [(identifier) (operator_name)] @name) @definition.method)
 
 ; function definitions
 
 (function_item
-    name: (identifier) @name) @definition.function
+    name: [(identifier) (operator_name)] @name) @definition.function
 
 ; trait definitions
 (trait_item
