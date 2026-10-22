@@ -2273,3 +2273,84 @@ let f: fn(i32, String) -> i32 = g;
         (type_identifier))
       return_type: (primitive_type))
     value: (identifier)))
+
+================================================================================
+Functions with default parameter values
+================================================================================
+
+fn foo(x = 1) {}
+fn shoot(direction: Vec3, strength: f32 = 1.0, mut n: i32 = a + b * 2) {}
+fn greet(name = "world", (a, b) = (1, 2),) {}
+fn (+) (a, b = 0) { a }
+trait T {
+    fn f(self, x = default());
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        default: (integer_literal)))
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier))
+      (parameter
+        pattern: (identifier)
+        type: (primitive_type)
+        default: (float_literal))
+      (parameter
+        (mutable_specifier)
+        pattern: (identifier)
+        type: (primitive_type)
+        default: (binary_expression
+          left: (identifier)
+          right: (binary_expression
+            left: (identifier)
+            right: (integer_literal)))))
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        default: (string_literal
+          (string_content)))
+      (parameter
+        pattern: (tuple_pattern
+          (identifier)
+          (identifier))
+        default: (tuple_expression
+          (integer_literal)
+          (integer_literal))))
+    body: (block))
+  (function_item
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier))
+      (parameter
+        pattern: (identifier)
+        default: (integer_literal)))
+    body: (block
+      (identifier)))
+  (trait_item
+    name: (type_identifier)
+    body: (declaration_list
+      (function_signature_item
+        name: (identifier)
+        parameters: (parameters
+          (self_parameter
+            (self))
+          (parameter
+            pattern: (identifier)
+            default: (call_expression
+              function: (identifier)
+              arguments: (arguments))))))))

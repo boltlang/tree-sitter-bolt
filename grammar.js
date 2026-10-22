@@ -592,14 +592,15 @@ module.exports = grammar({
     import_wildcard: _ => '*',
 
     // Parameters of named functions. Type annotations are optional, so
-    // `fn id(x)` takes a parameter named `x`.
+    // `fn id(x)` takes a parameter named `x`, and each parameter can have a
+    // default value: `fn foo(x = 1, y: i32 = 2)`.
     parameters: $ => seq(
       '(',
       sepBy(',', seq(
         optional($.attribute_item),
         choice(
-          $.parameter,
-          alias($._untyped_parameter, $.parameter),
+          alias($._typed_function_parameter, $.parameter),
+          alias($._untyped_function_parameter, $.parameter),
           $.self_parameter,
           $.variadic_parameter,
         ))),
@@ -607,7 +608,23 @@ module.exports = grammar({
       ')',
     ),
 
-    _untyped_parameter: $ => field('pattern', $._pattern),
+    _typed_function_parameter: $ => seq(
+      optional($.mutable_specifier),
+      field('pattern', choice(
+        $._pattern,
+        $.self,
+      )),
+      ':',
+      field('type', $._type),
+      optional($._parameter_default),
+    ),
+
+    _untyped_function_parameter: $ => seq(
+      field('pattern', $._pattern),
+      optional($._parameter_default),
+    ),
+
+    _parameter_default: $ => seq('=', field('default', $._expression)),
 
     // Parameters of function types like `fn(i32) -> i32`, where a bare name
     // is a type, not a parameter.
