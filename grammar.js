@@ -1491,7 +1491,6 @@ module.exports = grammar({
     _reserved_identifier: $ => alias(choice(
       'default',
       'gen',
-      'raw',
     ), $.identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
