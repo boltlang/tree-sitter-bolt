@@ -2186,10 +2186,6 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "scoped_identifier",
             "named": true
           },
@@ -4832,10 +4828,6 @@
   },
   {
     "type": "for",
-    "named": false
-  },
-  {
-    "type": "gen",
     "named": false
   },
   {

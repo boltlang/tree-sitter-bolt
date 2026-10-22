@@ -109,7 +109,6 @@
 "extern" @keyword
 "fn" @keyword
 "for" @keyword
-"gen" @keyword
 "if" @keyword
 "impl" @keyword
 "in" @keyword

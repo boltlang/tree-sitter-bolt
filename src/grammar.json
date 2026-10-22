@@ -163,10 +163,6 @@
               {
                 "type": "SYMBOL",
                 "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_reserved_identifier"
               }
             ]
           }
@@ -1053,10 +1049,6 @@
         {
           "type": "STRING",
           "value": "for"
-        },
-        {
-          "type": "STRING",
-          "value": "gen"
         },
         {
           "type": "STRING",
@@ -4389,10 +4381,6 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_reserved_identifier"
-                },
-                {
-                  "type": "SYMBOL",
                   "name": "scoped_type_identifier"
                 }
               ]
@@ -4835,14 +4823,6 @@
           "value": "identifier"
         },
         {
-          "type": "PREC_LEFT",
-          "value": 0,
-          "content": {
-            "type": "SYMBOL",
-            "name": "_reserved_identifier"
-          }
-        },
-        {
           "type": "SYMBOL",
           "name": "self"
         },
@@ -4982,10 +4962,6 @@
               {
                 "type": "SYMBOL",
                 "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_reserved_identifier"
               }
             ]
           }
@@ -7529,10 +7505,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_reserved_identifier"
-        },
-        {
-          "type": "SYMBOL",
           "name": "slice_pattern"
         },
         {
@@ -8849,10 +8821,6 @@
         {
           "type": "SYMBOL",
           "name": "scoped_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_reserved_identifier"
         }
       ]
     },
@@ -8863,15 +8831,6 @@
     "shebang": {
       "type": "PATTERN",
       "value": "#![\\r\\f\\t\\v ]*([^\\[\\n].*)?\\n"
-    },
-    "_reserved_identifier": {
-      "type": "ALIAS",
-      "content": {
-        "type": "STRING",
-        "value": "gen"
-      },
-      "named": true,
-      "value": "identifier"
     },
     "_type_identifier": {
       "type": "ALIAS",
@@ -9004,7 +8963,6 @@
     "_field_identifier",
     "_non_special_token",
     "_declaration_statement",
-    "_reserved_identifier",
     "_expression_ending_with_block"
   ],
   "supertypes": [

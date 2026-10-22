@@ -105,7 +105,6 @@ module.exports = grammar({
     $._field_identifier,
     $._non_special_token,
     $._declaration_statement,
-    $._reserved_identifier,
     $._expression_ending_with_block,
   ],
 
@@ -174,7 +173,6 @@ module.exports = grammar({
         'macro_rules!',
         field('name', choice(
           $.identifier,
-          $._reserved_identifier,
         )),
         choice(
           seq('(', rules, ')', ';'),
@@ -244,7 +242,7 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.primitive_type),
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
-      'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for', 'gen',
+      'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for',
       'if', 'impl', 'let', 'loop', 'match', 'mod', 'pub', 'return', 'struct', 'trait',
       'type', 'import', 'where', 'while',
     ),
@@ -767,7 +765,6 @@ module.exports = grammar({
     generic_type: $ => prec(1, seq(
       field('type', choice(
         $._type_identifier,
-        $._reserved_identifier,
         $.scoped_type_identifier,
       )),
       field('type_arguments', $.type_arguments),
@@ -842,7 +839,6 @@ module.exports = grammar({
       $._literal,
       prec.left($.identifier),
       alias(choice(...primitiveTypes), $.identifier),
-      prec.left($._reserved_identifier),
       $.self,
       $.scoped_identifier,
       $.generic_function,
@@ -882,7 +878,6 @@ module.exports = grammar({
       field('macro', choice(
         $.scoped_identifier,
         $.identifier,
-        $._reserved_identifier,
       )),
       '!',
       alias($.delim_token_tree, $.token_tree),
@@ -1254,7 +1249,6 @@ module.exports = grammar({
       $.tuple_pattern,
       $.tuple_struct_pattern,
       $.struct_pattern,
-      $._reserved_identifier,
       $.slice_pattern,
       $.captured_pattern,
       $.remaining_field_pattern,
@@ -1503,14 +1497,11 @@ module.exports = grammar({
       $.package,
       $.identifier,
       $.scoped_identifier,
-      $._reserved_identifier,
     ),
 
     identifier: _ => /(r#)?[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     shebang: _ => /#![\r\f\t\v ]*([^\[\n].*)?\n/,
-
-    _reserved_identifier: $ => alias('gen', $.identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
