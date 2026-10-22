@@ -30,14 +30,17 @@ const PREC = {
   closure: -1,
 };
 
-// Operators that can be defined with `fn (op) (...)`. `&&` and `||` are left
-// out because they short-circuit, which an ordinary function call cannot do.
+// Operators that can be defined, as in `fn a + b`. `&&` and `||` are left out
+// because they short-circuit, which an ordinary function call cannot do.
 const OVERLOADABLE_OPERATORS = [
   '+', '-', '*', '/', '%',
   '==', '!=', '<', '<=', '>', '>=',
   '&', '|', '^', '<<', '>>',
   '!',
 ];
+
+const INFIX_OPERATORS = OVERLOADABLE_OPERATORS.filter(op => op !== '!');
+const PREFIX_OPERATORS = ['-', '!'];
 
 const numericTypes = [
   'u8',
@@ -156,6 +159,7 @@ module.exports = grammar({
       $.type_item,
       $.function_item,
       $.function_signature_item,
+      $.operator_definition,
       $.impl_item,
       $.class_item,
       $.associated_type,
@@ -392,7 +396,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      field('name', choice($.identifier, $.metavariable, $.operator_name)),
+      field('name', choice($.identifier, $.metavariable)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
@@ -408,7 +412,7 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
-      field('name', choice($.identifier, $.metavariable, $.operator_name)),
+      field('name', choice($.identifier, $.metavariable)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
@@ -416,12 +420,38 @@ module.exports = grammar({
       ';',
     ),
 
-    // The `(+)` in `fn (+) (a: i32, b: i32) -> i32 { ... }`
-    operator_name: _ => seq(
-      '(',
-      field('operator', choice(...OVERLOADABLE_OPERATORS)),
-      ')',
+    // `fn a + b = add(a, b);`, `fn[T] (a: T) + (b: T) -> T { ... }` and
+    // `fn -x = neg(x);`. Without a body it is a signature, for use in classes.
+    operator_definition: $ => seq(
+      optional($.visibility_modifier),
+      'fn',
+      field('type_parameters', optional($.type_parameters)),
+      choice(
+        seq(
+          field('left', $._operand),
+          field('operator', choice(...INFIX_OPERATORS)),
+          field('right', $._operand),
+        ),
+        seq(
+          field('operator', choice(...PREFIX_OPERATORS)),
+          field('operand', $._operand),
+        ),
+      ),
+      optional(seq('->', field('return_type', $._type))),
+      optional($.where_clause),
+      choice(
+        field('body', $.block),
+        seq('=', field('body', $._expression), ';'),
+        ';',
+      ),
     ),
+
+    // An operand is a plain name, or a parameter in parentheses: `(a: T)`.
+    _operand: $ => choice(
+      $.identifier,
+      seq('(', alias($._typed_function_parameter, $.parameter), ')'),
+    ),
+
 
     function_modifiers: $ => repeat1(choice(
       'async',

@@ -2079,104 +2079,12 @@ pub struct Loaf[T: Sized, const N: usize = 1]([T; N]);
         (identifier)))))
 
 ================================================================================
-Operator function definitions
-================================================================================
-
-fn (+) (a: i32, b: i32) -> i32 { a }
-pub fn (==)(a: Point, b: Point) -> bool { true }
-fn (!) (a: Flag) -> Flag { a }
-class Num[T] {
-    fn (*) (self, other: Self) -> Self;
-}
-impl Num[V] {
-    fn (<<) (self, n: u32) -> V { self }
-}
-fn add(a: i32) {}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier)
-        type: (primitive_type))
-      (parameter
-        pattern: (identifier)
-        type: (primitive_type)))
-    return_type: (primitive_type)
-    body: (block
-      (identifier)))
-  (function_item
-    (visibility_modifier)
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier)
-        type: (type_identifier))
-      (parameter
-        pattern: (identifier)
-        type: (type_identifier)))
-    return_type: (primitive_type)
-    body: (block
-      (boolean_literal)))
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier)
-        type: (type_identifier)))
-    return_type: (type_identifier)
-    body: (block
-      (identifier)))
-  (class_item
-    name: (type_identifier)
-    type_parameters: (type_parameters
-      (type_parameter
-        name: (type_identifier)))
-    body: (declaration_list
-      (function_signature_item
-        name: (operator_name)
-        parameters: (parameters
-          (self_parameter
-            (self))
-          (parameter
-            pattern: (identifier)
-            type: (type_identifier)))
-        return_type: (type_identifier))))
-  (impl_item
-    type: (generic_type
-      type: (type_identifier)
-      type_arguments: (type_arguments
-        (type_identifier)))
-    body: (declaration_list
-      (function_item
-        name: (operator_name)
-        parameters: (parameters
-          (self_parameter
-            (self))
-          (parameter
-            pattern: (identifier)
-            type: (primitive_type)))
-        return_type: (type_identifier)
-        body: (block
-          (self)))))
-  (function_item
-    name: (identifier)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier)
-        type: (primitive_type)))
-    body: (block)))
-
-================================================================================
 Functions with untyped parameters
 ================================================================================
 
 fn id(x) { x }
 fn add(a, b: i32, mut c, (d, e)) {}
-fn (+) (a, b) { a }
+fn a + b { a }
 class C[T] {
     fn f(self, x);
 }
@@ -2209,13 +2117,9 @@ let f: fn(i32, String) -> i32 = g;
           (identifier)
           (identifier))))
     body: (block))
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier))
-      (parameter
-        pattern: (identifier)))
+  (operator_definition
+    left: (identifier)
+    right: (identifier)
     body: (block
       (identifier)))
   (class_item
@@ -2247,7 +2151,6 @@ Functions with default parameter values
 fn foo(x = 1) {}
 fn shoot(direction: Vec3, strength: f32 = 1.0, mut n: i32 = a + b * 2) {}
 fn greet(name = "world", (a, b) = (1, 2),) {}
-fn (+) (a, b = 0) { a }
 class C[T] {
     fn f(self, x = default());
 }
@@ -2297,16 +2200,6 @@ class C[T] {
           (integer_literal)
           (integer_literal))))
     body: (block))
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier))
-      (parameter
-        pattern: (identifier)
-        default: (integer_literal)))
-    body: (block
-      (identifier)))
   (class_item
     name: (type_identifier)
     type_parameters: (type_parameters
@@ -2330,7 +2223,7 @@ Functions with expression bodies
 
 fn id(x) = x;
 pub fn add(a, b: i32) -> i32 = a + b;
-fn (+) (a, b) = add(a, b);
+fn a + b = add(a, b);
 fn pick[T](c, a: T, b: T) -> T = if c { a } else { b };
 fn scale(x, by = 2) = x * by;
 class Show[T] {
@@ -2363,13 +2256,9 @@ impl Show[bool] {
     body: (binary_expression
       left: (identifier)
       right: (identifier)))
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier))
-      (parameter
-        pattern: (identifier)))
+  (operator_definition
+    left: (identifier)
+    right: (identifier)
     body: (call_expression
       function: (identifier)
       arguments: (arguments
@@ -2569,3 +2458,106 @@ fn show_both[A, B](a: A, b: B) where A: Show, Convert[A, B], Show[B] {}
           type_arguments: (type_arguments
             (type_identifier)))))
     body: (block)))
+
+================================================================================
+Infix and prefix operator definitions
+================================================================================
+
+fn a + b = add(a, b);
+fn (a: Vec2) + (b: Vec2) -> Vec2 { a }
+fn[T] (a: T) * (b: T) -> T where Num[T] = mul(a, b);
+pub fn a == b = eq(a, b);
+fn -x = neg(x);
+fn !(f: Flag) -> Flag { flip(f) }
+class Num[T] {
+    fn (a: T) - (b: T) -> T;
+    fn -(x: T) -> T;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operator_definition
+    left: (identifier)
+    right: (identifier)
+    body: (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (identifier))))
+  (operator_definition
+    left: (parameter
+      pattern: (identifier)
+      type: (type_identifier))
+    right: (parameter
+      pattern: (identifier)
+      type: (type_identifier))
+    return_type: (type_identifier)
+    body: (block
+      (identifier)))
+  (operator_definition
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
+    left: (parameter
+      pattern: (identifier)
+      type: (type_identifier))
+    right: (parameter
+      pattern: (identifier)
+      type: (type_identifier))
+    return_type: (type_identifier)
+    (where_clause
+      (where_predicate
+        constraint: (generic_type
+          type: (type_identifier)
+          type_arguments: (type_arguments
+            (type_identifier)))))
+    body: (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (identifier))))
+  (operator_definition
+    (visibility_modifier)
+    left: (identifier)
+    right: (identifier)
+    body: (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (identifier))))
+  (operator_definition
+    operand: (identifier)
+    body: (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier))))
+  (operator_definition
+    operand: (parameter
+      pattern: (identifier)
+      type: (type_identifier))
+    return_type: (type_identifier)
+    body: (block
+      (call_expression
+        function: (identifier)
+        arguments: (arguments
+          (identifier)))))
+  (class_item
+    name: (type_identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
+    body: (declaration_list
+      (operator_definition
+        left: (parameter
+          pattern: (identifier)
+          type: (type_identifier))
+        right: (parameter
+          pattern: (identifier)
+          type: (type_identifier))
+        return_type: (type_identifier))
+      (operator_definition
+        operand: (parameter
+          pattern: (identifier)
+          type: (type_identifier))
+        return_type: (type_identifier)))))

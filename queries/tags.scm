@@ -15,12 +15,15 @@
 
 (declaration_list
     (function_item
-        name: [(identifier) (operator_name)] @name) @definition.method)
+        name: (identifier) @name) @definition.method)
 
 ; function definitions
 
 (function_item
-    name: [(identifier) (operator_name)] @name) @definition.function
+    name: (identifier) @name) @definition.function
+
+(operator_definition
+    operator: _ @name) @definition.function
 
 ; class definitions
 (class_item

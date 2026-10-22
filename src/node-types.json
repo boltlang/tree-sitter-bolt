@@ -815,6 +815,10 @@
           "named": true
         },
         {
+          "type": "operator_definition",
+          "named": true
+        },
+        {
           "type": "struct_item",
           "named": true
         },
@@ -1449,6 +1453,10 @@
           "named": true
         },
         {
+          "type": "operator_definition",
+          "named": true
+        },
+        {
           "type": "struct_item",
           "named": true
         },
@@ -1958,10 +1966,6 @@
           {
             "type": "metavariable",
             "named": true
-          },
-          {
-            "type": "operator_name",
-            "named": true
           }
         ]
       },
@@ -2044,10 +2048,6 @@
           },
           {
             "type": "metavariable",
-            "named": true
-          },
-          {
-            "type": "operator_name",
             "named": true
           }
         ]
@@ -2829,9 +2829,63 @@
     "fields": {}
   },
   {
-    "type": "operator_name",
+    "type": "operator_definition",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "parameter",
+            "named": true
+          }
+        ]
+      },
+      "operand": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "parameter",
+            "named": true
+          }
+        ]
+      },
       "operator": {
         "multiple": false,
         "required": true,
@@ -2905,7 +2959,63 @@
             "named": false
           }
         ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "parameter",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameters",
+            "named": true
+          }
+        ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "visibility_modifier",
+          "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3366,6 +3476,10 @@
         },
         {
           "type": "macro_invocation",
+          "named": true
+        },
+        {
+          "type": "operator_definition",
           "named": true
         },
         {

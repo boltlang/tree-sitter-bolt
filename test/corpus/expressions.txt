@@ -1276,7 +1276,7 @@ let curried = fn (x) = fn (y) = x + y;
 let d = fn (x = 1) = x;
 fn (x) = x;
 fn (-1) = 0;
-fn (-) (a, b) = sub(a, b);
+fn -x = neg(x);
 
 --------------------------------------------------------------------------------
 
@@ -1345,15 +1345,9 @@ fn (-) (a, b) = sub(a, b);
           pattern: (negative_literal
             (integer_literal))))
       body: (integer_literal)))
-  (function_item
-    name: (operator_name)
-    parameters: (parameters
-      (parameter
-        pattern: (identifier))
-      (parameter
-        pattern: (identifier)))
+  (operator_definition
+    operand: (identifier)
     body: (call_expression
       function: (identifier)
       arguments: (arguments
-        (identifier)
         (identifier)))))

@@ -63,8 +63,7 @@
 
 (function_item (identifier) @function)
 (function_signature_item (identifier) @function)
-(function_item name: (operator_name) @function)
-(function_signature_item name: (operator_name) @function)
+(operator_definition operator: _ @function)
 
 (line_comment) @comment
 (block_comment) @comment
