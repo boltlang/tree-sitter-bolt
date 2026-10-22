@@ -1590,7 +1590,7 @@ impl<'a> iter::Iterator for Self::Iter<'a> {
 }
 
 impl ConvertTo<i64> for i32 {
-    fn convert(&self) -> i64 { *self as i64 }
+    fn convert(&self) -> i64 { self as i64 }
 }
 
 --------------------------------------------------------------------------------
@@ -1627,8 +1627,7 @@ impl ConvertTo<i64> for i32 {
         return_type: (primitive_type)
         body: (block
           (type_cast_expression
-            value: (unary_expression
-              (self))
+            value: (self)
             type: (primitive_type)))))))
 
 ================================================================================
