@@ -736,7 +736,6 @@ module.exports = grammar({
       $._type_identifier,
       $.macro_invocation,
       $.never_type,
-      $.dynamic_type,
       $.bounded_type,
       $.removed_trait_bound,
       alias(choice(...primitiveTypes), $.primitive_type),
@@ -898,17 +897,6 @@ module.exports = grammar({
       ))),
     ),
 
-    dynamic_type: $ => seq(
-      'dyn',
-      field('trait', choice(
-        $.higher_ranked_trait_bound,
-        $._type_identifier,
-        $.scoped_type_identifier,
-        $.generic_type,
-        $.function_type,
-        $.tuple_type,
-      )),
-    ),
 
     mutable_specifier: _ => 'mut',
 

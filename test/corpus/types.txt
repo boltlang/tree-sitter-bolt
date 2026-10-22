@@ -292,8 +292,8 @@ Trait objects
 ================================================================================
 
 type a = Box<Something + 'a>;
-type b = Rc<dyn Something>;
-type c = A<Box<dyn Fn(B) -> C>>;
+type b = Rc<Something>;
+type c = A<Box<Fn(B) -> C>>;
 
 --------------------------------------------------------------------------------
 
@@ -312,8 +312,7 @@ type c = A<Box<dyn Fn(B) -> C>>;
     (generic_type
       (type_identifier)
       (type_arguments
-        (dynamic_type
-          (type_identifier)))))
+        (type_identifier))))
   (type_item
     (type_identifier)
     (generic_type
@@ -322,12 +321,11 @@ type c = A<Box<dyn Fn(B) -> C>>;
         (generic_type
           (type_identifier)
           (type_arguments
-            (dynamic_type
-              (function_type
-                (type_identifier)
-                (parameters
-                  (type_identifier))
-                (type_identifier)))))))))
+            (function_type
+              (type_identifier)
+              (parameters
+                (type_identifier))
+              (type_identifier))))))))
 
 ================================================================================
 Type cast expressions with generics

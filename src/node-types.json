@@ -406,10 +406,6 @@
         "named": true
       },
       {
-        "type": "dynamic_type",
-        "named": true
-      },
-      {
         "type": "function_type",
         "named": true
       },
@@ -1464,42 +1460,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "dynamic_type",
-    "named": true,
-    "fields": {
-      "trait": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "higher_ranked_trait_bound",
-            "named": true
-          },
-          {
-            "type": "scoped_type_identifier",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -5189,10 +5149,6 @@
   {
     "type": "doc_comment",
     "named": true
-  },
-  {
-    "type": "dyn",
-    "named": false
   },
   {
     "type": "else",

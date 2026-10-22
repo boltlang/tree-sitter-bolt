@@ -104,7 +104,6 @@
 "const" @keyword
 "continue" @keyword
 "default" @keyword
-"dyn" @keyword
 "else" @keyword
 "enum" @keyword
 "extern" @keyword
