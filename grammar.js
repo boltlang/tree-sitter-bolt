@@ -818,6 +818,7 @@ module.exports = grammar({
       $.index_expression,
       $.metavariable,
       $.closure_expression,
+      $.function_expression,
       $.parenthesized_expression,
       $.struct_expression,
       $._expression_ending_with_block,
@@ -1137,6 +1138,16 @@ module.exports = grammar({
       'const',
       field('body', $.block),
     ),
+
+    // An anonymous function: `fn (x) = x + 1`. The body extends as far as
+    // possible, like a closure body.
+    function_expression: $ => prec(PREC.closure, seq(
+      'fn',
+      field('parameters', $.parameters),
+      optional(seq('->', field('return_type', $._type))),
+      '=',
+      field('body', $._expression),
+    )),
 
     closure_expression: $ => prec(PREC.closure, seq(
       optional('async'),

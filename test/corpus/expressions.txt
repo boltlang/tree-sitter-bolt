@@ -1264,3 +1264,96 @@ let z = (yield 1) + 2;
         (yield_expression
           (integer_literal)))
       right: (integer_literal))))
+
+================================================================================
+Anonymous functions
+================================================================================
+
+let f = fn () = 42;
+let add = fn (x, y: i32) -> i32 = x + y;
+map(xs, fn (x) = x * 2);
+let curried = fn (x) = fn (y) = x + y;
+let d = fn (x = 1) = x;
+fn (x) = x;
+fn (-1) = 0;
+fn (-) (a, b) = sub(a, b);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    pattern: (identifier)
+    value: (function_expression
+      parameters: (parameters)
+      body: (integer_literal)))
+  (let_declaration
+    pattern: (identifier)
+    value: (function_expression
+      parameters: (parameters
+        (parameter
+          pattern: (identifier))
+        (parameter
+          pattern: (identifier)
+          type: (primitive_type)))
+      return_type: (primitive_type)
+      body: (binary_expression
+        left: (identifier)
+        right: (identifier))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (function_expression
+          parameters: (parameters
+            (parameter
+              pattern: (identifier)))
+          body: (binary_expression
+            left: (identifier)
+            right: (integer_literal))))))
+  (let_declaration
+    pattern: (identifier)
+    value: (function_expression
+      parameters: (parameters
+        (parameter
+          pattern: (identifier)))
+      body: (function_expression
+        parameters: (parameters
+          (parameter
+            pattern: (identifier)))
+        body: (binary_expression
+          left: (identifier)
+          right: (identifier)))))
+  (let_declaration
+    pattern: (identifier)
+    value: (function_expression
+      parameters: (parameters
+        (parameter
+          pattern: (identifier)
+          default: (integer_literal)))
+      body: (identifier)))
+  (expression_statement
+    (function_expression
+      parameters: (parameters
+        (parameter
+          pattern: (identifier)))
+      body: (identifier)))
+  (expression_statement
+    (function_expression
+      parameters: (parameters
+        (parameter
+          pattern: (negative_literal
+            (integer_literal))))
+      body: (integer_literal)))
+  (function_item
+    name: (operator_name)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier))
+      (parameter
+        pattern: (identifier)))
+    body: (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (identifier)))))
