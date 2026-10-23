@@ -315,7 +315,7 @@ let x = xs[0];
 let y = grid[i][j];
 let z = x as Vec[i32];
 let w = (x as T)[0];
-impl[T] [T; 3] {}
+impl[T] Show[[T; 3]] {}
 
 --------------------------------------------------------------------------------
 
@@ -367,7 +367,10 @@ impl[T] [T; 3] {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    type: (array_type
-      element: (type_identifier)
-      length: (integer_literal))
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (array_type
+          element: (type_identifier)
+          length: (integer_literal))))
     body: (declaration_list)))

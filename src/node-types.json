@@ -2245,7 +2245,7 @@
         "required": true,
         "types": [
           {
-            "type": "_type",
+            "type": "generic_type",
             "named": true
           }
         ]

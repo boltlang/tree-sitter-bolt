@@ -49,8 +49,5 @@
 ; implementations
 
 (impl_item
-    type: (type_identifier) @name) @reference.implementation
-
-(impl_item
     type: (generic_type
         type: (type_identifier) @name)) @reference.implementation

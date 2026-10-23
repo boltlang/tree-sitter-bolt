@@ -484,12 +484,12 @@ module.exports = grammar({
       field('constraint', $.generic_type),
     ),
 
-    // `impl Dog { ... }` adds functions to a type, and `impl Show[Dog] { ... }`
-    // is an instance of a class; the compiler tells them apart by name.
+    // `impl Show[Dog] { ... }` is an instance of a class. The class is always
+    // applied to its arguments; there is no `impl Dog { ... }`.
     impl_item: $ => seq(
       'impl',
       field('type_parameters', optional($.type_parameters)),
-      field('type', $._type),
+      field('type', $.generic_type),
       optional($.where_clause),
       choice(field('body', $.declaration_list), ';'),
     ),

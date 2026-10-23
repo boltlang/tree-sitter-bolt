@@ -1012,7 +1012,7 @@ struct MacosOnly;
 Inner attributes
 ================================================================================
 
-impl MacosOnly {
+impl Show[MacosOnly] {
   #![cfg(target_os = "macos")]
 }
 
@@ -1025,7 +1025,10 @@ match ty {
 
 (source_file
   (impl_item
-    type: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (type_identifier)))
     body: (declaration_list
       (inner_attribute_item
         (attribute
@@ -1265,10 +1268,10 @@ fn foo() {
           (integer_literal))))))
 
 ================================================================================
-Inherent Impls
+Class instances with items
 ================================================================================
 
-impl Person {
+impl Walk[Person] {
   const leg_count : u32 = 2;
 
   fn walk(self) {}
@@ -1281,7 +1284,10 @@ impl Machine[{State.Init}] {}
 
 (source_file
   (impl_item
-    type: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (type_identifier)))
     body: (declaration_list
       (const_item
         name: (identifier)
@@ -1311,7 +1317,7 @@ impl Machine[{State.Init}] {}
     body: (declaration_list)))
 
 ================================================================================
-Trait impls
+Class instances
 ================================================================================
 
 impl[T] iter.Iterator[Self.Iter[T]] {
@@ -1763,7 +1769,7 @@ impl[T] A[B[T]]
 {
 }
 
-impl[E] Read
+impl[E] Read[E]
 where E: Read,
 {
 }
@@ -1858,7 +1864,10 @@ impl[A] Default[B[A]] where A: C + D {}
     type_parameters: (type_parameters
       (type_parameter
         name: (type_identifier)))
-    type: (type_identifier)
+    type: (generic_type
+      type: (type_identifier)
+      type_arguments: (type_arguments
+        (type_identifier)))
     (where_clause
       (where_predicate
         left: (type_identifier)
