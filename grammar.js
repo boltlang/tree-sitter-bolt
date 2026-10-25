@@ -320,8 +320,7 @@ module.exports = grammar({
 
     enum_variant_list: $ => seq(
       '{',
-      sepBy(',', seq(repeat($.attribute_item), $.enum_variant)),
-      optional(','),
+      commaSep(seq(repeat($.attribute_item), $.enum_variant)),
       '}',
     ),
 
@@ -340,8 +339,7 @@ module.exports = grammar({
 
     field_declaration_list: $ => seq(
       '{',
-      sepBy(',', seq(repeat($.attribute_item), $.field_declaration)),
-      optional(','),
+      commaSep(seq(repeat($.attribute_item), $.field_declaration)),
       '}',
     ),
 
@@ -354,12 +352,11 @@ module.exports = grammar({
 
     ordered_field_declaration_list: $ => seq(
       '(',
-      sepBy(',', seq(
+      commaSep(seq(
         repeat($.attribute_item),
         optional($.visibility_modifier),
         field('type', $._type),
       )),
-      optional(','),
       ')',
     ),
 
@@ -618,14 +615,13 @@ module.exports = grammar({
     // default value: `fn foo(x = 1, y: i32 = 2)`.
     parameters: $ => seq(
       '(',
-      sepBy(',', seq(
+      commaSep(seq(
         optional($.attribute_item),
         choice(
           alias($._typed_function_parameter, $.parameter),
           alias($._untyped_function_parameter, $.parameter),
           $.variadic_parameter,
         ))),
-      optional(','),
       ')',
     ),
 
@@ -648,7 +644,7 @@ module.exports = grammar({
     // is a type, not a parameter.
     _function_type_parameters: $ => seq(
       '(',
-      sepBy(',', seq(
+      commaSep(seq(
         optional($.attribute_item),
         choice(
           $.parameter,
@@ -656,7 +652,6 @@ module.exports = grammar({
           '_',
           $._type,
         ))),
-      optional(','),
       ')',
     ),
 
@@ -965,8 +960,7 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      sepBy(',', seq(repeat($.attribute_item), $._expression)),
-      optional(','),
+      commaSep(seq(repeat($.attribute_item), $._expression)),
       ')',
     ),
 
@@ -980,8 +974,7 @@ module.exports = grammar({
           field('length', $._expression),
         ),
         seq(
-          sepBy(',', seq(repeat($.attribute_item), $._expression)),
-          optional(','),
+          commaSep(seq(repeat($.attribute_item), $._expression)),
         ),
       ),
       ']',
@@ -1014,12 +1007,11 @@ module.exports = grammar({
 
     field_initializer_list: $ => seq(
       '{',
-      sepBy(',', choice(
+      commaSep(choice(
         $.shorthand_field_initializer,
         $.field_initializer,
         $.base_field_initializer,
       )),
-      optional(','),
       '}',
     ),
 
@@ -1220,15 +1212,13 @@ module.exports = grammar({
 
     tuple_pattern: $ => seq(
       '(',
-      sepBy(',', choice($._pattern, $.closure_expression)),
-      optional(','),
+      commaSep(choice($._pattern, $.closure_expression)),
       ')',
     ),
 
     slice_pattern: $ => seq(
       '[',
-      sepBy(',', $._pattern),
-      optional(','),
+      commaSep($._pattern),
       ']',
     ),
 
@@ -1238,8 +1228,7 @@ module.exports = grammar({
         $.scoped_identifier,
       )),
       '(',
-      sepBy(',', $._pattern),
-      optional(','),
+      commaSep($._pattern),
       ')',
     ),
 
@@ -1249,8 +1238,7 @@ module.exports = grammar({
         $.scoped_type_identifier,
       )),
       '{',
-      sepBy(',', choice($.field_pattern, $.remaining_field_pattern)),
-      optional(','),
+      commaSep(choice($.field_pattern, $.remaining_field_pattern)),
       '}',
     ),
 
@@ -1480,4 +1468,17 @@ function sepBy1(sep, rule) {
  */
 function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule));
+}
+
+/**
+ * Creates a rule for zero or more `rule`s separated by commas, with an
+ * optional comma after the last one. A comma on its own, like the one of
+ * `f(,)`, isn't a list.
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @returns {ChoiceRule}
+ */
+function commaSep(rule) {
+  return optional(seq(sepBy1(',', rule), optional(',')));
 }
