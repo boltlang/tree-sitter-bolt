@@ -734,10 +734,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "self"
-        },
-        {
-          "type": "SYMBOL",
           "name": "super"
         },
         {
@@ -3498,10 +3494,6 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "self_parameter"
-                        },
-                        {
-                          "type": "SYMBOL",
                           "name": "variadic_parameter"
                         }
                       ]
@@ -3552,10 +3544,6 @@
                                 },
                                 "named": true,
                                 "value": "parameter"
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "self_parameter"
                               },
                               {
                                 "type": "SYMBOL",
@@ -3612,17 +3600,8 @@
           "type": "FIELD",
           "name": "pattern",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_pattern"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "self"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_pattern"
           }
         },
         {
@@ -3730,10 +3709,6 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "self_parameter"
-                        },
-                        {
-                          "type": "SYMBOL",
                           "name": "variadic_parameter"
                         },
                         {
@@ -3781,10 +3756,6 @@
                               },
                               {
                                 "type": "SYMBOL",
-                                "name": "self_parameter"
-                              },
-                              {
-                                "type": "SYMBOL",
                                 "name": "variadic_parameter"
                               },
                               {
@@ -3824,27 +3795,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "self_parameter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "mutable_specifier"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "self"
         }
       ]
     },
@@ -3913,17 +3863,8 @@
           "type": "FIELD",
           "name": "pattern",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_pattern"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "self"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_pattern"
           }
         },
         {
@@ -3981,10 +3922,6 @@
                 {
                   "type": "CHOICE",
                   "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "self"
-                    },
                     {
                       "type": "SYMBOL",
                       "name": "super"
@@ -4733,10 +4670,6 @@
           },
           "named": true,
           "value": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "self"
         },
         {
           "type": "SYMBOL",
@@ -8500,10 +8433,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "self"
-        },
-        {
-          "type": "SYMBOL",
           "name": "metavariable"
         },
         {
@@ -8541,10 +8470,6 @@
       },
       "named": true,
       "value": "field_identifier"
-    },
-    "self": {
-      "type": "STRING",
-      "value": "self"
     },
     "super": {
       "type": "STRING",

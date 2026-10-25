@@ -114,10 +114,7 @@
 "yield" @keyword
 (package) @keyword
 (mutable_specifier) @keyword
-(scoped_identifier (self) @keyword)
 (super) @keyword
-
-(self) @variable.builtin
 
 (char_literal) @string
 (string_literal) @string

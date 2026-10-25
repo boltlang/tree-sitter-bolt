@@ -242,7 +242,7 @@ module.exports = grammar({
     // definitions. This is everything except $ and metavariables (which begin
     // with $).
     _non_special_token: $ => choice(
-      $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.package,
+      $._literal, $.identifier, $.mutable_specifier, $.super, $.package,
       alias(choice(...primitiveTypes), $.primitive_type),
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
@@ -623,7 +623,6 @@ module.exports = grammar({
         choice(
           alias($._typed_function_parameter, $.parameter),
           alias($._untyped_function_parameter, $.parameter),
-          $.self_parameter,
           $.variadic_parameter,
         ))),
       optional(','),
@@ -632,10 +631,7 @@ module.exports = grammar({
 
     _typed_function_parameter: $ => seq(
       optional($.mutable_specifier),
-      field('pattern', choice(
-        $._pattern,
-        $.self,
-      )),
+      field('pattern', $._pattern),
       ':',
       field('type', $._type),
       optional($._parameter_default),
@@ -656,18 +652,12 @@ module.exports = grammar({
         optional($.attribute_item),
         choice(
           $.parameter,
-          $.self_parameter,
           $.variadic_parameter,
           '_',
           $._type,
         ))),
       optional(','),
       ')',
-    ),
-
-    self_parameter: $ => seq(
-      optional($.mutable_specifier),
-      $.self,
     ),
 
     variadic_parameter: $ => seq(
@@ -681,10 +671,7 @@ module.exports = grammar({
 
     parameter: $ => seq(
       optional($.mutable_specifier),
-      field('pattern', choice(
-        $._pattern,
-        $.self,
-      )),
+      field('pattern', $._pattern),
       ':',
       field('type', $._type),
     ),
@@ -699,7 +686,6 @@ module.exports = grammar({
       optional(seq(
         '(',
         choice(
-          $.self,
           $.super,
           $.package,
         ),
@@ -825,7 +811,6 @@ module.exports = grammar({
       $._literal,
       prec.left($.identifier),
       alias(choice(...primitiveTypes), $.identifier),
-      $.self,
       $.field_expression,
       $.array_expression,
       $.tuple_expression,
@@ -1453,7 +1438,6 @@ module.exports = grammar({
     ),
 
     _path: $ => choice(
-      $.self,
       $.metavariable,
       $.identifier,
       $.scoped_identifier,
@@ -1466,7 +1450,6 @@ module.exports = grammar({
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
 
-    self: _ => 'self',
     super: _ => 'super',
     package: _ => 'package',
 

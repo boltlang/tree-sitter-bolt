@@ -28,7 +28,7 @@ fn foo(x: impl fn() -> result.Result[T, E]) {}
 
 fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
-fn accumulate(self) -> Machine[{State.Accumulate}] {}
+fn accumulate(machine) -> Machine[{State.Accumulate}] {}
 
 
 --------------------------------------------------------------------------------
@@ -132,8 +132,8 @@ fn accumulate(self) -> Machine[{State.Accumulate}] {}
   (function_item
     name: (identifier)
     parameters: (parameters
-      (self_parameter
-        (self)))
+      (parameter
+        pattern: (identifier)))
     return_type: (generic_type
       type: (type_identifier)
       type_arguments: (type_arguments
@@ -695,7 +695,7 @@ pub enum c_style_enum {
 Generic functions
 ================================================================================
 
-pub fn splice[T: Into[Text]](self, old_range: Range[usize], new_text: T) {
+pub fn splice[T: Into[Text]](text: Text, old_range: Range[usize], new_text: T) {
 }
 pub fn uninit_array[const LEN: usize]() -> [Self; LEN] {}
 
@@ -714,8 +714,9 @@ pub fn uninit_array[const LEN: usize]() -> [Self; LEN] {}
             type_arguments: (type_arguments
               (type_identifier))))))
     parameters: (parameters
-      (self_parameter
-        (self))
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier))
       (parameter
         pattern: (identifier)
         type: (generic_type
@@ -800,11 +801,11 @@ fn f3((x, y): (T, U)) {}
     (block)))
 
 ================================================================================
-Functions with custom types for self
+Class methods with typed parameters
 ================================================================================
 
 class Callback[T] {
-    fn call(self: Box[Self]);
+    fn call(callback: Box[T]);
 }
 
 --------------------------------------------------------------------------------
@@ -820,7 +821,7 @@ class Callback[T] {
         (identifier)
         (parameters
           (parameter
-            (self)
+            (identifier)
             (generic_type
               (type_identifier)
               (type_arguments
@@ -1015,7 +1016,7 @@ impl Show[MacosOnly] {
 
 match ty {
     #![cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
-    syn.Type.Array(ty) => self.visit_type(ty.elem),
+    syn.Type.Array(ty) => visitor.visit_type(ty.elem),
 }
 
 --------------------------------------------------------------------------------
@@ -1060,7 +1061,7 @@ match ty {
               (identifier)))
           value: (call_expression
             function: (field_expression
-              value: (self)
+              value: (identifier)
               field: (field_identifier))
             arguments: (arguments
               (field_expression
@@ -1271,8 +1272,8 @@ Class instances with items
 impl Walk[Person] {
   const leg_count : u32 = 2;
 
-  fn walk(self) {}
-  fn walk_mut(mut self) {}
+  fn walk(person: Person) {}
+  fn walk_mut(mut person: Person) {}
 }
 
 impl Machine[{State.Init}] {}
@@ -1293,15 +1294,17 @@ impl Machine[{State.Init}] {}
       (function_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            pattern: (identifier)
+            type: (type_identifier)))
         body: (block))
       (function_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
+          (parameter
             (mutable_specifier)
-            (self)))
+            pattern: (identifier)
+            type: (type_identifier)))
         body: (block))))
   (impl_item
     type: (generic_type
@@ -1321,7 +1324,7 @@ impl[T] iter.Iterator[Self.Iter[T]] {
 }
 
 impl ConvertTo[i32, i64] {
-    fn convert(self) -> i64 { self as i64 }
+    fn convert(x: i32) -> i64 { x as i64 }
 }
 
 --------------------------------------------------------------------------------
@@ -1353,12 +1356,13 @@ impl ConvertTo[i32, i64] {
       (function_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            pattern: (identifier)
+            type: (primitive_type)))
         return_type: (primitive_type)
         body: (block
           (type_cast_expression
-            value: (self)
+            value: (identifier)
             type: (primitive_type)))))))
 
 ================================================================================
@@ -1405,7 +1409,7 @@ Trait declarations
 ================================================================================
 
 pub class Item[T] where T: Clone + Eq + fmt.Debug {
-    fn summarize(self) -> Self.Summary;
+    fn summarize(item: T) -> Self.Summary;
 }
 
 
@@ -1431,8 +1435,9 @@ pub class Item[T] where T: Clone + Eq + fmt.Debug {
       (function_signature_item
         (identifier)
         (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            (identifier)
+            (type_identifier)))
         (scoped_type_identifier
           (identifier)
           (type_identifier))))))
@@ -1443,7 +1448,7 @@ Trait declarations with optional type parameters
 
 class Add[RHS=Self] {
     type Output;
-    fn add(self, rhs: RHS) -> Self.Output;
+    fn add(lhs: Self, rhs: RHS) -> Self.Output;
 }
 
 --------------------------------------------------------------------------------
@@ -1461,8 +1466,9 @@ class Add[RHS=Self] {
       (function_signature_item
         (identifier)
         (parameters
-          (self_parameter
-            (self))
+          (parameter
+            (identifier)
+            (type_identifier))
           (parameter
             (identifier)
             (type_identifier)))
@@ -1503,7 +1509,7 @@ Macro invocations inside trait declarations
 
 pub class A[T] where T: B + C + D {
     private_decl!{}
-    fn f(self);
+    fn f(a: T);
 }
 
 --------------------------------------------------------------------------------
@@ -1529,8 +1535,9 @@ pub class A[T] where T: B + C + D {
       (function_signature_item
         (identifier)
         (parameters
-          (self_parameter
-            (self)))))))
+          (parameter
+            (identifier)
+            (type_identifier)))))))
 
 ================================================================================
 Associated Types
@@ -1692,7 +1699,6 @@ Visibility modifiers
 
 pub fn a() {}
 pub(super) fn b() {}
-pub(self) fn c() {}
 pub(package) fn c() {}
 
 --------------------------------------------------------------------------------
@@ -1706,12 +1712,6 @@ pub(package) fn c() {}
   (function_item
     (visibility_modifier
       (super))
-    (identifier)
-    (parameters)
-    (block))
-  (function_item
-    (visibility_modifier
-      (self))
     (identifier)
     (parameters)
     (block))
@@ -1751,7 +1751,7 @@ fn bar(bool: bool) {}
 Where clauses
 ================================================================================
 
-fn walk[F](self, it: F) -> bool
+fn walk[F](pat: Pat, it: F) -> bool
     where F: fn(Pat) -> bool
 {
   return false
@@ -1795,8 +1795,9 @@ impl[A] Default[B[A]] where A: C + D {}
       (type_parameter
         name: (type_identifier)))
     parameters: (parameters
-      (self_parameter
-        (self))
+      (parameter
+        pattern: (identifier)
+        type: (type_identifier))
       (parameter
         pattern: (identifier)
         type: (type_identifier)))
@@ -2091,7 +2092,7 @@ fn id(x) { x }
 fn add(a, b: i32, mut c, (d, e)) {}
 fn a + b { a }
 class C[T] {
-    fn f(self, x);
+    fn f(c, x);
 }
 let f: fn(i32, String) -> i32 = g;
 
@@ -2136,8 +2137,8 @@ let f: fn(i32, String) -> i32 = g;
       (function_signature_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self))
+          (parameter
+            pattern: (identifier))
           (parameter
             pattern: (identifier))))))
   (let_declaration
@@ -2157,7 +2158,7 @@ fn foo(x = 1) {}
 fn shoot(direction: Vec3, strength: f32 = 1.0, mut n: i32 = a + b * 2) {}
 fn greet(name = "world", (a, b) = (1, 2),) {}
 class C[T] {
-    fn f(self, x = default());
+    fn f(c, x = default());
 }
 
 --------------------------------------------------------------------------------
@@ -2214,8 +2215,8 @@ class C[T] {
       (function_signature_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self))
+          (parameter
+            pattern: (identifier))
           (parameter
             pattern: (identifier)
             default: (call_expression
@@ -2232,11 +2233,11 @@ fn a + b = add(a, b);
 fn pick[T](c, a: T, b: T) -> T = if c { a } else { b };
 fn scale(x, by = 2) = x * by;
 class Show[T] {
-    fn show(self) -> String;
-    fn print(self) = print(self.show());
+    fn show(x: T) -> String;
+    fn print(x: T) = print(x.show());
 }
 impl Show[bool] {
-    fn show(self) -> String = if self { "yes" } else { "no" };
+    fn show(b: bool) -> String = if b { "yes" } else { "no" };
 }
 
 --------------------------------------------------------------------------------
@@ -2311,20 +2312,22 @@ impl Show[bool] {
       (function_signature_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            pattern: (identifier)
+            type: (type_identifier)))
         return_type: (type_identifier))
       (function_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            pattern: (identifier)
+            type: (type_identifier)))
         body: (call_expression
           function: (identifier)
           arguments: (arguments
             (call_expression
               function: (field_expression
-                value: (self)
+                value: (identifier)
                 field: (field_identifier))
               arguments: (arguments)))))))
   (impl_item
@@ -2336,11 +2339,12 @@ impl Show[bool] {
       (function_item
         name: (identifier)
         parameters: (parameters
-          (self_parameter
-            (self)))
+          (parameter
+            pattern: (identifier)
+            type: (primitive_type)))
         return_type: (type_identifier)
         body: (if_expression
-          condition: (self)
+          condition: (identifier)
           consequence: (block
             (string_literal
               (string_content)))
