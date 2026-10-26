@@ -88,8 +88,6 @@
 
 
 "as" @keyword
-"async" @keyword
-"await" @keyword
 "break" @keyword
 "const" @keyword
 "continue" @keyword
