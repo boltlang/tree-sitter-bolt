@@ -4210,44 +4210,17 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "FIELD",
-                    "name": "trait",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "_type_identifier"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "scoped_type_identifier"
-                        }
-                      ]
-                    }
+                    "type": "SYMBOL",
+                    "name": "function_modifiers"
                   },
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "function_modifiers"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "fn"
-                      }
-                    ]
+                    "type": "BLANK"
                   }
                 ]
+              },
+              {
+                "type": "STRING",
+                "value": "fn"
               },
               {
                 "type": "FIELD",
@@ -8678,14 +8651,6 @@
     [
       "scoped_identifier",
       "scoped_type_identifier"
-    ],
-    [
-      "_function_type_parameters",
-      "_pattern"
-    ],
-    [
-      "_function_type_parameters",
-      "tuple_struct_pattern"
     ],
     [
       "array_expression"

@@ -24,7 +24,7 @@ fn foo() {
     return
 }
 
-fn foo(x: impl FnOnce() -> result.Result[T, E]) {}
+fn foo(x: impl fn() -> result.Result[T, E]) {}
 
 fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
@@ -104,7 +104,6 @@ fn accumulate(self) -> Machine[{State.Accumulate}] {}
         pattern: (identifier)
         type: (abstract_type
           trait: (function_type
-            trait: (type_identifier)
             parameters: (parameters)
             return_type: (generic_type
               type: (scoped_type_identifier
@@ -861,7 +860,7 @@ Type aliases
 
 type Inch = u64;
 type Name[T] = Vec[T];
-type LazyResolve = impl (FnOnce() -> Capture) + Send + Sync + UnwindSafe;
+type LazyResolve = impl (fn() -> Capture) + Send + Sync + UnwindSafe;
 
 --------------------------------------------------------------------------------
 
@@ -886,7 +885,6 @@ type LazyResolve = impl (FnOnce() -> Capture) + Send + Sync + UnwindSafe;
           (abstract_type
             (tuple_type
               (function_type
-                (type_identifier)
                 (parameters)
                 (type_identifier))))
           (type_identifier))
@@ -1755,7 +1753,7 @@ Where clauses
 ================================================================================
 
 fn walk[F](self, it: F) -> bool
-    where F: FnMut(Pat) -> bool
+    where F: fn(Pat) -> bool
 {
   return false
 }
@@ -1809,7 +1807,6 @@ impl[A] Default[B[A]] where A: C + D {}
         left: (type_identifier)
         bounds: (trait_bounds
           (function_type
-            trait: (type_identifier)
             parameters: (parameters
               (type_identifier))
             return_type: (primitive_type)))))
