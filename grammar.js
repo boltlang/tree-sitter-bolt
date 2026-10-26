@@ -117,8 +117,6 @@ module.exports = grammar({
     [$._type, $._pattern],
     [$.unit_type, $.tuple_pattern],
     [$.scoped_identifier, $.scoped_type_identifier],
-    [$._function_type_parameters, $._pattern],
-    [$._function_type_parameters, $.tuple_struct_pattern],
     [$.array_expression],
     [$.visibility_modifier],
     // `a.b` is a field access, unless a `{` follows and makes it the name of a
@@ -740,16 +738,8 @@ module.exports = grammar({
 
     function_type: $ => seq(
       prec(PREC.call, seq(
-        choice(
-          field('trait', choice(
-            $._type_identifier,
-            $.scoped_type_identifier,
-          )),
-          seq(
-            optional($.function_modifiers),
-            'fn',
-          ),
-        ),
+        optional($.function_modifiers),
+        'fn',
         field('parameters', alias($._function_type_parameters, $.parameters)),
       )),
       optional(seq('->', field('return_type', $._type))),
