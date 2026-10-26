@@ -246,7 +246,7 @@ module.exports = grammar({
       alias(choice(...primitiveTypes), $.primitive_type),
       prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_PUNCTUATION))),
       '\'',
-      'as', 'async', 'await', 'break', 'const', 'continue', 'enum', 'fn', 'for',
+      'as', 'break', 'const', 'continue', 'enum', 'fn', 'for',
       'if', 'impl', 'let', 'loop', 'match', 'pub', 'return', 'struct', 'class',
       'type', 'import', 'where', 'while',
     ),
@@ -452,7 +452,6 @@ module.exports = grammar({
 
 
     function_modifiers: $ => repeat1(choice(
-      'async',
       'const',
       $.extern_modifier,
     )),
@@ -827,7 +826,6 @@ module.exports = grammar({
       prec.left($.identifier),
       alias(choice(...primitiveTypes), $.identifier),
       $.self,
-      $.await_expression,
       $.field_expression,
       $.array_expression,
       $.tuple_expression,
@@ -850,7 +848,6 @@ module.exports = grammar({
     ),
 
     _expression_ending_with_block: $ => choice(
-      $.async_block,
       $.block,
       $.if_expression,
       $.match_expression,
@@ -1170,7 +1167,6 @@ module.exports = grammar({
     )),
 
     closure_expression: $ => prec(PREC.closure, seq(
-      optional('async'),
       field('parameters', $.closure_parameters),
       choice(
         seq(
@@ -1198,12 +1194,6 @@ module.exports = grammar({
 
     index_expression: $ => prec(PREC.call, seq($._expression, '[', $._expression, ']')),
 
-    await_expression: $ => prec(PREC.field, seq(
-      $._expression,
-      '.',
-      'await',
-    )),
-
     field_expression: $ => prec(PREC.field, seq(
       field('value', $._expression),
       '.',
@@ -1212,11 +1202,6 @@ module.exports = grammar({
         $.integer_literal,
       )),
     )),
-
-    async_block: $ => seq(
-      'async',
-      $.block,
-    ),
 
     block: $ => seq(
       optional(seq($.label, ':')),

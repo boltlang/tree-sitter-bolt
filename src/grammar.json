@@ -1020,14 +1020,6 @@
         },
         {
           "type": "STRING",
-          "value": "async"
-        },
-        {
-          "type": "STRING",
-          "value": "await"
-        },
-        {
-          "type": "STRING",
           "value": "break"
         },
         {
@@ -2503,10 +2495,6 @@
       "content": {
         "type": "CHOICE",
         "members": [
-          {
-            "type": "STRING",
-            "value": "async"
-          },
           {
             "type": "STRING",
             "value": "const"
@@ -4752,10 +4740,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "await_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "field_expression"
         },
         {
@@ -4832,10 +4816,6 @@
     "_expression_ending_with_block": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "async_block"
-        },
         {
           "type": "SYMBOL",
           "name": "block"
@@ -6914,18 +6894,6 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "async"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
             "type": "FIELD",
             "name": "parameters",
             "content": {
@@ -7160,27 +7128,6 @@
         ]
       }
     },
-    "await_expression": {
-      "type": "PREC",
-      "value": 14,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "STRING",
-            "value": "await"
-          }
-        ]
-      }
-    },
     "field_expression": {
       "type": "PREC",
       "value": 14,
@@ -7218,19 +7165,6 @@
           }
         ]
       }
-    },
-    "async_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "async"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
     },
     "block": {
       "type": "SEQ",
