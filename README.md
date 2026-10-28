@@ -1,8 +1,7 @@
 # tree-sitter-bolt
 
 [![CI][ci]](https://github.com/boltlang/tree-sitter-bolt/actions/workflows/ci.yml)
-[![discord][discord]](https://discord.gg/w7nTvsVJhm)
-[![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)
+[![discord][discord]](https://discord.gg/thbTssDD)
 [![crates][crates]](https://crates.io/crates/tree-sitter-bolt)
 [![npm][npm]](https://www.npmjs.com/package/tree-sitter-bolt)
 [![pypi][pypi]](https://pypi.org/project/tree-sitter-bolt)
