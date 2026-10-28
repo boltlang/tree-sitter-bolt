@@ -114,6 +114,10 @@
 "yield" @keyword
 (package) @keyword
 (mutable_specifier) @keyword
+; `mut` and `imm` before a type or as a bound, and names like `'m`.
+(mutability "mut" @keyword)
+(mutability "imm" @keyword)
+(mutability_name) @label
 (super) @keyword
 
 (char_literal) @string

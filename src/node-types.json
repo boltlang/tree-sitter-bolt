@@ -296,6 +296,14 @@
         "named": true
       },
       {
+        "type": "mutability",
+        "named": true
+      },
+      {
+        "type": "mutable_type",
+        "named": true
+      },
+      {
         "type": "never_type",
         "named": true
       },
@@ -411,6 +419,10 @@
         },
         {
           "type": "attribute_item",
+          "named": true
+        },
+        {
+          "type": "mutable_specifier",
           "named": true
         }
       ]
@@ -1003,6 +1015,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "mutable_specifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2733,6 +2755,93 @@
     }
   },
   {
+    "type": "mutability",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "mutability_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mutability_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mutability_parameter",
+    "named": true,
+    "fields": {
+      "bounds": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "trait_bounds",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "mutability_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mutable_specifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "mutable_type",
+    "named": true,
+    "fields": {
+      "mutability": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "mutability",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "negative_literal",
     "named": true,
     "fields": {},
@@ -3429,6 +3538,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "mutable_specifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4054,6 +4173,10 @@
           "named": true
         },
         {
+          "type": "mutability_parameter",
+          "named": true
+        },
+        {
           "type": "type_parameter",
           "named": true
         }
@@ -4179,6 +4302,14 @@
           },
           {
             "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "mutability",
+            "named": true
+          },
+          {
+            "type": "mutable_type",
             "named": true
           },
           {
@@ -4553,6 +4684,10 @@
     "named": false
   },
   {
+    "type": "imm",
+    "named": false
+  },
+  {
     "type": "impl",
     "named": false
   },
@@ -4601,8 +4736,8 @@
     "named": true
   },
   {
-    "type": "mutable_specifier",
-    "named": true
+    "type": "mut",
+    "named": false
   },
   {
     "type": "package",

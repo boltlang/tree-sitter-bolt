@@ -117,6 +117,12 @@ module.exports = grammar({
     [$._type, $._pattern],
     [$.unit_type, $.tuple_pattern],
     [$.scoped_identifier, $.scoped_type_identifier],
+    // In a function type, `mut` starts a parameter, like `fn(mut x: i32)`,
+    // or a type, like `fn(mut [i32])`. Only the `mut` of a type is a
+    // `mutability`, since a binding can't be `imm` or `'m`.
+    [$.mutability, $.mutable_specifier],
+    // `mut Shape.Circle` starts a struct literal or a call of a constructor.
+    [$.scoped_identifier, $.scoped_type_identifier_in_expression_position, $._constructor_path],
     [$.array_expression],
     [$.visibility_modifier],
     // `a.b` is a field access, unless a `{` follows and makes it the name of a
@@ -470,6 +476,9 @@ module.exports = grammar({
           $.generic_type,
           $.tuple_type,
           $.array_type,
+          $.mutable_type,
+          // `'v: 'm`: a mutability is at most another.
+          $.mutability,
           alias(choice(...primitiveTypes), $.primitive_type),
         )),
         field('bounds', $.trait_bounds),
@@ -523,6 +532,7 @@ module.exports = grammar({
           $.metavariable,
           $.type_parameter,
           $.const_parameter,
+          $.mutability_parameter,
         ),
       )),
       optional(','),
@@ -547,6 +557,13 @@ module.exports = grammar({
           ),
         ),
       ),
+    ),
+
+    // `'v` or `'v: imm`: a named mutability that a struct takes, like the
+    // `'v` of `struct VecIter[T, 'v] { data: 'v Vec[T] }`.
+    mutability_parameter: $ => seq(
+      field('name', alias($.label, $.mutability_name)),
+      optional(field('bounds', $.trait_bounds)),
     ),
 
     type_parameter: $ => prec(1, seq(
@@ -691,6 +708,8 @@ module.exports = grammar({
     // Section - Types
 
     _type: $ => choice(
+      $.mutable_type,
+      $.mutability,
       $.abstract_type,
       $.metavariable,
       $.generic_type,
@@ -775,6 +794,24 @@ module.exports = grammar({
     ),
 
     never_type: _ => '!',
+
+    // `mut [i32]`, `imm Point` or `'m Point`: a type with a mutability. The
+    // type has no bounds, so `mut A + B` is `(mut A) + B`.
+    mutable_type: $ => prec(1, seq(
+      field('mutability', $.mutability),
+      field('type', $._type),
+    )),
+
+    // `mut`, `imm` or a name like `'m`. On its own, it's a bound like the
+    // `imm` of `T: imm`, or a mutability argument like the `imm` of
+    // `VecIter[i32, imm]`.
+    // A name gives way to a labeled block, like the `'a: { ... }` of
+    // `x['a: { 1 }]`.
+    mutability: $ => choice(
+      'mut',
+      'imm',
+      prec(-1, alias($.label, $.mutability_name)),
+    ),
 
     abstract_type: $ => seq(
       'impl',
@@ -953,10 +990,32 @@ module.exports = grammar({
       prec(-1, 'yield'),
     ),
 
-    call_expression: $ => prec(PREC.call, seq(
-      field('function', $._expression_except_range),
-      field('arguments', $.arguments),
+    call_expression: $ => prec(PREC.call, choice(
+      seq(
+        field('function', $._expression_except_range),
+        field('arguments', $.arguments),
+      ),
+      // `mut Wrapper(1)`: a tuple struct that can be changed, made by its
+      // constructor, which can be in a module or an enum.
+      seq(
+        $.mutable_specifier,
+        field('function', $._constructor_path),
+        field('arguments', $.arguments),
+      ),
     )),
+
+    // `Wrapper`, `m.Wrapper` or `Shape.Circle`: names only, as field
+    // accesses like elsewhere, so that `mut` can't be before any expression.
+    _constructor_path: $ => choice(
+      $.identifier,
+      alias($._constructor_field, $.field_expression),
+    ),
+
+    _constructor_field: $ => seq(
+      field('value', $._constructor_path),
+      '.',
+      field('field', alias($.identifier, $.field_identifier)),
+    ),
 
     arguments: $ => seq(
       '(',
@@ -964,7 +1023,9 @@ module.exports = grammar({
       ')',
     ),
 
+    // `mut [1, 2]` is an array that can be changed.
     array_expression: $ => seq(
+      optional($.mutable_specifier),
       '[',
       repeat($.attribute_item),
       choice(
@@ -997,7 +1058,9 @@ module.exports = grammar({
 
     unit_expression: _ => seq('(', ')'),
 
+    // `mut Point { x: 1 }` is a struct that can be changed.
     struct_expression: $ => seq(
+      optional($.mutable_specifier),
       field('name', choice(
         $._type_identifier,
         alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),

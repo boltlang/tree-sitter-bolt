@@ -1,0 +1,267 @@
+================================================================================
+Types with a mutability
+================================================================================
+
+type A = mut [i32];
+type B = imm Point;
+type C = Option['m Point];
+fn f(xs: mut [T], g: fn(mut [i32]) -> ()) -> imm [T];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_item
+    (type_identifier)
+    (mutable_type
+      (mutability)
+      (array_type
+        (primitive_type))))
+  (type_item
+    (type_identifier)
+    (mutable_type
+      (mutability)
+      (type_identifier)))
+  (type_item
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (mutable_type
+          (mutability
+            (mutability_name
+              (identifier)))
+          (type_identifier)))))
+  (function_signature_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (mutable_type
+          (mutability)
+          (array_type
+            (type_identifier))))
+      (parameter
+        (identifier)
+        (function_type
+          (parameters
+            (mutable_type
+              (mutability)
+              (array_type
+                (primitive_type))))
+          (unit_type))))
+    (mutable_type
+      (mutability)
+      (array_type
+        (type_identifier)))))
+
+================================================================================
+Mutability bounds
+================================================================================
+
+fn wrap[T: imm](x: T) -> imm Box[T] = Box { item: x };
+fn reader(xs: 'v [i32]) -> 'f fn() -> i32 where 'v: 'f, T: 'v + Eq = || xs[0];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (trait_bounds
+          (mutability))))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (mutable_type
+      (mutability)
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier))))
+    (struct_expression
+      (type_identifier)
+      (field_initializer_list
+        (field_initializer
+          (field_identifier)
+          (identifier)))))
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (mutable_type
+          (mutability
+            (mutability_name
+              (identifier)))
+          (array_type
+            (primitive_type)))))
+    (mutable_type
+      (mutability
+        (mutability_name
+          (identifier)))
+      (function_type
+        (parameters)
+        (primitive_type)))
+    (where_clause
+      (where_predicate
+        (mutability
+          (mutability_name
+            (identifier)))
+        (trait_bounds
+          (mutability
+            (mutability_name
+              (identifier)))))
+      (where_predicate
+        (type_identifier)
+        (trait_bounds
+          (mutability
+            (mutability_name
+              (identifier)))
+          (type_identifier))))
+    (closure_expression
+      (closure_parameters)
+      (index_expression
+        (identifier)
+        (integer_literal)))))
+
+================================================================================
+Mutability parameters and arguments
+================================================================================
+
+struct VecIter[T, 'v: imm] { data: 'v Vec[T], index: i32 }
+impl[T] Iterable['v Vec[T]] { type Iter = mut VecIter[T, 'v]; }
+fn first(it: VecIter[i32, imm]) -> i32 = 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_item
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (mutability_parameter
+        (mutability_name
+          (identifier))
+        (trait_bounds
+          (mutability))))
+    (field_declaration_list
+      (field_declaration
+        (field_identifier)
+        (mutable_type
+          (mutability
+            (mutability_name
+              (identifier)))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))))
+      (field_declaration
+        (field_identifier)
+        (primitive_type))))
+  (impl_item
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (mutable_type
+          (mutability
+            (mutability_name
+              (identifier)))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier))))))
+    (declaration_list
+      (type_item
+        (type_identifier)
+        (mutable_type
+          (mutability)
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (mutability
+                (mutability_name
+                  (identifier)))))))))
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (primitive_type)
+            (mutability)))))
+    (primitive_type)
+    (integer_literal)))
+
+================================================================================
+Values that can be changed
+================================================================================
+
+let a = mut [1, 2];
+let p = mut Shape.Circle { radius: 1.0 };
+let w = mut m.Wrapper(1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (array_expression
+      (mutable_specifier)
+      (integer_literal)
+      (integer_literal)))
+  (let_declaration
+    (identifier)
+    (struct_expression
+      (mutable_specifier)
+      (scoped_type_identifier
+        (identifier)
+        (type_identifier))
+      (field_initializer_list
+        (field_initializer
+          (field_identifier)
+          (float_literal)))))
+  (let_declaration
+    (identifier)
+    (call_expression
+      (mutable_specifier)
+      (field_expression
+        (identifier)
+        (field_identifier))
+      (arguments
+        (integer_literal)))))
+
+================================================================================
+A mut parameter of a function type
+================================================================================
+
+fn f(g: fn(mut x: i32)) { let mut y = 1; }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (function_type
+          (parameters
+            (parameter
+              (mutable_specifier)
+              (identifier)
+              (primitive_type))))))
+    (block
+      (let_declaration
+        (mutable_specifier)
+        (identifier)
+        (integer_literal)))))

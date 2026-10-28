@@ -2613,6 +2613,14 @@
                     "name": "array_type"
                   },
                   {
+                    "type": "SYMBOL",
+                    "name": "mutable_type"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "mutability"
+                  },
+                  {
                     "type": "ALIAS",
                     "content": {
                       "type": "CHOICE",
@@ -2978,6 +2986,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "const_parameter"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "mutability_parameter"
                       }
                     ]
                   }
@@ -3016,6 +3028,10 @@
                             {
                               "type": "SYMBOL",
                               "name": "const_parameter"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "mutability_parameter"
                             }
                           ]
                         }
@@ -3108,6 +3124,40 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "mutability_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "label"
+            },
+            "named": true,
+            "value": "mutability_name"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "bounds",
+              "content": {
+                "type": "SYMBOL",
+                "name": "trait_bounds"
+              }
             },
             {
               "type": "BLANK"
@@ -3975,6 +4025,14 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "mutable_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mutability"
+        },
+        {
+          "type": "SYMBOL",
           "name": "abstract_type"
         },
         {
@@ -4495,6 +4553,57 @@
     "never_type": {
       "type": "STRING",
       "value": "!"
+    },
+    "mutable_type": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "mutability",
+            "content": {
+              "type": "SYMBOL",
+              "name": "mutability"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type"
+            }
+          }
+        ]
+      }
+    },
+    "mutability": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "mut"
+        },
+        {
+          "type": "STRING",
+          "value": "imm"
+        },
+        {
+          "type": "PREC",
+          "value": -1,
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "label"
+            },
+            "named": true,
+            "value": "mutability_name"
+          }
+        }
+      ]
     },
     "abstract_type": {
       "type": "SEQ",
@@ -5684,26 +5793,104 @@
       "type": "PREC",
       "value": 15,
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "FIELD",
-            "name": "function",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression_except_range"
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "function",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression_except_range"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "arguments",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "arguments"
+                }
+              }
+            ]
           },
           {
-            "type": "FIELD",
-            "name": "arguments",
-            "content": {
-              "type": "SYMBOL",
-              "name": "arguments"
-            }
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "mutable_specifier"
+              },
+              {
+                "type": "FIELD",
+                "name": "function",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_constructor_path"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "arguments",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "arguments"
+                }
+              }
+            ]
           }
         ]
       }
+    },
+    "_constructor_path": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constructor_field"
+          },
+          "named": true,
+          "value": "field_expression"
+        }
+      ]
+    },
+    "_constructor_field": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_constructor_path"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "FIELD",
+          "name": "field",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            "named": true,
+            "value": "field_identifier"
+          }
+        }
+      ]
     },
     "arguments": {
       "type": "SEQ",
@@ -5795,6 +5982,18 @@
     "array_expression": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "mutable_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "["
@@ -6011,6 +6210,18 @@
     "struct_expression": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "mutable_specifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "FIELD",
           "name": "name",
@@ -8570,6 +8781,15 @@
     [
       "scoped_identifier",
       "scoped_type_identifier"
+    ],
+    [
+      "mutability",
+      "mutable_specifier"
+    ],
+    [
+      "scoped_identifier",
+      "scoped_type_identifier_in_expression_position",
+      "_constructor_path"
     ],
     [
       "array_expression"
