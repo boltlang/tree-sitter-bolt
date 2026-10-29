@@ -397,6 +397,8 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
+      // `fn Vec.new()`: a function in the namespace of the type `Vec`.
+      optional(seq(field('owner', $._type_identifier), '.')),
       field('name', choice($.identifier, $.metavariable)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
@@ -413,6 +415,8 @@ module.exports = grammar({
       optional($.visibility_modifier),
       optional($.function_modifiers),
       'fn',
+      // `fn Vec.new()`: a function in the namespace of the type `Vec`.
+      optional(seq(field('owner', $._type_identifier), '.')),
       field('name', choice($.identifier, $.metavariable)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),

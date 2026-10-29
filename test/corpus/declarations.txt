@@ -2570,3 +2570,24 @@ class Num[T] {
           pattern: (identifier)
           type: (type_identifier))
         return_type: (type_identifier)))))
+
+================================================================================
+Functions in the namespace of a type
+================================================================================
+
+fn Vec.new() -> Vec = v;
+fn Point.origin();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    owner: (type_identifier)
+    name: (identifier)
+    parameters: (parameters)
+    return_type: (type_identifier)
+    body: (identifier))
+  (function_signature_item
+    owner: (type_identifier)
+    name: (identifier)
+    parameters: (parameters)))

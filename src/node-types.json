@@ -1933,6 +1933,16 @@
           }
         ]
       },
+      "owner": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
       "parameters": {
         "multiple": false,
         "required": true,
@@ -2012,6 +2022,16 @@
           },
           {
             "type": "metavariable",
+            "named": true
+          }
+        ]
+      },
+      "owner": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_identifier",
             "named": true
           }
         ]
