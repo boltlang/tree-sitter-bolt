@@ -544,6 +544,25 @@ struct Empty(pub ());
       (visibility_modifier)
       (unit_type))))
 
+
+================================================================================
+Imm structs
+================================================================================
+
+pub imm struct String(Vec[u8]);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_item
+    (visibility_modifier)
+    (type_identifier)
+    (ordered_field_declaration_list
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (primitive_type))))))
+
 ================================================================================
 Generic structs
 ================================================================================

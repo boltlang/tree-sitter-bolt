@@ -298,6 +298,8 @@ module.exports = grammar({
 
     struct_item: $ => seq(
       optional($.visibility_modifier),
+      // `imm struct String(Vec[u8]);`: a struct whose values are all `imm`.
+      optional('imm'),
       'struct',
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
