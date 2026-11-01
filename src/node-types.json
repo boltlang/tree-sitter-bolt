@@ -2285,9 +2285,18 @@
         {
           "type": "import_alias",
           "named": true
+        },
+        {
+          "type": "import_operator",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "import_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "import_wildcard",
