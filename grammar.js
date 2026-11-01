@@ -620,10 +620,14 @@ module.exports = grammar({
 
     import_list: $ => seq(
       '(',
-      sepBy1(',', choice($.identifier, $.import_alias)),
+      sepBy1(',', choice($.identifier, $.import_alias, $.import_operator)),
       optional(','),
       ')',
     ),
+
+    // `import "./ops" (==, -);`: an operator imports its prefix and infix
+    // definitions.
+    import_operator: $ => choice(...OVERLOADABLE_OPERATORS),
 
     import_alias: $ => seq(
       field('name', $.identifier),
