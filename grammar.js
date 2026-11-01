@@ -132,10 +132,10 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  // Words that are never names, as in the compiler's lexer: `imm` can't name
-  // a variable or a field, though it's only used before types and `struct`.
+  // Words that are never names, as in the compiler's lexer: `mut` and `imm`
+  // can't name a variable, a function or a field.
   reserved: {
-    global: _ => ['imm'],
+    global: _ => ['imm', 'mut'],
   },
 
   rules: {
