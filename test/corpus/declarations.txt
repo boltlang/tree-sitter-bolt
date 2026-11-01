@@ -564,6 +564,52 @@ pub imm struct String(Vec[u8]);
           (primitive_type))))))
 
 ================================================================================
+Imm structs with fields, parameters and attributes
+================================================================================
+
+imm struct Unit;
+#[derive(Debug)]
+pub(package) imm struct Point { x: i32, y: i32 }
+imm struct Pair[A, B](A, B) where A: Eq;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_item
+    (type_identifier))
+  (attribute_item
+    (attribute
+      (identifier)
+      (token_tree
+        (identifier))))
+  (struct_item
+    (visibility_modifier
+      (package))
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (field_identifier)
+        (primitive_type))
+      (field_declaration
+        (field_identifier)
+        (primitive_type))))
+  (struct_item
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
+    (ordered_field_declaration_list
+      (type_identifier)
+      (type_identifier))
+    (where_clause
+      (where_predicate
+        (type_identifier)
+        (trait_bounds
+          (type_identifier))))))
+
+================================================================================
 Generic structs
 ================================================================================
 

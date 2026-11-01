@@ -132,6 +132,12 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
+  // Words that are never names, as in the compiler's lexer: `imm` can't name
+  // a variable or a field, though it's only used before types and `struct`.
+  reserved: {
+    global: _ => ['imm'],
+  },
+
   rules: {
     source_file: $ => seq(
       optional($.shebang),

@@ -9010,5 +9010,12 @@
     "_declaration_statement",
     "_pattern"
   ],
-  "reserved": {}
+  "reserved": {
+    "global": [
+      {
+        "type": "STRING",
+        "value": "imm"
+      }
+    ]
+  }
 }
