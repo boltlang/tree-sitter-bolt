@@ -209,36 +209,41 @@ Values that can be changed
 let a = mut [1, 2];
 let p = mut Shape.Circle { radius: 1.0 };
 let w = mut m.Wrapper(1);
+let c = mut xs;
 
 --------------------------------------------------------------------------------
 
 (source_file
   (let_declaration
     (identifier)
-    (array_expression
-      (mutable_specifier)
-      (integer_literal)
-      (integer_literal)))
+    (mut_expression
+      (array_expression
+        (integer_literal)
+        (integer_literal))))
   (let_declaration
     (identifier)
-    (struct_expression
-      (mutable_specifier)
-      (scoped_type_identifier
-        (identifier)
-        (type_identifier))
-      (field_initializer_list
-        (field_initializer
-          (field_identifier)
-          (float_literal)))))
+    (mut_expression
+      (struct_expression
+        (scoped_type_identifier
+          (identifier)
+          (type_identifier))
+        (field_initializer_list
+          (field_initializer
+            (field_identifier)
+            (float_literal))))))
   (let_declaration
     (identifier)
-    (call_expression
-      (mutable_specifier)
-      (field_expression
-        (identifier)
-        (field_identifier))
-      (arguments
-        (integer_literal)))))
+    (mut_expression
+      (call_expression
+        (field_expression
+          (identifier)
+          (field_identifier))
+        (arguments
+          (integer_literal)))))
+  (let_declaration
+    (identifier)
+    (mut_expression
+      (identifier))))
 
 ================================================================================
 A mut parameter of a function type

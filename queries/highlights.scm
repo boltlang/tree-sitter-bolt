@@ -117,6 +117,7 @@
 ; `mut` before a type or as a bound, `imm` there and before `struct`, and
 ; names like `'m`.
 (mutability "mut" @keyword)
+(mut_expression "mut" @keyword)
 "imm" @keyword
 (mutability_name) @label
 (super) @keyword

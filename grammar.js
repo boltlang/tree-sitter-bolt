@@ -121,8 +121,6 @@ module.exports = grammar({
     // or a type, like `fn(mut [i32])`. Only the `mut` of a type is a
     // `mutability`, since a binding can't be `imm` or `'m`.
     [$.mutability, $.mutable_specifier],
-    // `mut Shape.Circle` starts a struct literal or a call of a constructor.
-    [$.scoped_identifier, $.scoped_type_identifier_in_expression_position, $._constructor_path],
     [$.array_expression],
     [$.visibility_modifier],
     // `a.b` is a field access, unless a `{` follows and makes it the name of a
@@ -849,6 +847,7 @@ module.exports = grammar({
     _expression_except_range: $ => choice(
       $.unary_expression,
       $.imm_expression,
+      $.mut_expression,
       $.try_expression,
       $.binary_expression,
       $.assignment_expression,
@@ -958,6 +957,13 @@ module.exports = grammar({
       $._expression,
     )),
 
+    // `mut e`: `e` made `mut`, like `mut [1, 2]` or `mut Point { x: 1 }`, or
+    // a copy of what's `imm` in a value. It binds like `-`.
+    mut_expression: $ => prec(PREC.unary, seq(
+      'mut',
+      $._expression,
+    )),
+
     try_expression: $ => prec(PREC.try, seq(
       $._expression,
       '?',
@@ -1013,32 +1019,10 @@ module.exports = grammar({
       prec(-1, 'yield'),
     ),
 
-    call_expression: $ => prec(PREC.call, choice(
-      seq(
-        field('function', $._expression_except_range),
-        field('arguments', $.arguments),
-      ),
-      // `mut Wrapper(1)`: a tuple struct that can be changed, made by its
-      // constructor, which can be in a module or an enum.
-      seq(
-        $.mutable_specifier,
-        field('function', $._constructor_path),
-        field('arguments', $.arguments),
-      ),
+    call_expression: $ => prec(PREC.call, seq(
+      field('function', $._expression_except_range),
+      field('arguments', $.arguments),
     )),
-
-    // `Wrapper`, `m.Wrapper` or `Shape.Circle`: names only, as field
-    // accesses like elsewhere, so that `mut` can't be before any expression.
-    _constructor_path: $ => choice(
-      $.identifier,
-      alias($._constructor_field, $.field_expression),
-    ),
-
-    _constructor_field: $ => seq(
-      field('value', $._constructor_path),
-      '.',
-      field('field', alias($.identifier, $.field_identifier)),
-    ),
 
     arguments: $ => seq(
       '(',
@@ -1046,9 +1030,7 @@ module.exports = grammar({
       ')',
     ),
 
-    // `mut [1, 2]` is an array that can be changed.
     array_expression: $ => seq(
-      optional($.mutable_specifier),
       '[',
       repeat($.attribute_item),
       choice(
@@ -1081,9 +1063,7 @@ module.exports = grammar({
 
     unit_expression: _ => seq('(', ')'),
 
-    // `mut Point { x: 1 }` is a struct that can be changed.
     struct_expression: $ => seq(
-      optional($.mutable_specifier),
       field('name', choice(
         $._type_identifier,
         alias($.scoped_type_identifier_in_expression_position, $.scoped_type_identifier),
