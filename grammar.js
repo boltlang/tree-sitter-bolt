@@ -848,6 +848,7 @@ module.exports = grammar({
 
     _expression_except_range: $ => choice(
       $.unary_expression,
+      $.imm_expression,
       $.try_expression,
       $.binary_expression,
       $.assignment_expression,
@@ -948,6 +949,12 @@ module.exports = grammar({
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '!'),
+      $._expression,
+    )),
+
+    // `imm e`: a copy of `e` that can't be changed. It binds like `-`.
+    imm_expression: $ => prec(PREC.unary, seq(
+      'imm',
       $._expression,
     )),
 

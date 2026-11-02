@@ -265,3 +265,28 @@ fn f(g: fn(mut x: i32)) { let mut y = 1; }
         (mutable_specifier)
         (identifier)
         (integer_literal)))))
+
+================================================================================
+Imm copies
+================================================================================
+
+let ys = imm { xs };
+let n = imm f(x) + 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (imm_expression
+      (block
+        (identifier))))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (imm_expression
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier))))
+      (integer_literal))))

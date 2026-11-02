@@ -4828,6 +4828,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "imm_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "try_expression"
         },
         {
@@ -5357,6 +5361,23 @@
                 "value": "!"
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "imm_expression": {
+      "type": "PREC",
+      "value": 12,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "imm"
           },
           {
             "type": "SYMBOL",
