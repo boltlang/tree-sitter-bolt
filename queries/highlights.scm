@@ -111,7 +111,6 @@
 "import" @keyword
 "where" @keyword
 "while" @keyword
-"yield" @keyword
 (package) @keyword
 (mutable_specifier) @keyword
 ; `mut` before a type or as a bound, `imm` there and before `struct`, and

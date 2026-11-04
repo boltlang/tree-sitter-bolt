@@ -1146,7 +1146,7 @@ Generators
 
 || {
     while i <= n {
-        yield i;
+        yield(i);
         i += 1;
     }
     return;
@@ -1166,8 +1166,10 @@ Generators
               (identifier))
             (block
               (expression_statement
-                (yield_expression
-                  (identifier)))
+                (call_expression
+                  (identifier)
+                  (arguments
+                    (identifier))))
               (expression_statement
                 (compound_assignment_expr
                   (identifier)
@@ -1227,43 +1229,33 @@ let three_ranges = [const { (0..=5).into_inner() }; 3];
       length: (integer_literal))))
 
 ================================================================================
-Yield expressions
+async, await and yield are names
 ================================================================================
 
-yield 42;
-let x = yield 42;
-let y = yield;
-f(yield a + b);
-let z = (yield 1) + 2;
+let async = 1;
+let await = async;
+yield(await);
+let r = task.await;
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (expression_statement
-    (yield_expression
-      (integer_literal)))
   (let_declaration
     pattern: (identifier)
-    value: (yield_expression
-      (integer_literal)))
+    value: (integer_literal))
   (let_declaration
     pattern: (identifier)
-    value: (yield_expression))
+    value: (identifier))
   (expression_statement
     (call_expression
       function: (identifier)
       arguments: (arguments
-        (yield_expression
-          (binary_expression
-            left: (identifier)
-            right: (identifier))))))
+        (identifier))))
   (let_declaration
     pattern: (identifier)
-    value: (binary_expression
-      left: (parenthesized_expression
-        (yield_expression
-          (integer_literal)))
-      right: (integer_literal))))
+    value: (field_expression
+      value: (identifier)
+      field: (field_identifier))))
 
 ================================================================================
 Anonymous functions
