@@ -107,6 +107,8 @@
 "return" @keyword
 "struct" @keyword
 "class" @keyword
+"effect" @keyword
+"does" @keyword
 "type" @keyword
 "import" @keyword
 "where" @keyword

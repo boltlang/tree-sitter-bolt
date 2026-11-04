@@ -1,0 +1,266 @@
+================================================================================
+Effect declarations
+================================================================================
+
+effect Log { fn log(message: String); }
+pub effect State[S] {
+  fn get() -> S;
+  fn set(value: S);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (effect_item
+    (type_identifier)
+    (declaration_list
+      (function_signature_item
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier))))))
+  (effect_item
+    (visibility_modifier)
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (declaration_list
+      (function_signature_item
+        (identifier)
+        (parameters)
+        (type_identifier))
+      (function_signature_item
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))))))
+
+================================================================================
+Functions with effects
+================================================================================
+
+fn crawl(url: String) -> () does Async + Log { visit(url); }
+fn is_up(url: String) does Async = check(url);
+fn f[T](x: T) -> T does Log where Show[T] = x;
+extern "env" { fn log(message: String) does Console; }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (unit_type)
+    (effect_row
+      (type_identifier)
+      (type_identifier))
+    (block
+      (expression_statement
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier))))))
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (effect_row
+      (type_identifier))
+    (call_expression
+      (identifier)
+      (arguments
+        (identifier))))
+  (function_item
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (type_identifier)
+    (effect_row
+      (type_identifier))
+    (where_clause
+      (where_predicate
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))))
+    (identifier))
+  (foreign_mod_item
+    (extern_modifier
+      (string_literal
+        (string_content)))
+    (declaration_list
+      (function_signature_item
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (effect_row
+          (type_identifier))))))
+
+================================================================================
+Function types with effects
+================================================================================
+
+fn map[A, B, E](xs: [A], f: fn(A) -> B does E) -> [B] does E;
+let k: fn(A) -> fn(B) -> C does Log = curried;
+let s: fn() does State[i32] + E = g;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature_item
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (array_type
+          (type_identifier)))
+      (parameter
+        (identifier)
+        (function_type
+          (parameters
+            (type_identifier))
+          (type_identifier)
+          (effect_row
+            (type_identifier)))))
+    (array_type
+      (type_identifier))
+    (effect_row
+      (type_identifier)))
+  (let_declaration
+    (identifier)
+    (function_type
+      (parameters
+        (type_identifier))
+      (function_type
+        (parameters
+          (type_identifier))
+        (type_identifier)
+        (effect_row
+          (type_identifier))))
+    (identifier))
+  (let_declaration
+    (identifier)
+    (function_type
+      (parameters)
+      (effect_row
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (primitive_type)))
+        (type_identifier)))
+    (identifier)))
+
+================================================================================
+Closures and anonymous functions with effects
+================================================================================
+
+let a = |x| does Log { log(x) };
+let b = |x| -> i32 does Log { x };
+let d = fn (x) does Log = log(x);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (closure_expression
+      (closure_parameters
+        (identifier))
+      (effect_row
+        (type_identifier))
+      (block
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier))))))
+  (let_declaration
+    (identifier)
+    (closure_expression
+      (closure_parameters
+        (identifier))
+      (primitive_type)
+      (effect_row
+        (type_identifier))
+      (block
+        (identifier))))
+  (let_declaration
+    (identifier)
+    (function_expression
+      (parameters
+        (parameter
+          (identifier)))
+      (effect_row
+        (type_identifier))
+      (call_expression
+        (identifier)
+        (arguments
+          (identifier))))))
+
+================================================================================
+Handlers
+================================================================================
+
+match body() {
+  () => 0,
+  effect yield(x), k => x + resume(k, ()),
+  effect State.get(), _ if quiet => 1,
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (match_expression
+      (call_expression
+        (identifier)
+        (arguments))
+      (match_block
+        (match_arm
+          (match_pattern
+            (tuple_pattern))
+          (integer_literal))
+        (match_arm
+          (match_pattern
+            (effect_pattern
+              (tuple_struct_pattern
+                (identifier)
+                (identifier))
+              (identifier)))
+          (binary_expression
+            (identifier)
+            (call_expression
+              (identifier)
+              (arguments
+                (identifier)
+                (unit_expression)))))
+        (match_arm
+          (match_pattern
+            (effect_pattern
+              (tuple_struct_pattern
+                (scoped_identifier
+                  (identifier)
+                  (identifier))))
+            (identifier))
+          (integer_literal))))))

@@ -170,6 +170,7 @@ module.exports = grammar({
       $.operator_definition,
       $.impl_item,
       $.class_item,
+      $.effect_item,
       $.associated_type,
       $.let_declaration,
       $.import_declaration,
@@ -409,6 +410,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
+      optional(field('effects', $.effect_row)),
       optional($.where_clause),
       choice(
         field('body', $.block),
@@ -427,6 +429,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
+      optional(field('effects', $.effect_row)),
       optional($.where_clause),
       ';',
     ),
@@ -449,6 +452,7 @@ module.exports = grammar({
         ),
       ),
       optional(seq('->', field('return_type', $._type))),
+      optional(field('effects', $.effect_row)),
       optional($.where_clause),
       choice(
         field('body', $.block),
@@ -517,6 +521,29 @@ module.exports = grammar({
       optional($.where_clause),
       field('body', $.declaration_list),
     ),
+
+    // `effect State[S] { fn get() -> S; fn set(value: S); }`: an effect and
+    // its operations. Unlike a class, an effect needs no parameters.
+    effect_item: $ => seq(
+      optional($.visibility_modifier),
+      'effect',
+      field('name', $._type_identifier),
+      field('type_parameters', optional($.type_parameters)),
+      field('body', $.declaration_list),
+    ),
+
+    // `does Async + Log`: the effects of a function, after its result type,
+    // or after its parameters if it has none. An effect is a name, maybe
+    // with arguments, like `State[i32]`, or an effect variable like `E`.
+    effect_row: $ => prec.right(seq(
+      'does',
+      sepBy1('+', choice(
+        $._type_identifier,
+        $.generic_type,
+        $.scoped_type_identifier,
+        $.metavariable,
+      )),
+    )),
 
     associated_type: $ => seq(
       'type',
@@ -749,14 +776,17 @@ module.exports = grammar({
       ']',
     ),
 
-    function_type: $ => seq(
+    // `does` belongs to the nearest `fn`: `fn(A) -> fn(B) -> C does E` is a
+    // function that returns a function with `E`.
+    function_type: $ => prec.right(seq(
       prec(PREC.call, seq(
         optional($.function_modifiers),
         'fn',
         field('parameters', alias($._function_type_parameters, $.parameters)),
       )),
       optional(seq('->', field('return_type', $._type))),
-    ),
+      optional(field('effects', $.effect_row)),
+    )),
 
     tuple_type: $ => seq(
       '(',
@@ -1162,8 +1192,17 @@ module.exports = grammar({
     ),
 
     match_pattern: $ => seq(
-      $._pattern,
+      choice($._pattern, $.effect_pattern),
       optional(seq('if', field('condition', $._condition))),
+    ),
+
+    // `effect yield(x), k`: the operation an arm handles, with patterns for
+    // its arguments, and the continuation.
+    effect_pattern: $ => seq(
+      'effect',
+      field('operation', $._pattern),
+      ',',
+      field('continuation', $._pattern),
     ),
 
     while_expression: $ => seq(
@@ -1199,6 +1238,7 @@ module.exports = grammar({
       'fn',
       field('parameters', $.parameters),
       optional(seq('->', field('return_type', $._type))),
+      optional(field('effects', $.effect_row)),
       '=',
       field('body', $._expression),
     )),
@@ -1208,6 +1248,7 @@ module.exports = grammar({
       choice(
         seq(
           optional(seq('->', field('return_type', $._type))),
+          optional(field('effects', $.effect_row)),
           field('body', $.block),
         ),
         field('body', choice($._expression, '_')),
