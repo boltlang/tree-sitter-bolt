@@ -221,35 +221,6 @@ type F = fn(x: Ref[A], y: RefMut[B[I, T]],) -> C;
       (type_identifier))))
 
 ================================================================================
-Extern function types
-================================================================================
-
-type a = extern "C" fn(c_void);
-type b = extern "C" fn() -> c_void;
-
---------------------------------------------------------------------------------
-
-(source_file
-  (type_item
-    (type_identifier)
-    (function_type
-      (function_modifiers
-        (extern_modifier
-          (string_literal
-            (string_content))))
-      (parameters
-        (type_identifier))))
-  (type_item
-    (type_identifier)
-    (function_type
-      (function_modifiers
-        (extern_modifier
-          (string_literal
-            (string_content))))
-      (parameters)
-      (type_identifier))))
-
-================================================================================
 Trait objects
 ================================================================================
 

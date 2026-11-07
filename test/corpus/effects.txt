@@ -45,7 +45,8 @@ Functions with effects
 fn crawl(url: String) -> () does Async + Log { visit(url); }
 fn is_up(url: String) does Async = check(url);
 fn f[T](x: T) -> T does Log where Show[T] = x;
-extern "env" { fn log(message: String) does Console; }
+#[link(wasm, module = "env")]
+fn log(message: String) does Console;
 
 --------------------------------------------------------------------------------
 
@@ -97,19 +98,22 @@ extern "env" { fn log(message: String) does Console; }
           (type_arguments
             (type_identifier)))))
     (identifier))
-  (foreign_mod_item
-    (extern_modifier
-      (string_literal
-        (string_content)))
-    (declaration_list
-      (function_signature_item
+  (attribute_item
+    (attribute
+      (identifier)
+      (token_tree
         (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type_identifier)))
-        (effect_row
-          (type_identifier))))))
+        (identifier)
+        (string_literal
+          (string_content)))))
+  (function_signature_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (effect_row
+      (type_identifier))))
 
 ================================================================================
 Function types with effects

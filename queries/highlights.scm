@@ -93,7 +93,6 @@
 "continue" @keyword
 "else" @keyword
 "enum" @keyword
-"extern" @keyword
 "fn" @keyword
 "for" @keyword
 "if" @keyword

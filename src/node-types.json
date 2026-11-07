@@ -749,10 +749,6 @@
           "named": true
         },
         {
-          "type": "foreign_mod_item",
-          "named": true
-        },
-        {
           "type": "function_item",
           "named": true
         },
@@ -1393,10 +1389,6 @@
           "named": true
         },
         {
-          "type": "foreign_mod_item",
-          "named": true
-        },
-        {
           "type": "function_item",
           "named": true
         },
@@ -1701,21 +1693,6 @@
     }
   },
   {
-    "type": "extern_modifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "field_declaration",
     "named": true,
     "fields": {
@@ -1950,32 +1927,6 @@
     }
   },
   {
-    "type": "foreign_mod_item",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declaration_list",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "extern_modifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "fragment_specifier",
     "named": true,
     "fields": {}
@@ -2127,17 +2078,7 @@
   {
     "type": "function_modifiers",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "extern_modifier",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "function_signature_item",
@@ -3665,10 +3606,6 @@
           "named": true
         },
         {
-          "type": "foreign_mod_item",
-          "named": true
-        },
-        {
           "type": "function_item",
           "named": true
         },
@@ -4856,10 +4793,6 @@
   },
   {
     "type": "expr_2021",
-    "named": false
-  },
-  {
-    "type": "extern",
     "named": false
   },
   {

@@ -161,7 +161,6 @@ module.exports = grammar({
       $.empty_statement,
       $.attribute_item,
       $.inner_attribute_item,
-      $.foreign_mod_item,
       $.struct_item,
       $.enum_item,
       $.type_item,
@@ -285,14 +284,6 @@ module.exports = grammar({
         seq('=', field('value', $._expression)),
         field('arguments', alias($.delim_token_tree, $.token_tree)),
       )),
-    ),
-
-    foreign_mod_item: $ => seq(
-      $.extern_modifier,
-      choice(
-        ';',
-        field('body', $.declaration_list),
-      ),
     ),
 
     declaration_list: $ => seq(
@@ -468,10 +459,7 @@ module.exports = grammar({
     ),
 
 
-    function_modifiers: $ => repeat1(choice(
-      'const',
-      $.extern_modifier,
-    )),
+    function_modifiers: $ => repeat1('const'),
 
     where_clause: $ => prec.right(seq(
       'where',
@@ -727,11 +715,6 @@ module.exports = grammar({
       field('pattern', $._pattern),
       ':',
       field('type', $._type),
-    ),
-
-    extern_modifier: $ => seq(
-      'extern',
-      optional($.string_literal),
     ),
 
     visibility_modifier: $ => seq(

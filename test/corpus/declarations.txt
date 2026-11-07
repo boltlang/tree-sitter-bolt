@@ -201,72 +201,6 @@ fn aborts() -> ! {}
     (block)))
 
 ================================================================================
-Extern function declarations
-================================================================================
-
-extern "C" fn foo() {}
-extern "C" fn printf(
-    c_char,
-    ...,
-) {}
-
-pub extern "C" fn c_variadic_no_use(fmt: i8, mut ap: ...) -> i32 {
-    // CHECK: call void @llvm.va_start
-    vprintf(fmt, ap.as_va_list())
-    // CHECK: call void @llvm.va_end
-}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (function_item
-    (function_modifiers
-      (extern_modifier
-        (string_literal
-          (string_content))))
-    (identifier)
-    (parameters)
-    (block))
-  (function_item
-    (function_modifiers
-      (extern_modifier
-        (string_literal
-          (string_content))))
-    (identifier)
-    (parameters
-      (parameter
-        (identifier))
-      (variadic_parameter))
-    (block))
-  (function_item
-    (visibility_modifier)
-    (function_modifiers
-      (extern_modifier
-        (string_literal
-          (string_content))))
-    (identifier)
-    (parameters
-      (parameter
-        (identifier)
-        (primitive_type))
-      (variadic_parameter
-        (mutable_specifier)
-        (identifier)))
-    (primitive_type)
-    (block
-      (line_comment)
-      (call_expression
-        (identifier)
-        (arguments
-          (identifier)
-          (call_expression
-            (field_expression
-              (identifier)
-              (field_identifier))
-            (arguments))))
-      (line_comment))))
-
-================================================================================
 Import declarations
 ================================================================================
 
@@ -543,7 +477,6 @@ struct Empty(pub ());
     (ordered_field_declaration_list
       (visibility_modifier)
       (unit_type))))
-
 
 ================================================================================
 Imm structs
@@ -2032,36 +1965,6 @@ impl[A] Default[B[A]] where A: C + D {}
           (type_identifier)
           (type_identifier))))
     body: (declaration_list)))
-
-================================================================================
-External Modules
-================================================================================
-
-extern {
-  pub fn napi_module_register(mod_: napi_module);
-}
-
-extern "C" {}
-
-
---------------------------------------------------------------------------------
-
-(source_file
-  (foreign_mod_item
-    (extern_modifier)
-    (declaration_list
-      (function_signature_item
-        (visibility_modifier)
-        (identifier)
-        (parameters
-          (parameter
-            (identifier)
-            (type_identifier))))))
-  (foreign_mod_item
-    (extern_modifier
-      (string_literal
-        (string_content)))
-    (declaration_list)))
 
 ================================================================================
 Reserved keywords in path
