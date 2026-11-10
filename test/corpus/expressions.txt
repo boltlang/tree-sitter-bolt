@@ -1343,3 +1343,66 @@ fn -x = neg(x);
       function: (identifier)
       arguments: (arguments
         (identifier)))))
+
+================================================================================
+Tuples with named fields and spreads
+================================================================================
+
+(x: 1, y: 2);
+(x: 1);
+(*xs, 1);
+(**opts);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (tuple_expression
+      (named_argument
+        (field_identifier)
+        (integer_literal))
+      (named_argument
+        (field_identifier)
+        (integer_literal))))
+  (expression_statement
+    (tuple_expression
+      (named_argument
+        (field_identifier)
+        (integer_literal))))
+  (expression_statement
+    (tuple_expression
+      (spread_expression
+        (identifier))
+      (integer_literal)))
+  (expression_statement
+    (tuple_expression
+      (spread_expression
+        (identifier)))))
+
+================================================================================
+Named and spread arguments
+================================================================================
+
+f(1, sep: ",");
+f(*xs, **opts);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (call_expression
+      (identifier)
+      (arguments
+        (integer_literal)
+        (named_argument
+          (field_identifier)
+          (string_literal
+            (string_content))))))
+  (expression_statement
+    (call_expression
+      (identifier)
+      (arguments
+        (spread_expression
+          (identifier))
+        (spread_expression
+          (identifier))))))

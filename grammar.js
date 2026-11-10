@@ -40,6 +40,7 @@ const OVERLOADABLE_OPERATORS = [
 ];
 
 const INFIX_OPERATORS = OVERLOADABLE_OPERATORS.filter(op => op !== '!');
+
 const PREFIX_OPERATORS = ['-', '!'];
 
 const numericTypes = [
@@ -556,6 +557,7 @@ module.exports = grammar({
         choice(
           $.metavariable,
           $.type_parameter,
+          $.pack_parameter,
           $.const_parameter,
           $.mutability_parameter,
         ),
@@ -589,6 +591,13 @@ module.exports = grammar({
     mutability_parameter: $ => seq(
       field('name', alias($.label, $.mutability_name)),
       optional(field('bounds', $.trait_bounds)),
+    ),
+
+    // `*Ts` or `**Ks`: a pack of positional or named fields, like the `*Ts`
+    // of `fn first[T, *Ts](t: (T, *Ts)) -> T`.
+    pack_parameter: $ => seq(
+      field('kind', choice('*', '**')),
+      field('name', $._type_identifier),
     ),
 
     type_parameter: $ => prec(1, seq(
@@ -648,6 +657,7 @@ module.exports = grammar({
     // definitions.
     import_operator: $ => choice(...OVERLOADABLE_OPERATORS),
 
+
     import_alias: $ => seq(
       field('name', $.identifier),
       'as',
@@ -658,7 +668,10 @@ module.exports = grammar({
 
     // Parameters of named functions. Type annotations are optional, so
     // `fn id(x)` takes a parameter named `x`, and each parameter can have a
-    // default value: `fn foo(x = 1, y: i32 = 2)`.
+    // default value: `fn foo(x = 1, y: i32 = 2)`. The parameters before a
+    // `/` can only be passed by position, those after a `*` or `*args` only
+    // by name, and `**opts` takes the other keyword arguments:
+    // `fn f(a, /, b, *args: *Ts, c: i32, **opts: **Ks)`.
     parameters: $ => seq(
       '(',
       commaSep(seq(
@@ -667,9 +680,28 @@ module.exports = grammar({
           alias($._typed_function_parameter, $.parameter),
           alias($._untyped_function_parameter, $.parameter),
           $.variadic_parameter,
+          $.rest_parameter,
+          $.keyword_marker,
+          $.positional_marker,
         ))),
       ')',
     ),
+
+    // `*args: *Ts` or `**opts: **Ks`: the other positional or keyword
+    // arguments, as a tuple of a pack.
+    rest_parameter: $ => seq(
+      choice('*', '**'),
+      field('pattern', $._pattern),
+      ':',
+      field('type', $.spread_type),
+    ),
+
+    // A `*` alone, after which the parameters can only be passed by name.
+    keyword_marker: _ => '*',
+
+    // A `/` alone, before which the parameters can only be passed by
+    // position.
+    positional_marker: _ => '/',
 
     _typed_function_parameter: $ => seq(
       optional($.mutable_specifier),
@@ -687,7 +719,10 @@ module.exports = grammar({
     _parameter_default: $ => seq('=', field('default', $._expression)),
 
     // Parameters of function types like `fn(i32) -> i32`, where a bare name
-    // is a type, not a parameter.
+    // is a type, not a parameter. A pack like `*Ts` or `**Ks` takes the other
+    // arguments, and after a `*` or a `*Ts` they can only be passed by name:
+    // `fn(i32, *Ts, sep: String, **Ks)`. There's no `/`: a parameter without
+    // a name is passed by position.
     _function_type_parameters: $ => seq(
       '(',
       commaSep(seq(
@@ -695,10 +730,19 @@ module.exports = grammar({
         choice(
           $.parameter,
           $.variadic_parameter,
+          $.keyword_marker,
+          $.spread_type,
           '_',
           $._type,
         ))),
       ')',
+    ),
+
+    // `*Ts` or `**Ks`: the positional or named fields that a pack stands
+    // for, in a tuple type or the parameters of a function type.
+    spread_type: $ => seq(
+      field('kind', choice('*', '**')),
+      field('type', $._type),
     ),
 
     variadic_parameter: $ => seq(
@@ -771,11 +815,20 @@ module.exports = grammar({
       optional(field('effects', $.effect_row)),
     )),
 
+    // `(i32, String)`, `(x: i32, y: String)`, or with the fields of a pack
+    // spread in it: `(T, *Ts)` or `(name: String, **Ks)`.
     tuple_type: $ => seq(
       '(',
-      sepBy1(',', $._type),
+      sepBy1(',', choice($._type, $.tuple_type_field, $.spread_type)),
       optional(','),
       ')',
+    ),
+
+    // `x: i32`, a named field of a tuple type.
+    tuple_type_field: $ => seq(
+      field('name', $._field_identifier),
+      ':',
+      field('type', $._type),
     ),
 
     unit_type: _ => seq('(', ')'),
@@ -1031,11 +1084,35 @@ module.exports = grammar({
       field('arguments', $.arguments),
     )),
 
+    // `f(1, sep: ",")` or `f(*xs, **opts)`: positional and named
+    // arguments, and spreads of tuples.
     arguments: $ => seq(
       '(',
-      commaSep(seq(repeat($.attribute_item), $._expression)),
+      commaSep(seq(repeat($.attribute_item), $._tuple_element)),
       ')',
     ),
+
+    // An element of a tuple or an argument of a call: a value, a named one
+    // like `x: 1`, or the fields of a tuple, spread like `*xs` or `**opts`.
+    _tuple_element: $ => choice(
+      $._expression,
+      $.named_argument,
+      $.spread_expression,
+    ),
+
+    // `x: 1`, a named field of a tuple or a named argument of a call.
+    named_argument: $ => seq(
+      field('name', $._field_identifier),
+      ':',
+      field('value', $._expression),
+    ),
+
+    // `*xs` or `**opts`: the positional or named fields of a tuple, in a
+    // tuple or the arguments of a call.
+    spread_expression: $ => prec(PREC.unary, seq(
+      field('kind', choice('*', '**')),
+      field('value', $._expression),
+    )),
 
     array_expression: $ => seq(
       '[',
@@ -1059,12 +1136,20 @@ module.exports = grammar({
       ')',
     ),
 
+    // `(1, 2)`, `(x: 1, y: 2)` or `(*xs, 1)`. One element without a comma
+    // is a tuple when it's named or spread, like `(x: 1)` or `(*xs)`.
     tuple_expression: $ => seq(
       '(',
       repeat($.attribute_item),
-      seq($._expression, ','),
-      repeat(seq($._expression, ',')),
-      optional($._expression),
+      choice(
+        seq(
+          seq($._tuple_element, ','),
+          repeat(seq($._tuple_element, ',')),
+          optional($._tuple_element),
+        ),
+        $.named_argument,
+        $.spread_expression,
+      ),
       ')',
     ),
 
@@ -1294,10 +1379,18 @@ module.exports = grammar({
     ),
 
 
+    // `(a, b)`, or `(x: a, y: b)` for a tuple with named fields.
     tuple_pattern: $ => seq(
       '(',
-      commaSep(choice($._pattern, $.closure_expression)),
+      commaSep(choice($._pattern, $.closure_expression, $.tuple_field_pattern)),
       ')',
+    ),
+
+    // `x: a`, a named field of a tuple pattern.
+    tuple_field_pattern: $ => seq(
+      field('name', $._field_identifier),
+      ':',
+      field('pattern', $._pattern),
     ),
 
     slice_pattern: $ => seq(

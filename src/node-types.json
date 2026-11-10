@@ -394,6 +394,14 @@
         {
           "type": "attribute_item",
           "named": true
+        },
+        {
+          "type": "named_argument",
+          "named": true
+        },
+        {
+          "type": "spread_expression",
+          "named": true
         }
       ]
     }
@@ -2500,6 +2508,11 @@
     "fields": {}
   },
   {
+    "type": "keyword_marker",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "label",
     "named": true,
     "fields": {},
@@ -2997,6 +3010,32 @@
     }
   },
   {
+    "type": "named_argument",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "negative_literal",
     "named": true,
     "fields": {},
@@ -3271,6 +3310,36 @@
     "fields": {}
   },
   {
+    "type": "pack_parameter",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {
@@ -3333,7 +3402,23 @@
           "named": true
         },
         {
+          "type": "keyword_marker",
+          "named": true
+        },
+        {
           "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "positional_marker",
+          "named": true
+        },
+        {
+          "type": "rest_parameter",
+          "named": true
+        },
+        {
+          "type": "spread_type",
           "named": true
         },
         {
@@ -3357,6 +3442,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "positional_marker",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "range_expression",
@@ -3442,6 +3532,32 @@
     "type": "remaining_field_pattern",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "rest_parameter",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_pattern",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "spread_type",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "return_expression",
@@ -3654,6 +3770,66 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "spread_expression",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "spread_type",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4060,8 +4236,42 @@
         {
           "type": "attribute_item",
           "named": true
+        },
+        {
+          "type": "named_argument",
+          "named": true
+        },
+        {
+          "type": "spread_expression",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "tuple_field_pattern",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_identifier",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_pattern",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4078,6 +4288,10 @@
         },
         {
           "type": "closure_expression",
+          "named": true
+        },
+        {
+          "type": "tuple_field_pattern",
           "named": true
         }
       ]
@@ -4124,8 +4338,42 @@
         {
           "type": "_type",
           "named": true
+        },
+        {
+          "type": "spread_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type_field",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "tuple_type_field",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4329,6 +4577,10 @@
         },
         {
           "type": "mutability_parameter",
+          "named": true
+        },
+        {
+          "type": "pack_parameter",
           "named": true
         },
         {
@@ -4585,6 +4837,10 @@
   },
   {
     "type": "*",
+    "named": false
+  },
+  {
+    "type": "**",
     "named": false
   },
   {

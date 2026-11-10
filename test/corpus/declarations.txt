@@ -2559,3 +2559,75 @@ fn Point.origin();
     owner: (type_identifier)
     name: (identifier)
     parameters: (parameters)))
+
+================================================================================
+Positional-only parameters
+================================================================================
+
+fn f(x: i32, /, y: i32) = x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (primitive_type))
+      (positional_marker)
+      (parameter
+        (identifier)
+        (primitive_type)))
+    (identifier)))
+
+================================================================================
+Keyword-only parameters
+================================================================================
+
+fn split(s: String, *, at: Char) = s;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier))
+      (keyword_marker)
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (identifier)))
+
+================================================================================
+Rest parameters
+================================================================================
+
+fn call[*Ts, **Ks](f: F, *args: *Ts, **opts: **Ks) = 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (type_parameters
+      (pack_parameter
+        (type_identifier))
+      (pack_parameter
+        (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier))
+      (rest_parameter
+        (identifier)
+        (spread_type
+          (type_identifier)))
+      (rest_parameter
+        (identifier)
+        (spread_type
+          (type_identifier))))
+    (integer_literal)))

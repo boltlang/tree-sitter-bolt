@@ -487,3 +487,23 @@ fn foo(x: i32) {
             (match_arm
               pattern: (match_pattern)
               value: (block))))))))
+
+================================================================================
+Tuple patterns with named fields
+================================================================================
+
+let (x: a, y: b, ..) = t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (tuple_pattern
+      (tuple_field_pattern
+        (field_identifier)
+        (identifier))
+      (tuple_field_pattern
+        (field_identifier)
+        (identifier))
+      (remaining_field_pattern))
+    (identifier)))

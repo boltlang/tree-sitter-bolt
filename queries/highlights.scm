@@ -136,6 +136,9 @@
 (inner_attribute_item) @attribute
 
 "*" @operator
+"**" @operator
+(keyword_marker) @operator
+(positional_marker) @operator
 (import_wildcard) @operator
 "&" @operator
 "'" @operator
