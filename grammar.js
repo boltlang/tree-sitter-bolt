@@ -11,11 +11,13 @@
 
 // https://doc.rust-lang.org/reference/expressions.html#expression-precedence
 const PREC = {
-  call: 15,
-  field: 14,
-  try: 13,
-  unary: 12,
-  cast: 11,
+  call: 16,
+  field: 15,
+  try: 14,
+  unary: 13,
+  cast: 12,
+  // A custom operator like `<$>`, which binds tighter than `*`.
+  custom: 11,
   multiplicative: 10,
   additive: 9,
   shift: 8,
@@ -41,6 +43,12 @@ const OVERLOADABLE_OPERATORS = [
 
 const INFIX_OPERATORS = OVERLOADABLE_OPERATORS.filter(op => op !== '!');
 
+// The characters that the compiler's lexer joins into one operator, like
+// `<$>`: a run of them that isn't one of the operators above is a custom
+// operator. `?` isn't one of them. A run stops before `//` or `/*`, which
+// start comments, so a `/` in it is followed by a character other than `/`
+// or `*`, and a custom operator doesn't end in `/`.
+const OPERATOR_CHARS = /([+\-*%&^|<>=$!.]|\/[+\-%&^|<>=$!.])+/;
 const PREFIX_OPERATORS = ['-', '!'];
 
 const numericTypes = [
@@ -435,7 +443,7 @@ module.exports = grammar({
       choice(
         seq(
           field('left', $._operand),
-          field('operator', choice(...INFIX_OPERATORS)),
+          field('operator', choice(...INFIX_OPERATORS, $.custom_operator)),
           field('right', $._operand),
         ),
         seq(
@@ -495,7 +503,7 @@ module.exports = grammar({
     impl_item: $ => seq(
       'impl',
       field('type_parameters', optional($.type_parameters)),
-      field('type', $.generic_type),
+      field('type', choice($.generic_type, $._type_identifier, $.scoped_type_identifier)),
       optional($.where_clause),
       choice(field('body', $.declaration_list), ';'),
     ),
@@ -634,15 +642,25 @@ module.exports = grammar({
     // import "./path" (foo, bar as baz);
     // import "./path" as name;
     // import "./path" *;
+    // import Option.*;
     import_declaration: $ => seq(
       optional($.visibility_modifier),
       'import',
-      field('source', $.string_literal),
-      optional(choice(
-        field('list', $.import_list),
-        seq('as', field('alias', $.identifier)),
-        field('wildcard', $.import_wildcard),
-      )),
+      choice(
+        seq(
+          field('source', $.string_literal),
+          optional(choice(
+            field('list', $.import_list),
+            seq('as', field('alias', $.identifier)),
+            field('wildcard', $.import_wildcard),
+          )),
+        ),
+        // The variants of an enum.
+        seq(
+          field('enum', $._path),
+          choice('.*', seq('.', '*')),
+        ),
+      ),
       ';',
     ),
 
@@ -655,8 +673,12 @@ module.exports = grammar({
 
     // `import "./ops" (==, -);`: an operator imports its prefix and infix
     // definitions.
-    import_operator: $ => choice(...OVERLOADABLE_OPERATORS),
+    import_operator: $ => choice(...OVERLOADABLE_OPERATORS, $.custom_operator),
 
+    // An operator that isn't built in, like `<$>`. The longest run of
+    // operator characters wins, as in the compiler's lexer, and a built-in
+    // operator wins over one as long, since a string beats a pattern.
+    custom_operator: _ => token(OPERATOR_CHARS),
 
     import_alias: $ => seq(
       field('name', $.identifier),
@@ -858,6 +880,7 @@ module.exports = grammar({
           $._type,
           $.type_binding,
           $._literal,
+          $.negative_literal,
           $.block,
         ),
         optional($.trait_bounds),
@@ -1045,6 +1068,7 @@ module.exports = grammar({
         [PREC.shift, choice('<<', '>>')],
         [PREC.additive, choice('+', '-')],
         [PREC.multiplicative, choice('*', '/', '%')],
+        [PREC.custom, $.custom_operator],
       ];
 
       // @ts-ignore

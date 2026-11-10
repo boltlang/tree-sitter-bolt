@@ -2631,3 +2631,60 @@ fn call[*Ts, **Ks](f: F, *args: *Ts, **opts: **Ks) = 1;
         (spread_type
           (type_identifier))))
     (integer_literal)))
+
+================================================================================
+Imports of the variants of an enum
+================================================================================
+
+import Option.*;
+pub import m.Shape . *;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_declaration
+    (identifier))
+  (import_declaration
+    (visibility_modifier)
+    (scoped_identifier
+      (identifier)
+      (identifier))))
+
+================================================================================
+An impl without type arguments
+================================================================================
+
+impl X { #![doc = "x"] }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (impl_item
+    (type_identifier)
+    (declaration_list
+      (inner_attribute_item
+        (attribute
+          (identifier)
+          (string_literal
+            (string_content)))))))
+
+================================================================================
+Custom operator definitions
+================================================================================
+
+fn (a: Vec2) <> (b: Vec2) -> Vec2 { a }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operator_definition
+    (parameter
+      (identifier)
+      (type_identifier))
+    (custom_operator)
+    (parameter
+      (identifier)
+      (type_identifier))
+    (type_identifier)
+    (block
+      (identifier))))

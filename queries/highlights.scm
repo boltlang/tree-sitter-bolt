@@ -139,6 +139,7 @@
 "**" @operator
 (keyword_marker) @operator
 (positional_marker) @operator
+(custom_operator) @operator
 (import_wildcard) @operator
 "&" @operator
 "'" @operator

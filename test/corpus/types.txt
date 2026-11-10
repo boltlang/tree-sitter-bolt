@@ -412,3 +412,22 @@ type B = fn(i32, *Ts, sep: String, **Ks) -> ();
         (spread_type
           (type_identifier)))
       (unit_type))))
+
+================================================================================
+Negative literals as type arguments
+================================================================================
+
+let k: Arr[3, -1] = x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (integer_literal)
+        (negative_literal
+          (integer_literal))))
+    (identifier)))

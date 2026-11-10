@@ -1406,3 +1406,48 @@ f(*xs, **opts);
           (identifier))
         (spread_expression
           (identifier))))))
+
+================================================================================
+Custom operators bind tighter than multiplication
+================================================================================
+
+let f = a <$> b * c;
+let g = a <$> b <*> c;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (custom_operator)
+        (identifier))
+      (identifier)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (custom_operator)
+        (identifier))
+      (custom_operator)
+      (identifier))))
+
+================================================================================
+An operator stops before a comment
+================================================================================
+
+let y = a +// after an operator
+  b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (line_comment)
+      (identifier))))
