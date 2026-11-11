@@ -5157,6 +5157,10 @@
           "value": "imm"
         },
         {
+          "type": "STRING",
+          "value": "ro"
+        },
+        {
           "type": "PREC",
           "value": -1,
           "content": {
@@ -9573,6 +9577,10 @@
       {
         "type": "STRING",
         "value": "mut"
+      },
+      {
+        "type": "STRING",
+        "value": "ro"
       }
     ]
   }

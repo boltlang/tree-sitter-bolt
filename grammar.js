@@ -139,10 +139,10 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  // Words that are never names, as in the compiler's lexer: `mut` and `imm`
-  // can't name a variable, a function or a field.
+  // Words that are never names, as in the compiler's lexer: `mut`, `imm`
+  // and `ro` can't name a variable, a function or a field.
   reserved: {
-    global: _ => ['imm', 'mut'],
+    global: _ => ['imm', 'mut', 'ro'],
   },
 
   rules: {
@@ -905,14 +905,15 @@ module.exports = grammar({
       field('type', $._type),
     )),
 
-    // `mut`, `imm` or a name like `'m`. On its own, it's a bound like the
-    // `imm` of `T: imm`, or a mutability argument like the `imm` of
-    // `VecIter[i32, imm]`.
+    // `mut`, `imm`, `ro` (read-only) or a name like `'m`. On its own, it's a
+    // bound like the `imm` of `T: imm`, or a mutability argument like the
+    // `imm` of `VecIter[i32, imm]`.
     // A name gives way to a labeled block, like the `'a: { ... }` of
     // `x['a: { 1 }]`.
     mutability: $ => choice(
       'mut',
       'imm',
+      'ro',
       prec(-1, alias($.label, $.mutability_name)),
     ),
 

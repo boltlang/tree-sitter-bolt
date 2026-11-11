@@ -5224,6 +5224,10 @@
     "named": false
   },
   {
+    "type": "ro",
+    "named": false
+  },
+  {
     "type": "shebang",
     "named": true
   },

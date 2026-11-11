@@ -295,3 +295,31 @@ let n = imm f(x) + 1;
           (arguments
             (identifier))))
       (integer_literal))))
+
+================================================================================
+Read-only types
+================================================================================
+
+fn first[T](xs: ro [T]) -> ro T = xs[0];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (mutable_type
+          (mutability)
+          (array_type
+            (type_identifier)))))
+    (mutable_type
+      (mutability)
+      (type_identifier))
+    (index_expression
+      (identifier)
+      (integer_literal))))
