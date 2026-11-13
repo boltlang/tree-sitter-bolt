@@ -5820,8 +5820,22 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "mut"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "mut"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_literal_mutability"
+                },
+                "named": true,
+                "value": "mutability_name"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -7897,6 +7911,23 @@
           "name": "identifier"
         }
       ]
+    },
+    "_literal_mutability": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "'"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        ]
+      }
     },
     "break_expression": {
       "type": "PREC_LEFT",

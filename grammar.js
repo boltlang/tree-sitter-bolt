@@ -1047,9 +1047,10 @@ module.exports = grammar({
     )),
 
     // `mut e`: `e` made `mut`, like `mut [1, 2]` or `mut Point { x: 1 }`, or
-    // a copy of what's `imm` in a value. It binds like `-`.
+    // a copy of what's `imm` in a value. `'n [x]` is a literal of the named
+    // mutability `'n`. It binds like `-`.
     mut_expression: $ => prec(PREC.unary, seq(
-      'mut',
+      choice('mut', alias($._literal_mutability, $.mutability_name)),
       $._expression,
     )),
 
@@ -1358,6 +1359,10 @@ module.exports = grammar({
     ),
 
     label: $ => seq('\'', $.identifier),
+
+    // The `'n` of `'n [x]`. It gives way to a label, so that the `'a` of
+    // `break 'a [1]` is a label, as in the compiler.
+    _literal_mutability: $ => prec(-1, seq('\'', $.identifier)),
 
     break_expression: $ => prec.left(seq('break', optional($.label), optional($._expression))),
 

@@ -246,6 +246,56 @@ let c = mut xs;
       (identifier))))
 
 ================================================================================
+Values of a named mutability
+================================================================================
+
+let xs = 'n [x];
+'n Point { x: 1 };
+f('n (a, b));
+'a: loop { break 'a; };
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (mut_expression
+      (mutability_name
+        (identifier))
+      (array_expression
+        (identifier))))
+  (expression_statement
+    (mut_expression
+      (mutability_name
+        (identifier))
+      (struct_expression
+        (type_identifier)
+        (field_initializer_list
+          (field_initializer
+            (field_identifier)
+            (integer_literal))))))
+  (expression_statement
+    (call_expression
+      (identifier)
+      (arguments
+        (mut_expression
+          (mutability_name
+            (identifier))
+          (tuple_expression
+            (identifier)
+            (identifier))))))
+  (expression_statement
+    (loop_expression
+      (label
+        (identifier))
+      (block
+        (expression_statement
+          (break_expression
+            (label
+              (identifier)))))))
+  (empty_statement))
+
+================================================================================
 A mut parameter of a function type
 ================================================================================
 
