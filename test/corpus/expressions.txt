@@ -864,6 +864,40 @@ Loop expressions
                   (boolean_literal))))))))))
 
 ================================================================================
+Break with a value that starts like an index, a call or an operator
+================================================================================
+
+loop {
+  break [1];
+  break 'a (1);
+  break -1;
+  break;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (loop_expression
+      (block
+        (expression_statement
+          (break_expression
+            (array_expression
+              (integer_literal))))
+        (expression_statement
+          (break_expression
+            (label
+              (identifier))
+            (parenthesized_expression
+              (integer_literal))))
+        (expression_statement
+          (break_expression
+            (unary_expression
+              (integer_literal))))
+        (expression_statement
+          (break_expression))))))
+
+================================================================================
 For expressions
 ================================================================================
 

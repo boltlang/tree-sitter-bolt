@@ -1364,7 +1364,12 @@ module.exports = grammar({
     // `break 'a [1]` is a label, as in the compiler.
     _literal_mutability: $ => prec(-1, seq('\'', $.identifier)),
 
-    break_expression: $ => prec.left(seq('break', optional($.label), optional($._expression))),
+    // As for `return`, what follows is the value: `break [1]` and
+    // `break 'a (1)` break with `[1]` and `(1)`.
+    break_expression: $ => choice(
+      prec.left(seq('break', optional($.label), $._expression)),
+      prec(-1, seq('break', optional($.label))),
+    ),
 
     continue_expression: $ => prec.left(seq('continue', optional($.label))),
 
