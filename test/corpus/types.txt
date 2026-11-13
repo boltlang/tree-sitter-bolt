@@ -27,6 +27,31 @@ type A = (i32, String);
       (type_identifier))))
 
 ================================================================================
+Parentheses around a type
+================================================================================
+
+type A = (i32);
+type B = (i32,);
+type C = ((D));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_item
+    (type_identifier)
+    (parenthesized_type
+      (primitive_type)))
+  (type_item
+    (type_identifier)
+    (tuple_type
+      (primitive_type)))
+  (type_item
+    (type_identifier)
+    (parenthesized_type
+      (parenthesized_type
+        (type_identifier)))))
+
+================================================================================
 Generic types
 ================================================================================
 

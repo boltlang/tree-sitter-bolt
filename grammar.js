@@ -486,6 +486,7 @@ module.exports = grammar({
           $.scoped_type_identifier,
           $.generic_type,
           $.tuple_type,
+          $.parenthesized_type,
           $.array_type,
           $.mutable_type,
           // `'v: 'm`: a mutability is at most another.
@@ -805,6 +806,7 @@ module.exports = grammar({
       $.generic_type,
       $.scoped_type_identifier,
       $.tuple_type,
+      $.parenthesized_type,
       $.unit_type,
       $.array_type,
       $.function_type,
@@ -838,13 +840,27 @@ module.exports = grammar({
     )),
 
     // `(i32, String)`, `(x: i32, y: String)`, or with the fields of a pack
-    // spread in it: `(T, *Ts)` or `(name: String, **Ks)`.
+    // spread in it: `(T, *Ts)` or `(name: String, **Ks)`. One type without a
+    // comma is a tuple when it's named or spread, like `(x: i32)` or `(*Ts)`;
+    // `(i32,)` is a tuple of one.
     tuple_type: $ => seq(
       '(',
-      sepBy1(',', choice($._type, $.tuple_type_field, $.spread_type)),
-      optional(','),
+      choice(
+        seq(
+          seq($._tuple_type_element, ','),
+          repeat(seq($._tuple_type_element, ',')),
+          optional($._tuple_type_element),
+        ),
+        $.tuple_type_field,
+        $.spread_type,
+      ),
       ')',
     ),
+
+    _tuple_type_element: $ => choice($._type, $.tuple_type_field, $.spread_type),
+
+    // `(i32)`: parentheses around a type only group.
+    parenthesized_type: $ => seq('(', $._type, ')'),
 
     // `x: i32`, a named field of a tuple type.
     tuple_type_field: $ => seq(
@@ -926,6 +942,7 @@ module.exports = grammar({
         $.generic_type,
         $.function_type,
         $.tuple_type,
+        $.parenthesized_type,
         $.bounded_type,
       ))),
     ),

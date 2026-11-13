@@ -181,7 +181,7 @@ fn triples(a: impl B) -> impl Iterator[Item=(usize)] {
         (type_arguments
           (type_binding
             (type_identifier)
-            (tuple_type
+            (parenthesized_type
               (primitive_type))))))
     (block)))
 
@@ -881,7 +881,7 @@ type LazyResolve = impl (fn() -> Capture) + Send + Sync + UnwindSafe;
       (bounded_type
         (bounded_type
           (abstract_type
-            (tuple_type
+            (parenthesized_type
               (function_type
                 (parameters)
                 (type_identifier))))
